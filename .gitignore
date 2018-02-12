@@ -1,3 +1,7 @@
 *.pkl
 *.pyc
 info-status/
+*INTERPOLATED.*
+*SPEAKER_A.*
+*SPEAKER_B.*
+*~$*
