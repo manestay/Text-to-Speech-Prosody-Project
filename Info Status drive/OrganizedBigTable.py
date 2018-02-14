@@ -87,13 +87,14 @@ class OrganizedBigTable(object):
             # Concatenate data from Stanford so can be placed in one row when necessary
             column_datum = ''
             for i in range(stanford_index_start, stanford_index_cur):
-                out = column_data[i][1].strip().translate(None, string.punctuation)
+                # out = column_data[i][1].strip().translate(None, string.punctuation)
+                out = column_data[i][1].strip().translate(string.punctuation)
                 column_datum += '_' + out if (out != '' and i != stanford_index_start) else out
 
             self.df.loc[self.df.index[int(row.name)], column_name] = column_datum
 
     def saveToCSV(self):
-        self.df.to_csv('big-table.csv', sep=',', index=False)
+        self.df.to_csv('new-big-table.csv', sep=',', index=False)
 
 '''
 Helper method to organize turns into a text file with sentences.
@@ -156,21 +157,3 @@ def _getSortedSpeakerRows(session, df):
     spA_rows = sorted(spA_rows, key=lambda x: x[START_TIME])
     spB_rows = sorted(spB_rows, key=lambda x: x[START_TIME])
     return spA_rows, spB_rows
-
-def _getSortedSpeakerRows2(session, df):
-    # fix method to properly sort rows
-    def strip_time(text):
-        idx = text.rfind('.', 0, text.rfind('.'))
-        return text[0:idx]
-    
-    df_temp = df[df[SESSION_NUMBER] == int(session)]
-    dfA = df_temp[df_temp[CURRENT_SPEAKER]=='A'].copy()
-    dfB = df_temp[df_temp[CURRENT_SPEAKER]=='B'].copy()
-    
-    
-    dfA['token_id2']= dfA['token_id'].apply(strip_time)
-    dfB['token_id2']= dfB['token_id'].apply(strip_time)
-        
-    dfA = dfA.sort_values(['token_id',START_TIME],ascending=[True, True])
-    dfB = dfA.sort_values(['token_id',START_TIME],ascending=[True, True])
-    return dfA, dfB

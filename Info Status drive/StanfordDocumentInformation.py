@@ -137,3 +137,19 @@ class StanfordDocumentInformation(object):
                 if word[0] != '.':
                     words_order.append(word)
         return words_order
+
+    def getMentionList(self):
+        corefs = [(token.word, token.coref_id)
+                for sentence in self.sentences
+                for token in sentence
+                if token.word != '.']
+
+        coref_set = set()
+        for pair in corefs:
+            coref_set.add(pair[1])
+
+        mentions = []
+        for pair in corefs:
+            mentions.append((pair[0], str(len(coref_set))))
+
+        return mentions
