@@ -34,7 +34,7 @@ class AddNewColumns(object):
             else:
                 # Add information about past mention if previous rows to dictionary
 
-                mention_info = (phrase, float(phrase_end_time), indices)
+                mention_info = (phrase.rstrip(), float(phrase_end_time), indices)
 
                 if previous_coref_id in phrase_tuples.keys():
                     phrase_tuples[previous_coref_id].append(mention_info)
@@ -50,14 +50,15 @@ class AddNewColumns(object):
             previous_coref_id = row['Coreference_IDs']
             previous_index = index
 
-        print(phrase_tuples)
+        print(80 * "+")
+        print("Format: ('phrase', <timestamp last of last word in phrase>, [indices of phrase words in big-table])")
+        print(80 * "+")
 
         for key in phrase_tuples.keys():
-
-            corefs_sorted = sorted(phrase_tuples[key], key = lambda x: x[1])
-            print(corefs_sorted)
-
-            # print([(corefs_sorted[i - 1][1], corefs_sorted[i][2]) for i in range(1, len(corefs_sorted))])
+            print(80 * "=")
+            print("Coreference ID: ", key)
+            [print(info) for info in phrase_tuples[key]]
+            print(80 * "=")
 
 columns = AddNewColumns()
 columns.getMentionsRecency()
