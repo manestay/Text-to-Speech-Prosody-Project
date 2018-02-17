@@ -1,6 +1,7 @@
 *.pkl
 *.pyc
-info-status/
+info-status_iring/
+*__pycache__*
 *INTERPOLATED.*
 *SPEAKER_A.*
 *SPEAKER_B.*
