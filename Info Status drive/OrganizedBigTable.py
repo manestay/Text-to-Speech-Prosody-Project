@@ -12,7 +12,7 @@ HYPHEN = '-'
 SESSION_NUMBER = 'session_number'
 SPEAKER_A = 'A'
 START_TIME = 'word_start_time'
-TABLE_NAME = 'big-table.csv'
+TABLE_NAME = 'big-table-PoS.csv'
 TURN_INDEX = 'word_number_in_turn'
 TURN_LENGTH = 'total_number_of_words_in_turn'
 WORD = 'word'
@@ -129,7 +129,7 @@ Arranges ordered rows of a speaker into turns.
 def _findTurns(speaker_rows):
     turns = []
     turn_list = []
-    for row in speaker_rows:
+    for idx, row in speaker_rows.iterrows():
         if row[WORD] not in FILLERS and row[WORD][-1] != HYPHEN:
             turn_list.append(row)
             if row[TURN_INDEX] == row[TURN_LENGTH]:
@@ -142,22 +142,8 @@ Separates words spoken by Speaker A and Speaker B, and sorts them by time.
 :param session: the session to sort
 :return: two lists, one containing the sorted rows of speaker A, the second B
 '''
+
 def _getSortedSpeakerRows(session, df):
-    spA_rows, spB_rows = [], []
-    j = 0
-    for index, row in df.iterrows():
-        if row[SESSION_NUMBER] == int(session):
-            if row[CURRENT_SPEAKER] == SPEAKER_A:
-                spA_rows.append(row)
-            else: # speaker B
-                spB_rows.append(row)
-        j += 1
-
-    spA_rows = sorted(spA_rows, key=lambda x: x[START_TIME])
-    spB_rows = sorted(spB_rows, key=lambda x: x[START_TIME])
-    return spA_rows, spB_rows
-
-def _getSortedSpeakerRows2(session, df):
     # fix method to properly sort rows
     def strip_time(text):
         idx = text.rfind('.', 0, text.rfind('.'))
@@ -171,6 +157,6 @@ def _getSortedSpeakerRows2(session, df):
     dfA['token_id2']= dfA['token_id'].apply(strip_time)
     dfB['token_id2']= dfB['token_id'].apply(strip_time)
         
-    dfA = dfA.sort_values(['token_id',START_TIME],ascending=[True, True])
-    dfB = dfA.sort_values(['token_id',START_TIME],ascending=[True, True])
+    dfA = dfA.sort_values(['token_id2',START_TIME],ascending=[True, True])
+    dfB = dfB.sort_values(['token_id2',START_TIME],ascending=[True, True])
     return dfA, dfB
