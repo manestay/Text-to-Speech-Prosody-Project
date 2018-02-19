@@ -12,7 +12,7 @@ HYPHEN = '-'
 SESSION_NUMBER = 'session_number'
 SPEAKER_A = 'A'
 START_TIME = 'word_start_time'
-TABLE_NAME = 'big-table-PoS.csv'
+TABLE_NAME = 'games-data-20180217.csv'
 TURN_INDEX = 'word_number_in_turn'
 TURN_LENGTH = 'total_number_of_words_in_turn'
 WORD = 'word'
@@ -33,12 +33,34 @@ and offering methods to write information gotten from Stanford to the bigtable.
 class OrganizedBigTable(object):
     '''
     Constructor for OrganizedBigTable.
-    :param: session_number the session number for which to organize the BigTable.
+    :param session_number: the session number for which to organize the BigTable. If None,
+            organizes by all session numbers in BigTable (e.g. a list from 1 to 12).
+    :param table_name: name of CSV file to use
     '''
-    def __init__(self, session_number):
+    def __init__(self, session_number=None, table_name=TABLE_NAME):
         self.session_number = session_number
-        self.df = pd.read_table(TABLE_NAME, sep = ',')
+        self.table_name = table_name
+        self.df = pd.read_table(table_name, sep = ',')
+        self.dfA = self.df[self.df[CURRENT_SPEAKER]=='A'] # views of df, not copies
+        self.dfB = self.df[self.df[CURRENT_SPEAKER]=='B']
         self.spA_turns, self.spB_turns, self.interpolated_turns = _orderBigtableRows(self.df, session_number)
+
+    def updateDataFrame(self, order_type=OrderType.INTERPOLATED):
+        '''
+        Updates the internal DataFrame with spA_turns, spB_turns, and interpolated_turns data
+        :param order_type: how to order the text of the bigtable into turns
+        '''
+        session = self.session_number
+        if order_type.name == "INTERPOLATED":
+            organized_df = _getSortedInterpolatedRows(session, self.df)
+            self.df = organized_df
+            return
+        # else SPEAKER_A or SPEAKER_B
+        dfA, dfB = _getSortedSpeakerRows(session, self.df)
+        if order_type.name == "SPEAKER_A":
+            self.dfA = dfA
+        else:
+            self.dfB = dfB
 
     '''
     Writes the text of the bigtable a file for processing by Stanford.
@@ -48,6 +70,10 @@ class OrganizedBigTable(object):
         text = _turnsToText(self.spA_turns) if order_type == OrderType.SPEAKER_A \
                else _turnsToText(self.spB_turns) if order_type == OrderType.SPEAKER_B \
                else _turnsToText(self.interpolated_turns)
+        if not self.session_number:
+            print("cannot use exportToFile without explicit session number; you may have initialized"
+                  " OrganizedBigTable with no session_number parameter")
+            return
         target = open(str(self.session_number).zfill(2) + '_' + order_type.name + '.txt', 'w')
         target.write(text)
         target.close()
@@ -92,8 +118,22 @@ class OrganizedBigTable(object):
 
             self.df.loc[self.df.index[int(row.name)], column_name] = column_datum
 
-    def saveToCSV(self):
-        self.df.to_csv('big-table.csv', sep=',', index=False)
+    def saveToCSV(self, order_type=OrderType.INTERPOLATED):
+        file_name = self.table_name.split('.')[0]
+        df = self.df
+        if self.session_number:
+            file_name += "_session{}".format(str(self.session_number))
+
+        order_name = str(order_type).split('.')[1]
+        if order_name != "INTERPOLATED":
+            file_name += "_{}".format(order_name)
+            if order_name == "SPEAKER_A":
+                df = self.dfA
+            elif order_name == "SPEAKER_B":
+                df = self.dfB
+
+        file_name += '_organized.csv'
+        df.to_csv(file_name, sep=',', index=False)
 
 '''
 Helper method to organize turns into a text file with sentences.
@@ -138,25 +178,41 @@ def _findTurns(speaker_rows):
     return turns
 
 '''
+Helper method to strip_time from token_id, used for proper sorting.
+'''
+def _strip_time(text):
+    idx = text.rfind('.', 0, text.rfind('.', 0, text.rfind('.')))
+    return text[0:idx]
+
+'''
 Separates words spoken by Speaker A and Speaker B, and sorts them by time.
-:param session: the session to sort
+:param session: the session to sort, if None then will sort all sessions
 :return: two lists, one containing the sorted rows of speaker A, the second B
 '''
 
 def _getSortedSpeakerRows(session, df):
     # fix method to properly sort rows
-    def strip_time(text):
-        idx = text.rfind('.', 0, text.rfind('.'))
-        return text[0:idx]
-    
-    df_temp = df[df[SESSION_NUMBER] == int(session)]
+
+    df_temp = df
+    if session:
+        df_temp = df[df[SESSION_NUMBER] == int(session)]
+
     dfA = df_temp[df_temp[CURRENT_SPEAKER]=='A'].copy()
     dfB = df_temp[df_temp[CURRENT_SPEAKER]=='B'].copy()
-    
-    
-    dfA['token_id2']= dfA['token_id'].apply(strip_time)
-    dfB['token_id2']= dfB['token_id'].apply(strip_time)
-        
+
+    dfA['token_id2']= dfA['token_id'].apply(_strip_time)
+    dfB['token_id2']= dfB['token_id'].apply(_strip_time)
+
     dfA = dfA.sort_values(['token_id2',START_TIME],ascending=[True, True])
     dfB = dfB.sort_values(['token_id2',START_TIME],ascending=[True, True])
     return dfA, dfB
+
+def _getSortedInterpolatedRows(session, df):
+    df_temp = df
+    if session:
+        df_temp = df[df[SESSION_NUMBER] == int(session)]
+
+    df['token_id2']= df['token_id'].apply(_strip_time)
+
+    df_interpolated = df.sort_values(['token_id2',START_TIME],ascending=[True, True])
+    return df_interpolated
