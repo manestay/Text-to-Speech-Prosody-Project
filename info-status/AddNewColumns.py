@@ -5,7 +5,7 @@ import datetime
 
 pd.options.mode.chained_assignment = None
 # BIGTABLEFILE = "games-data-20180217.csv"
-BIGTABLEFILE = "games-data-20180217_session01_organized.csv"
+BIGTABLEFILE = "games-data-20180223.csv"
 TODAY = datetime.date.today().strftime("%Y%m%d")
 CSV_EXTENSTION = ".csv"
 NEW_TABLE_PREFIX = "extended-games-data-"
@@ -16,6 +16,12 @@ class AddNewColumns(object):
         self.bigtable_file = BIGTABLEFILE
         self.bigtable = pd.read_csv(BIGTABLEFILE)
 
+    '''
+    Function iterates through table and groups phrases based on consecutive matching
+    Coreference_IDs. Returns a dictionary of tuples indexed by Coreference ID where
+    each tuple has the
+    (phrase, phrase_end_time, table_indicies_of_phrase_words, PoS_of_the_last_phrase_word)
+    '''
     def getPhraseInformation(self):
         # Load csv and remove rows without Coreference_IDs
         df = columns.bigtable[['word_end_time', 'word', 'Coreference_IDs', 'Stanford_PoS']]
@@ -60,10 +66,15 @@ class AddNewColumns(object):
 
         return phrase_tuples
 
+    '''
+    Function takes phrase tuples from every Coreference ID and determines whether
+    phrases are an explicit or implicit match. Adds information pertaining to
+    previous explict, implicit, and (explict or implicit) word_end_time, PoS, and
+    counts
+    '''
     def getMentions(self):
 
         num_rows = len(self.bigtable)
-
         phrase_tuples = self.getPhraseInformation()
 
         # Keep track of recent mentions
@@ -133,7 +144,10 @@ class AddNewColumns(object):
         for pair in column_data_pair:
             self.addColumnToDataFrame(pd.Series(pair[0]), pair[1])
 
-
+    '''
+    Function iterates through table and generates unique intonation phrase IDs
+    for each intonation phrase in the table.
+    '''
     def getIntonationalPhrases(self):
         df = columns.bigtable[['word', 'word_tobi_break_index', 'word_tobi_boundary_tone']]
 
@@ -149,9 +163,18 @@ class AddNewColumns(object):
 
         self.addColumnToDataFrame(pd.Series(phrase_ids), 'Intonational_Phrase_ID')
 
+    '''
+    Adds a column to a dataframe.
+    :param series: pandas Series to be added to the table
+    :param column_name: Name of column to be added to the table passed in as a
+    string
+    '''
     def addColumnToDataFrame(self, series, column_name):
         self.bigtable.insert(loc = self.bigtable.shape[1], column = column_name, value = series.values)
 
+    '''
+    Writes table to csv file
+    '''
     def saveTable(self):
         self.bigtable.to_csv(NEW_TABLE_PREFIX + TODAY + CSV_EXTENSTION)
 
