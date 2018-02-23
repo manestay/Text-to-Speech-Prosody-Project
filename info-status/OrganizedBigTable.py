@@ -5,6 +5,7 @@ StanfordNLP, and allows for writing data from StanfordNLP back into the bigtable
 from enum import Enum
 import pandas as pd
 import string
+import datetime
 
 CURRENT_SPEAKER = 'speaker1'
 FILLERS = ['um','uh','uh-huh','hm','ah','mm','mmhm']
@@ -16,6 +17,9 @@ TABLE_NAME = 'games-data-20180217.csv'
 TURN_INDEX = 'word_number_in_turn'
 TURN_LENGTH = 'total_number_of_words_in_turn'
 WORD = 'word'
+TODAY = datetime.date.today().strftime("%Y%m%d")
+TABLE_PREFIX = "games-data-"
+CSV_EXTENSTION = ".csv"
 
 '''
 OrderType represents different options for organizing turns from the BigTables.
@@ -113,7 +117,8 @@ class OrganizedBigTable(object):
             # Concatenate data from Stanford so can be placed in one row when necessary
             column_datum = ''
             for i in range(stanford_index_start, stanford_index_cur):
-                out = column_data[i][1].strip().translate(None, string.punctuation)
+                # out = column_data[i][1].strip().translate(None, string.punctuation)
+                out = column_data[i][1].strip().translate(string.punctuation)
                 column_datum += '_' + out if (out != '' and i != stanford_index_start) else out
 
             self.df.loc[self.df.index[int(row.name)], column_name] = column_datum
