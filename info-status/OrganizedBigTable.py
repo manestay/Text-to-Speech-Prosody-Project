@@ -5,6 +5,7 @@ StanfordNLP, and allows for writing data from StanfordNLP back into the bigtable
 from enum import Enum
 import pandas as pd
 import string
+import datetime
 
 CURRENT_SPEAKER = 'speaker1'
 FILLERS = ['um','uh','uh-huh','hm','ah','mm','mmhm']
@@ -16,6 +17,9 @@ TABLE_NAME = 'games-data-20180217.csv'
 TURN_INDEX = 'word_number_in_turn'
 TURN_LENGTH = 'total_number_of_words_in_turn'
 WORD = 'word'
+TODAY = datetime.date.today().strftime("%Y%m%d")
+TABLE_PREFIX = "games-data-"
+CSV_EXTENSTION = ".csv"
 
 class OrderType(Enum):
     '''
