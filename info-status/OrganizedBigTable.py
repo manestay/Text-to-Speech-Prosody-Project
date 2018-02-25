@@ -36,12 +36,10 @@ class OrganizedBigTable(object):
     by arranging the bigtable in ways that make it conducive for processing by StanfordNLP,
     and offering methods to write information gotten from Stanford to the bigtable.
     '''
-    def __init__(self, session_number=None, order_type=OrderType.INTERPOLATED, table_name=TABLE_NAME):
+    def __init__(self, session_number, order_type=OrderType.INTERPOLATED, table_name=TABLE_NAME):
         '''
         Constructor for OrganizedBigTable.
-        :param session_number: the session number for which to organize the BigTable. If None,
-        organizes by all session numbers in BigTable (e.g. a list from 1 to 12).
-        :param order_type: the order_type. Recommended to use GIVEN if unsure.
+        :param session_number: the session number for which to organize the BigTable.
         :param table_name: name of CSV file to use
         '''
         self.session_number = session_number
@@ -103,12 +101,13 @@ class OrganizedBigTable(object):
         index, and the data for the new column in the following index.
         :param column_names: the names to give the new column.
         '''
-        text = _turnsToText(self.spA_turns) if order_type == OrderType.SPEAKER_A \
-               else _turnsToText(self.spB_turns) if order_type == OrderType.SPEAKER_B \
-               else _turnsToText(self.interpolated_turns) if order_type == OrderType.INTERPOLATED \
-               else _turnsToText(self.all_turns)
+        order_type = self.order_type
+        turns = self.spA_turns if order_type == OrderType.SPEAKER_A \
+               else self.spB_turns if order_type == OrderType.SPEAKER_B \
+               else self.interpolated_turns if order_type == OrderType.INTERPOLATED \
+               else self.all_turns
 
-        bigtable_rows = (row for turn in turns for row in turn[1])
+        bigtable_rows = [row for turn in turns for row in turn[1]]
 
         stanford_index_cur = 0
 
@@ -139,7 +138,7 @@ class OrganizedBigTable(object):
         df = self.df
 
         order_name = str(self.order_type).split('.')[1] if order_type else ''
-        if order_name:
+        if order_name and order_name != 'INTERPOLATED':
             file_name += "_{}".format(order_name)
             if order_name == "SPEAKER_A":
                 df = self.dfA
@@ -191,6 +190,7 @@ def _orderBigtableRows(df, session_number):
     spA_rows, spB_rows = _getSortedSpeakerRows(session_number, df)
     spA_turns = sorted(_findTurns(spA_rows), key=lambda x: (x[1][0]['token_id2'], x[0]))
     spB_turns = sorted(_findTurns(spB_rows), key=lambda x: (x[1][0]['token_id2'], x[0]))
+    interpolated_turns = sorted(spA_turns + spB_turns, key=lambda x: (x[1][0]['token_id2'], x[0]))
     return spA_turns, spB_turns, interpolated_turns
 
 '''

@@ -48,6 +48,6 @@ if __name__ == '__main__':
         coref_information = stanford.getCoreferenceList()
         # print(coref_information)
         bigtable.addColumnToDataFrame(coref_information, 'Coreference_IDs')
-        mentions_list = stanford.getMentionList()
-        bigtable.addColumnToDataFrame(mentions_list, 'Explicit_Mentions_In_Session')
+        # mentions_list = stanford.getMentionList()
+        # bigtable.addColumnToDataFrame(mentions_list, 'Explicit_Mentions_In_Session')
         bigtable.saveToCSV()
