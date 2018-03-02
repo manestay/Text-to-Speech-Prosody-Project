@@ -24,7 +24,7 @@ class AddNewColumns(object):
     '''
     def getPhraseInformation(self):
         # Load csv and remove rows without Coreference_IDs
-        df = columns.bigtable[['word_end_time', 'word', 'Coreference_IDs', 'Stanford_PoS']]
+        df = self.bigtable[['word_end_time', 'word', 'Coreference_IDs', 'Stanford_PoS']]
         truncated = df[df.Coreference_IDs.notnull()]
 
         # Track information about previous mentions in prior rows
@@ -149,7 +149,7 @@ class AddNewColumns(object):
     for each intonation phrase in the table.
     '''
     def getIntonationalPhrases(self):
-        df = columns.bigtable[['word', 'word_tobi_break_index', 'word_tobi_boundary_tone']]
+        df = self.bigtable[['word', 'word_tobi_break_index', 'word_tobi_boundary_tone']]
 
         curr_id = 0
         phrase_ids = [None] * len(df)
@@ -178,7 +178,8 @@ class AddNewColumns(object):
     def saveTable(self):
         self.bigtable.to_csv(NEW_TABLE_PREFIX + TODAY + CSV_EXTENSTION)
 
-columns = AddNewColumns()
-columns.getMentions()
-columns.getIntonationalPhrases()
-columns.saveTable()
+if __name__ == '__main__':
+    columns = AddNewColumns()
+    columns.getMentions()
+    columns.getIntonationalPhrases()
+    columns.saveTable()

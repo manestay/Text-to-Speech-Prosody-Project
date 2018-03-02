@@ -36,7 +36,7 @@ class OrganizedBigTable(object):
     by arranging the bigtable in ways that make it conducive for processing by StanfordNLP,
     and offering methods to write information gotten from Stanford to the bigtable.
     '''
-    def __init__(self, session_number, order_type=OrderType.INTERPOLATED, table_name=TABLE_NAME):
+    def __init__(self, session_number, order_type=OrderType.INTERPOLATED, table_name=TABLE_NAME, clean=True):
         '''
         Constructor for OrganizedBigTable.
         :param session_number: the session number for which to organize the BigTable.
@@ -49,11 +49,15 @@ class OrganizedBigTable(object):
         # self.dfB = self.df[self.df[CURRENT_SPEAKER]=='B']
         self.order_type = order_type
         if not order_type == OrderType.GIVEN:
-            self.spA_turns, self.spB_turns, self.interpolated_turns = _orderBigtableRows(self.df, session_number)
+            self.spA_turns, self.spB_turns, self.interpolated_turns = _orderBigtableRows(self.df, session_number, clean)
             self.all_turns = None
         else:
-            self.spA_turns, self.spB_turns, self.all_turns = _getBigtableRows(self.df, session_number)
+            self.spA_turns, self.spB_turns, self.all_turns = _getBigtableRows(self.df, session_number, clean)
             self.interpolated_turns = None
+
+    def limitDataFrameToSession(self):
+        self.df = self.df[self.df[SESSION_NUMBER] == int(self.session_number)]
+        # TODO: limit turns fields as well
 
     def updateDataFrame(self, order_type=OrderType.INTERPOLATED):
         '''
@@ -132,6 +136,20 @@ class OrganizedBigTable(object):
 
             self.df.loc[self.df.index[int(row.name)], column_name] = column_datum
 
+    def addColumnToDataFrameInPlace(self, values, column_name):
+        '''
+        Adds a column directly into dataframe without any ordering.
+        '''
+        num_rows = len(self.df)
+        num_values = len(values)
+        if num_values < num_rows:
+            print('adding column {}, but size was {}, so padding'.format(column_name, num_values))
+            values = values + ([None] * (num_rows - num_values))
+        elif len(values) > num_rows:
+            print('adding column {}, but size was {}, so truncating'.format(column_name, num_values))
+            values = values[:num_rows]
+        self.df.insert(loc=self.df.shape[1], column=column_name, value=values)
+
     def saveToCSV(self, order_type=None):
         order_type = order_type or self.order_type
         file_name = self.table_name.split('.')[0]
@@ -146,6 +164,7 @@ class OrganizedBigTable(object):
                 df = self.dfB
 
         if self.session_number:
+            session_number = str(session_number).zfill(2)
             file_name += "_session{}".format(str(self.session_number))
             df = df[df[SESSION_NUMBER] == int(self.session_number)]
 
@@ -165,7 +184,7 @@ def _turnsToText(turns):
         text += '.'
     return text
 
-def _getBigtableRows(df, session_number):
+def _getBigtableRows(df, session_number, clean=True):
     '''
     Represents the rows of the bigtables ordered in the arrangement they are ordered
     for Stanford. Does not sort anything.
@@ -175,12 +194,12 @@ def _getBigtableRows(df, session_number):
     df = df[df[SESSION_NUMBER] == int(session_number)]
     spA_rows = df[df[CURRENT_SPEAKER]=='A'].copy()
     spB_rows = df[df[CURRENT_SPEAKER]=='B'].copy()
-    spA_turns = _findTurns(spA_rows)
-    spB_turns = _findTurns(spB_rows)
-    all_turns = _findTurns(df)
+    spA_turns = _findTurns(spA_rows, clean=clean)
+    spB_turns = _findTurns(spB_rows, clean=clean)
+    all_turns = _findTurns(df, clean=clean)
     return spA_turns, spB_turns, all_turns
 
-def _orderBigtableRows(df, session_number):
+def _orderBigtableRows(df, session_number, clean=True):
     '''
     Represents the rows of the bigtables ordered in the arrangement they are ordered
     for Stanford.
@@ -188,8 +207,8 @@ def _orderBigtableRows(df, session_number):
     second with Speaker B's sorted by start time, third with the interpolated turns.
     '''
     spA_rows, spB_rows = _getSortedSpeakerRows(session_number, df)
-    spA_turns = sorted(_findTurns(spA_rows), key=lambda x: (x[1][0]['token_id2'], x[0]))
-    spB_turns = sorted(_findTurns(spB_rows), key=lambda x: (x[1][0]['token_id2'], x[0]))
+    spA_turns = sorted(_findTurns(spA_rows, clean=clean), key=lambda x: (x[1][0]['token_id2'], x[0]))
+    spB_turns = sorted(_findTurns(spB_rows, clean=clean), key=lambda x: (x[1][0]['token_id2'], x[0]))
     interpolated_turns = sorted(spA_turns + spB_turns, key=lambda x: (x[1][0]['token_id2'], x[0]))
     return spA_turns, spB_turns, interpolated_turns
 
@@ -198,15 +217,16 @@ Arranges ordered rows of a speaker into turns.
 :param speaker_rows: the rows of the speaker
 :return: a list of turns, where each turn is an ordered list of rows
 '''
-def _findTurns(speaker_rows):
+def _findTurns(speaker_rows, clean=True):
     turns = []
     turn_list = []
     for idx, row in speaker_rows.iterrows():
-        if row[WORD] not in FILLERS and row[WORD][-1] != HYPHEN:
+        append_condition = row[WORD] not in FILLERS and row[WORD][-1] != HYPHEN
+        if append_condition or not clean:
             turn_list.append(row)
-            if row[TURN_INDEX] == row[TURN_LENGTH]:
-                turns.append([turn_list[0][START_TIME],turn_list])
-                turn_list = []
+        if turn_list and row[TURN_INDEX] == row[TURN_LENGTH]:
+            turns.append([turn_list[0][START_TIME],turn_list])
+            turn_list = []
     return turns
 
 '''
