@@ -50,6 +50,7 @@ sentence (in Token object form)
 def _OrganizeSentenceData(sentence_data):
     sentences_dict = {}
     for sentence in sentence_data:
+        print(sentence)
         sentence_ID = int(sentence.get(ID))
         xml_tokens = sentence.find(TOKENS).findall(TOKEN)
         sentences_dict[sentence_ID] = [Token(xml_token.get(ID),

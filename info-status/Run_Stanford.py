@@ -1,13 +1,10 @@
-'''
-This file g
-'''
-
 from OrganizedBigTable import *
 from StanfordDocumentInformation import *
 import os
 
 START_SESSION = 1
-END_SESSION = 2
+# END_SESSION = 2
+END_SESSION = 13
 FILE_SUFFIX = '_INTERPOLATED.txt'
 COMMAND =  'java -cp "../../corenlp/*" -Xmx4g edu.stanford.nlp.pipeline.StanfordCoreNLP  \
            -annotators tokenize,ssplit,pos,lemma,ner,parse,dcoref \
