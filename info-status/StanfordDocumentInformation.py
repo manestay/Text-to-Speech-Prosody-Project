@@ -9,7 +9,7 @@ for the chain of coreferences.
 import xml.etree.ElementTree as ET
 
 # for accessing the XML files
-XML_DIR = 'xml/'
+XML_DIR = 'xml-corrections/'
 XML_EXTENSION = '_INTERPOLATED.xml'
 # for accessing the document in the XML
 DOCUMENT = 'document'
@@ -138,19 +138,3 @@ class StanfordDocumentInformation(object):
                 if word[0] != '.':
                     words_order.append(word)
         return words_order
-
-    # def getMentionList(self):
-    #     corefs = [(token.word, token.coref_id)
-    #             for sentence in self.sentences
-    #             for token in sentence
-    #             if token.word != '.']
-    #
-    #     coref_set = set()
-    #     for pair in corefs:
-    #         coref_set.add(pair[1])
-    #
-    #     mentions = []
-    #     for pair in corefs:
-    #         mentions.append((pair[0], str(len(coref_set))))
-    #
-    #     return mentions

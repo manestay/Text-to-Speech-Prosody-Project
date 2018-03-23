@@ -10,7 +10,7 @@ COMMAND =  'java -cp "../../corenlp/*" -Xmx4g edu.stanford.nlp.pipeline.Stanford
            -annotators tokenize,ssplit,pos,lemma,ner,parse,dcoref \
            -file '
 
-XML_DIR = 'xml/'
+XML_DIR = 'xml-corrections/'
 FILENAME_XML_EXT = '_INTERPOLATED.xml'
 XML_EXT = '.xml'
 

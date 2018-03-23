@@ -5,7 +5,7 @@ import datetime
 
 pd.options.mode.chained_assignment = None
 # BIGTABLEFILE = "games-data-20180217.csv"
-BIGTABLEFILE = "games-data-20180223.csv"
+BIGTABLEFILE = "games-data-20180302.csv"
 TODAY = datetime.date.today().strftime("%Y%m%d")
 CSV_EXTENSTION = ".csv"
 NEW_TABLE_PREFIX = "extended-games-data-"
