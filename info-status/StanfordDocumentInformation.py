@@ -119,6 +119,12 @@ class StanfordDocumentInformation(object):
     Gets a list of the coreferent words in the document.
     '''
     def getCoreferenceList(self):
+        a = [(token.word, token.coref_id)
+                for sentence in self.sentences
+                for token in sentence
+                if token.word != '.']
+
+        print([b for b in a if b[1]])
         return [(token.word, token.coref_id)
                 for sentence in self.sentences
                 for token in sentence

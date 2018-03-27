@@ -164,9 +164,9 @@ class OrganizedBigTable(object):
                 df = self.dfB
 
         if self.session_number:
-            session_number = str(session_number).zfill(2)
-            file_name += "_session{}".format(str(self.session_number))
-            df = df[df[SESSION_NUMBER] == int(self.session_number)]
+            session_number = str(self.session_number).zfill(2)
+            file_name += "_session{}".format(str(session_number))
+            df = df[df[SESSION_NUMBER] == int(session_number)]
 
         file_name += '_organized.csv'
         df.to_csv(file_name, sep=',', index=False)
