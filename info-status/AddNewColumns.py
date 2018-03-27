@@ -1,7 +1,26 @@
+'''
+This script generates the following columns:
+
+Most_Recent_Mention
+Recent_Explicit_Mention
+Recent_Implicit_Mention
+Most_Recent_Mention_PoS
+Recent_Explicit_Mention_PoS
+Recent_Implicit_Mention_PoS
+Number_Of_Coref_Mentions
+Number_Of_Explicit_Mentions
+Number_Of_Implicit_Mentions
+syntactic_function_prev_explicit_mention
+syntactic_function_prev_implicit_mention
+syntactic_function_prev_mention
+'''
+
 import pandas as pd
 import math
 import numpy as np
 import datetime
+from collections import namedtuple
+from OrganizedBigTable import _strip_time
 
 pd.options.mode.chained_assignment = None
 # BIGTABLEFILE = "games-data-20180217.csv"
@@ -9,6 +28,8 @@ BIGTABLEFILE = "games-data-20180302.csv"
 TODAY = datetime.date.today().strftime("%Y%m%d")
 CSV_EXTENSTION = ".csv"
 NEW_TABLE_PREFIX = "extended-games-data-"
+MentionInfo = namedtuple('MentionInfo', ['phrase', 'end_time', 'token_id2',
+                                         'indices','PoS_last', 'sf_last'])
 
 class AddNewColumns(object):
 
@@ -18,17 +39,20 @@ class AddNewColumns(object):
 
     '''
     Function iterates through table and groups phrases based on consecutive matching
-    Coreference_IDs. Returns a dictionary of tuples indexed by Coreference ID where
-    each tuple has the
-    (phrase, phrase_end_time, table_indicies_of_phrase_words, PoS_of_the_last_phrase_word)
+    Coreference_IDs. Returns a dictionary of namedtuples indexed by Coreference ID where
+    each namedtuple has the following 5 fields:
+    (phrase, phrase_end_time, table_indices_of_phrase_words,
+     PoS_of_last_phrase_word, syntactic_function_of_last_phrase_word)
     '''
     def getPhraseInformation(self):
         # Load csv and remove rows without Coreference_IDs
-        df = self.bigtable[['word_end_time', 'word', 'Coreference_IDs', 'Stanford_PoS']]
+        df = self.bigtable[['word_end_time', 'word', 'Coreference_IDs', 'Stanford_PoS',
+                            'syntactic_function', 'token_id']]
         truncated = df[df.Coreference_IDs.notnull()]
+        truncated['token_id2']= truncated['token_id'].apply(_strip_time)
 
         # Track information about previous mentions in prior rows
-        phrase_end_time, previous_word, previous_coref_id, pos = truncated.iloc[0]
+        phrase_end_time, previous_word, previous_coref_id, pos, sf, _, token_id2 = truncated.iloc[0]
         previous_index = 0
         phrase = previous_word
         indices = []
@@ -41,12 +65,15 @@ class AddNewColumns(object):
             if row['Coreference_IDs'] == previous_coref_id and previous_index == index - 1:
                 phrase += row['word'] + ' '
                 phrase_end_time = row['word_end_time']
+                token_id2 = row['token_id2']
                 pos = row['Stanford_PoS']
+                sf = row['syntactic_function']
                 indices.append(index + 1)
 
             else:
                 # Add information about past mention if previous rows to dictionary
-                mention_info = (phrase.rstrip(), float(phrase_end_time), indices, pos)
+                mention_info = MentionInfo(phrase.rstrip(), float(phrase_end_time), token_id2,
+                                           indices, pos, sf)
 
                 # Add phrase information to dictionary
                 if previous_coref_id in phrase_tuples.keys():
@@ -56,10 +83,12 @@ class AddNewColumns(object):
 
                 # Reset data
                 phrase_end_time = row['word_end_time']
+                token_id2 = row['token_id2']
                 indices = []
                 indices.append(index + 1)
                 phrase = row['word'] + ' '
                 pos = row['Stanford_PoS']
+                sf = row['syntactic_function']
 
             previous_coref_id = row['Coreference_IDs']
             previous_index = index
@@ -87,45 +116,56 @@ class AddNewColumns(object):
         explicit_pos = [None] * num_rows
         implicit_pos = [None] * num_rows
 
+        # Keep track of syntactic Functions
+        last_sf = [None] * num_rows
+        explicit_sf = [None] * num_rows
+        implicit_sf = [None] * num_rows
+
         # Keep track of mention counts
         num_mentions = [None] * num_rows
         num_exp_mentions = [None] * num_rows
         num_imp_mentions = [None] * num_rows
 
         for key in phrase_tuples.keys():
-            phrases = sorted(phrase_tuples[key], key = lambda x: x[1])
+            # print(phrase_tuples[key])
+            phrases = sorted(phrase_tuples[key], key=lambda x: x.token_id2)
 
             # Start from second phrase as first can't have a previous mention
             for i in range(1, len(phrases)):
 
                 last_explicit_mention, last_implicit_mention = (None, None)
                 last_explicit_pos, last_implicit_pos = (None, None)
+                last_explicit_sf, last_implicit_sf = (None, None)
                 explicit_count, implicit_count = (1, 0)
 
                 for j in range(i):
                     # If explicit mention
-                    if phrases[i][0] == phrases[j][0]:
-                        last_explicit_mention = phrases[j][1]
-                        last_explicit_pos = phrases[j][3]
+                    if phrases[i].phrase == phrases[j].phrase:
+                        last_explicit_mention = phrases[j].end_time
+                        last_explicit_pos = phrases[j].PoS_last
+                        last_explicit_sf = phrases[j].sf_last
                         explicit_count += 1
                     # Else is implicit mention
                     else:
-                        last_implicit_mention = phrases[j][1]
-                        last_implicit_pos = phrases[j][3]
+                        last_implicit_mention = phrases[j].end_time
+                        last_implicit_pos = phrases[j].PoS_last
+                        last_implicit_sf = phrases[j].sf_last
                         implicit_count += 1
 
-                for index in phrases[i][2]:
-                    recent_mentions[index - 1] = phrases[i - 1][1]
-                    last_pos[index - 1] = phrases[i - 1][3]
-
+                for index in phrases[i].indices:
+                    recent_mentions[index - 1] = phrases[i - 1].end_time
+                    last_pos[index - 1] = phrases[i - 1].PoS_last
+                    last_sf[index - 1] = phrases[i - 1].sf_last
                     explicit_mentions[index - 1] = last_explicit_mention
                     explicit_pos[index - 1] = last_explicit_pos
+                    explicit_sf[index - 1] = last_explicit_sf
 
                     implicit_mentions[index - 1] = last_implicit_mention
                     implicit_pos[index - 1] = last_implicit_pos
+                    implicit_sf[index - 1] = last_implicit_sf
 
             for i in range(0, len(phrases)):
-                for index in phrases[i][2]:
+                for index in phrases[i].indices:
                     num_mentions[index - 1] = len(phrases)
                     num_exp_mentions[index - 1] = explicit_count
                     num_imp_mentions[index - 1] = implicit_count
@@ -138,10 +178,16 @@ class AddNewColumns(object):
                                 (implicit_pos, 'Recent_Implicit_Mention_PoS'),
                                 (num_mentions, 'Number_Of_Coref_Mentions'),
                                 (num_exp_mentions, 'Number_Of_Explicit_Mentions'),
-                                (num_imp_mentions, 'Number_Of_Implicit_Mentions')
+                                (num_imp_mentions, 'Number_Of_Implicit_Mentions'),
+                                (last_sf, 'Most_Recent_Mention_Syntactic_Function'),
+                                (explicit_sf, 'Recent_Explicit_Mention_Syntactic_Function'),
+                                (implicit_sf, 'Recent_Implicit_Mention_Syntactic_Function')
                             ]
 
         for pair in column_data_pair:
+            if pair[1] in self.bigtable.columns:
+                print('skipping {}, already exists in dataframe'.format(pair[1]))
+                continue
             self.addColumnToDataFrame(pd.Series(pair[0]), pair[1])
 
     '''
@@ -160,6 +206,10 @@ class AddNewColumns(object):
                 phrase_ids[index] = curr_id
             else:
                 phrase_ids[index] = curr_id
+
+        if 'Intonational_Phrase_ID' in self.bigtable.columns:
+            print('skipping Intonational_Phrase_ID already exists in dataframe')
+            return
 
         self.addColumnToDataFrame(pd.Series(phrase_ids), 'Intonational_Phrase_ID')
 

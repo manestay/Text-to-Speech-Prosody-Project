@@ -1,3 +1,12 @@
+'''
+This script contains methods to generate the following columns:
+Syntactic function of current word
+Parse tree of current word
+
+For previous explicit and implicit mentions, see AddNewColumns.py
+
+'''
+
 import json
 import logging
 import pandas as pd
@@ -5,7 +14,7 @@ import string
 from stanfordcorenlp import StanfordCoreNLP
 from OrganizedBigTable import OrganizedBigTable, OrderType, _turnsToText
 
-TABLE_NAME = 'games-data-20180223.csv'
+TABLE_NAME = 'games-data-20180302.csv'
 
 START_SESSION = 12
 END_SESSION = 13
@@ -95,6 +104,14 @@ def clean_sentence(sentence):
             indices.append(i)
     return word_list, indices
 
+def generate_column_data_mentions(bigtable):
+    curr_syntactic = bigtable.df['syntactic_function']
+
+
+'''
+Runs the script to add columns to each session CSV file. Generates one CSV per session; use
+CombineSessionTables.py to merge back into one CSV.
+'''
 if __name__ == '__main__':
     props = {'annotators': 'tokenize,ssplit,pos,parse,depparse','outputFormat':'json'}
     with StanfordCoreNLP('/mnt/c/Users/coolw/Dropbox/Programming/corenlp/', memory='3g', quiet=True) as client:
@@ -105,6 +122,7 @@ if __name__ == '__main__':
             word_list = []
             bigtable = OrganizedBigTable(session_number, OrderType.GIVEN, TABLE_NAME, clean=False)
             bigtable.limitDataFrameToSession()
+
             text = _turnsToText(bigtable.all_turns)
 
             sentences = [x for x in text.split('.') if x]
@@ -116,7 +134,7 @@ if __name__ == '__main__':
                         syntactic_functions.append('')
                         word_list.append('FILLER SENTENCE')
                 else:
-                    # sentence_list.append('.')
+                    ## sentence_list.append('.')
                     cleaned_sentence = ' '.join(sentence_list)
                     ann = client.annotate(cleaned_sentence, properties=props)
                     pts, sfs, wlnew = generate_column_data(ann, cleaned_indices)
@@ -127,4 +145,6 @@ if __name__ == '__main__':
             bigtable.addColumnToDataFrameInPlace(word_list, 'word_check')
             bigtable.addColumnToDataFrameInPlace(parse_trees, 'parse_tree')
             bigtable.addColumnToDataFrameInPlace(syntactic_functions, 'syntactic_function')
+
+
             bigtable.saveToCSV()
