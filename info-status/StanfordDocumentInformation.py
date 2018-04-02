@@ -9,7 +9,7 @@ for the chain of coreferences.
 import xml.etree.ElementTree as ET
 
 # for accessing the XML files
-XML_DIR = 'xml-corrections/'
+XML_DIR = 'xml/'
 XML_EXTENSION = '_INTERPOLATED.xml'
 # for accessing the document in the XML
 DOCUMENT = 'document'
@@ -50,7 +50,7 @@ sentence (in Token object form)
 def _OrganizeSentenceData(sentence_data):
     sentences_dict = {}
     for sentence in sentence_data:
-        print(sentence)
+        # print(sentence)
         sentence_ID = int(sentence.get(ID))
         xml_tokens = sentence.find(TOKENS).findall(TOKEN)
         sentences_dict[sentence_ID] = [Token(xml_token.get(ID),
@@ -124,7 +124,7 @@ class StanfordDocumentInformation(object):
                 for token in sentence
                 if token.word != '.']
 
-        print([b for b in a if b[1]])
+        # print([b for b in a if b[1]])
         return [(token.word, token.coref_id)
                 for sentence in self.sentences
                 for token in sentence

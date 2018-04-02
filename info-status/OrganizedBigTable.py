@@ -3,6 +3,7 @@ This file converts data from BigTable to a text file that can be read in by
 StanfordNLP, and allows for writing data from StanfordNLP back into the bigtable.
 '''
 from enum import Enum
+from os import path
 import pandas as pd
 import string
 import datetime
@@ -13,7 +14,7 @@ HYPHEN = '-'
 SESSION_NUMBER = 'session_number'
 SPEAKER_A = 'A'
 START_TIME = 'word_start_time'
-TABLE_NAME = 'games-data-20180217.csv'
+TABLE_NAME = '../notebooks/big-table-PoS.csv'
 TURN_INDEX = 'word_number_in_turn'
 TURN_LENGTH = 'total_number_of_words_in_turn'
 WORD = 'word'
@@ -29,6 +30,7 @@ class OrderType(Enum):
     SPEAKER_B = 2
     INTERPOLATED = 3
     GIVEN = 4
+    INTERPOLATED_OLD = 5 # legacy code, try not to use
 
 class OrganizedBigTable(object):
     '''
@@ -48,12 +50,10 @@ class OrganizedBigTable(object):
         # self.dfA = self.df[self.df[CURRENT_SPEAKER]=='A'] # views of df, not copies
         # self.dfB = self.df[self.df[CURRENT_SPEAKER]=='B']
         self.order_type = order_type
-        if not order_type == OrderType.GIVEN:
-            self.spA_turns, self.spB_turns, self.interpolated_turns = _orderBigtableRows(self.df, session_number, clean)
-            self.all_turns = None
-        else:
-            self.spA_turns, self.spB_turns, self.all_turns = _getBigtableRows(self.df, session_number, clean)
-            self.interpolated_turns = None
+        self.spA_turns, self.spB_turns, self.interpolated_turns = _orderBigtableRows(self.df, session_number, clean, order_type)
+        self.all_turns = None
+        if order_type == OrderType.GIVEN:
+            self.all_turns, self.interpolated_turns = self.interpolated_turns, None
 
     def limitDataFrameToSession(self):
         self.df = self.df[self.df[SESSION_NUMBER] == int(self.session_number)]
@@ -85,6 +85,7 @@ class OrganizedBigTable(object):
         text = _turnsToText(self.spA_turns) if order_type == OrderType.SPEAKER_A \
                else _turnsToText(self.spB_turns) if order_type == OrderType.SPEAKER_B \
                else _turnsToText(self.interpolated_turns) if order_type == OrderType.INTERPOLATED \
+                                                          or order_type == OrderType.INTERPOLATED_OLD \
                else _turnsToText(self.all_turns)
 
         if not self.session_number:
@@ -109,6 +110,7 @@ class OrganizedBigTable(object):
         turns = self.spA_turns if order_type == OrderType.SPEAKER_A \
                else self.spB_turns if order_type == OrderType.SPEAKER_B \
                else self.interpolated_turns if order_type == OrderType.INTERPOLATED \
+                                            or order_type == OrderType.INTERPOLATED_OLD \
                else self.all_turns
 
         bigtable_rows = [row for turn in turns for row in turn[1]]
@@ -152,7 +154,7 @@ class OrganizedBigTable(object):
 
     def saveToCSV(self, order_type=None):
         order_type = order_type or self.order_type
-        file_name = self.table_name.split('.')[0]
+        file_name = path.splitext(self.table_name)[0]
         df = self.df
 
         order_name = str(self.order_type).split('.')[1] if order_type else ''
@@ -169,6 +171,7 @@ class OrganizedBigTable(object):
             df = df[df[SESSION_NUMBER] == int(session_number)]
 
         file_name += '_organized.csv'
+        print('saving {}...'.format(file_name))
         df.to_csv(file_name, sep=',', index=False)
 
 '''
@@ -184,29 +187,33 @@ def _turnsToText(turns):
         text += '.'
     return text
 
-def _getBigtableRows(df, session_number, clean=True):
-    '''
-    Represents the rows of the bigtables ordered in the arrangement they are ordered
-    for Stanford. Does not sort anything.
-    :return: 2 lists, one with speaker A's turns organized by start time,
-    second with Speaker B's sorted by start time.
-    '''
-    df = df[df[SESSION_NUMBER] == int(session_number)]
-    spA_rows = df[df[CURRENT_SPEAKER]=='A'].copy()
-    spB_rows = df[df[CURRENT_SPEAKER]=='B'].copy()
-    spA_turns = _findTurns(spA_rows, clean=clean)
-    spB_turns = _findTurns(spB_rows, clean=clean)
-    all_turns = _findTurns(df, clean=clean)
-    return spA_turns, spB_turns, all_turns
 
-def _orderBigtableRows(df, session_number, clean=True):
+
+def _orderBigtableRows(df, session_number, clean=True, order_type=None):
     '''
     Represents the rows of the bigtables ordered in the arrangement they are ordered
     for Stanford.
     :return: 3 lists, one with speaker A's turns organized by start time,
     second with Speaker B's sorted by start time, third with the interpolated turns.
     '''
+
+    if order_type==OrderType.GIVEN:
+        df = df[df[SESSION_NUMBER] == int(session_number)]
+        spA_rows = df[df[CURRENT_SPEAKER]=='A'].copy()
+        spB_rows = df[df[CURRENT_SPEAKER]=='B'].copy()
+        spA_turns = _findTurns(spA_rows, clean=clean)
+        spB_turns = _findTurns(spB_rows, clean=clean)
+        all_turns = _findTurns(df, clean=clean)
+        return spA_turns, spB_turns, all_turns
+
     spA_rows, spB_rows = _getSortedSpeakerRows(session_number, df)
+
+    if order_type==OrderType.INTERPOLATED_OLD:
+        spA_turns = sorted(_findTurns(spA_rows, clean=clean), key=lambda x: (x[0]))
+        spB_turns = sorted(_findTurns(spB_rows, clean=clean), key=lambda x: (x[0]))
+        interpolated_turns = sorted(spA_turns + spB_turns, key=lambda x: (x[0]))
+        return spA_turns, spB_turns, interpolated_turns
+
     spA_turns = sorted(_findTurns(spA_rows, clean=clean), key=lambda x: (x[1][0]['token_id2'], x[0]))
     spB_turns = sorted(_findTurns(spB_rows, clean=clean), key=lambda x: (x[1][0]['token_id2'], x[0]))
     interpolated_turns = sorted(spA_turns + spB_turns, key=lambda x: (x[1][0]['token_id2'], x[0]))
@@ -242,7 +249,7 @@ Separates words spoken by Speaker A and Speaker B, and sorts them by time.
 :return: two lists, one containing the sorted rows of speaker A, the second B
 '''
 
-def _getSortedSpeakerRows(session, df):
+def _getSortedSpeakerRows(session, df, order_type=None):
     # fix method to properly sort rows
 
     df_temp = df
@@ -251,6 +258,11 @@ def _getSortedSpeakerRows(session, df):
 
     dfA = df_temp[df_temp[CURRENT_SPEAKER]=='A'].copy()
     dfB = df_temp[df_temp[CURRENT_SPEAKER]=='B'].copy()
+
+    if order_type==OrderType.INTERPOLATED_OLD:
+        dfA = dfA.sort_values(START_TIME,ascending=[True, True])
+        dfB = dfB.sort_values(START_TIME,ascending=[True, True])
+        return dfA, dfB
 
     dfA['token_id2']= dfA['token_id'].apply(_strip_time)
     dfB['token_id2']= dfB['token_id'].apply(_strip_time)

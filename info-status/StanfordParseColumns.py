@@ -13,10 +13,11 @@ import pandas as pd
 import string
 from stanfordcorenlp import StanfordCoreNLP
 from OrganizedBigTable import OrganizedBigTable, OrderType, _turnsToText
+from CombineSessionTables import combine2
 
-TABLE_NAME = 'games-data-20180302.csv'
+TABLE_NAME = 'big-table-PoS_20180401.csv'
 
-START_SESSION = 12
+START_SESSION = 1
 END_SESSION = 13
 FILLERS = set(['um','uh','uh-huh','hm','ah','mm','mmhm'])
 ASSIMILATIONS = set(['gonna','gotta','lemme','gimme','wanna','dun','dunno','you`','you`re',
@@ -141,10 +142,11 @@ if __name__ == '__main__':
                     parse_trees += pts
                     syntactic_functions += sfs
                     word_list += wlnew
-                    print(sentence, '||||||', cleaned_sentence)
+                    # print(sentence, '||||||', cleaned_sentence)
             bigtable.addColumnToDataFrameInPlace(word_list, 'word_check')
             bigtable.addColumnToDataFrameInPlace(parse_trees, 'parse_tree')
             bigtable.addColumnToDataFrameInPlace(syntactic_functions, 'syntactic_function')
-
-
             bigtable.saveToCSV()
+
+    # TABLE_NAME = 'big-table-PoS_20180401.csv'
+    # combine2('big-table-PoS_', '20180401)
