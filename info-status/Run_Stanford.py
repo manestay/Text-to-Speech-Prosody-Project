@@ -3,8 +3,9 @@ from StanfordDocumentInformation import *
 import os
 from time import sleep
 
-START_SESSION = 7
-END_SESSION = 13
+START_SESSION = 2
+# END_SESSION = 13
+END_SESSION = 4
 FILE_SUFFIX = '_INTERPOLATED.txt'
 JAVA_CLASSPATH = "../../corenlp/*:."
 COMMAND =  'java -Xmx4g -cp ' + JAVA_CLASSPATH + ' edu.stanford.nlp.pipeline.StanfordCoreNLP \

@@ -50,7 +50,6 @@ sentence (in Token object form)
 def _OrganizeSentenceData(sentence_data):
     sentences_dict = {}
     for sentence in sentence_data:
-        # print(sentence)
         sentence_ID = int(sentence.get(ID))
         xml_tokens = sentence.find(TOKENS).findall(TOKEN)
         sentences_dict[sentence_ID] = [Token(xml_token.get(ID),
@@ -109,6 +108,10 @@ class StanfordDocumentInformation(object):
         # both and store the resulting mentions.
         sentence_data = TREE.find(SENTENCES).findall(SENTENCE)
         sentences = _OrganizeSentenceData(sentence_data)
+        print(sentence_data[0].attrib)
+        print(sentence_data[0][0][0][0].text)
+        print(sentence_data[0][0][1][0].text)
+        print(sentence_data[0][0][2][0] .text)
         coreference_data = TREE.find(COREFERENCE).findall(COREFERENCE)
         self.sentences, self.coref_id_end = _AssociateCoreferentData(coreference_data,
                                                  sentences,
@@ -119,10 +122,10 @@ class StanfordDocumentInformation(object):
     Gets a list of the coreferent words in the document.
     '''
     def getCoreferenceList(self):
-        a = [(token.word, token.coref_id)
-                for sentence in self.sentences
-                for token in sentence
-                if token.word != '.']
+        # a = [(token.word, token.coref_id)
+        #         for sentence in self.sentences
+        #         for token in sentence
+        #         if token.word != '.']
 
         # print([b for b in a if b[1]])
         return [(token.word, token.coref_id)
