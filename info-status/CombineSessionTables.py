@@ -3,46 +3,29 @@ import math
 import numpy as np
 import datetime
 import glob
+from example_config import config
 
-TABLE_PREFIX = "big-table-PoS_20180401_GIVEN_"
-DATE_SESSION = "session"
-SUFFIX = "_organized.csv"
-TODAY = datetime.date.today().strftime("%Y%m%d")
-START_SESSION = 1
-END_SESSION = 13
+SUFFIX = config['combine_suffix']
+TODAY = config['date']
+START_SESSION = config['start_session']
+END_SESSION = config['end_session']
 
-def combine1():
-    filename = TABLE_PREFIX + DATE_SESSION + "01" + SUFFIX
-    df = pd.read_csv(filename)
+SESSION = 'session'
 
-    pos_column = pd.Series([None] * len(df))
-    coref_column = pd.Series([None] * len(df))
-
-    for session_number in range(START_SESSION, END_SESSION):
-        session_number = str(session_number).zfill(2)
-
-        filename = TABLE_PREFIX + DATE_SESSION + str(session_number) + SUFFIX
-        print(filename)
-        df = pd.read_csv(filename)
-
-        pos_column = df['Stanford_PoS'].combine_first(pos_column)
-        coref_column = df['Coreference_IDs'].combine_first(coref_column)
-
-    df['Stanford_PoS'] = pos_column
-    df['Coreference_IDs'] = coref_column
-
-    df.to_csv(TABLE_PREFIX + TODAY + ".csv")
-
-def combine2(prefix=TABLE_PREFIX, date_session=DATE_SESSION, suffix=SUFFIX, date=TODAY):
-    csvs = glob.glob(prefix + date_session + "*" + suffix)
+def combine(prefix, new_table_name='', suffix=SUFFIX, date=TODAY):
+    if not new_table_name:
+        new_table_name = 'merged_{}{}'.format(prefix.split('_')[0], suffix)
+        print(new_table_name)
+    print('{}_session*{}'.format(prefix, suffix))
+    csvs = glob.glob('{}_session*{}'.format(prefix, suffix))
 
     df_list = []
     for filename in sorted(csvs):
         df_list.append(pd.read_csv(filename))
     full_df = pd.concat(df_list)
 
-    full_df.to_csv(prefix + date_session + "_merged.csv")
+    full_df.to_csv(new_table_name, index=False)
+    return new_table_name
 
 if __name__ == '__main__':
-    # combine1()
-    combine2()
+    combine()

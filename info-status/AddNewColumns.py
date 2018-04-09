@@ -1,6 +1,7 @@
 '''
 This script generates the following columns:
 
+Intonational_Phrase_ID
 Most_Recent_Mention
 Recent_Explicit_Mention
 Recent_Implicit_Mention
@@ -21,21 +22,23 @@ import numpy as np
 import datetime
 from collections import namedtuple
 from OrganizedBigTable import _strip_time
+from example_config import config
 
 pd.options.mode.chained_assignment = None
-# BIGTABLEFILE = "games-data-20180217.csv"
-BIGTABLEFILE = "games-data-20180302.csv"
-TODAY = datetime.date.today().strftime("%Y%m%d")
-CSV_EXTENSTION = ".csv"
-NEW_TABLE_PREFIX = "extended-games-data-"
+
+TABLE_NAME = config['new_table_name']
+NEW_TABLE_PREFIX = config['new_table_prefix']
+TODAY = config['date']
+
+CSV_EXTENSION = ".csv"
 MentionInfo = namedtuple('MentionInfo', ['phrase', 'end_time', 'token_id2',
                                          'indices','PoS_last', 'sf_last'])
 
 class AddNewColumns(object):
 
     def __init__(self):
-        self.bigtable_file = BIGTABLEFILE
-        self.bigtable = pd.read_csv(BIGTABLEFILE)
+        self.bigtable_file = TABLE_NAME
+        self.bigtable = pd.read_csv(TABLE_NAME)
 
     '''
     Function iterates through table and groups phrases based on consecutive matching
@@ -226,10 +229,16 @@ class AddNewColumns(object):
     Writes table to csv file
     '''
     def saveTable(self):
-        self.bigtable.to_csv(NEW_TABLE_PREFIX + TODAY + CSV_EXTENSTION)
+        self.bigtable.to_csv(NEW_TABLE_PREFIX + CSV_EXTENSION, index=False)
 
-if __name__ == '__main__':
+def main(table_name=''):
+    global TABLE_NAME
+    if table_name:
+        TABLE_NAME = table_name
     columns = AddNewColumns()
     columns.getMentions()
     columns.getIntonationalPhrases()
     columns.saveTable()
+
+if __name__ == '__main__':
+    main()

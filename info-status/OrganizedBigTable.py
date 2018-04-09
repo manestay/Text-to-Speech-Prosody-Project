@@ -7,6 +7,10 @@ from os import path
 import pandas as pd
 import string
 import datetime
+from example_config import config
+
+TODAY = config['date']
+TABLE_NAME = config['input_table']
 
 CURRENT_SPEAKER = 'speaker1'
 FILLERS = ['um','uh','uh-huh','hm','ah','mm','mmhm']
@@ -14,12 +18,9 @@ HYPHEN = '-'
 SESSION_NUMBER = 'session_number'
 SPEAKER_A = 'A'
 START_TIME = 'word_start_time'
-TABLE_NAME = '../notebooks/big-table-PoS.csv'
 TURN_INDEX = 'word_number_in_turn'
 TURN_LENGTH = 'total_number_of_words_in_turn'
 WORD = 'word'
-TODAY = datetime.date.today().strftime("%Y%m%d")
-TABLE_PREFIX = "games-data-"
 CSV_EXTENSTION = ".csv"
 
 class OrderType(Enum):
@@ -29,7 +30,7 @@ class OrderType(Enum):
     SPEAKER_A = 1
     SPEAKER_B = 2
     INTERPOLATED = 3
-    GIVEN = 4
+    SPEAKER_ORDER = 4
     INTERPOLATED_OLD = 5 # legacy code, try not to use
 
 class OrganizedBigTable(object):
@@ -52,7 +53,7 @@ class OrganizedBigTable(object):
         self.order_type = order_type
         self.spA_turns, self.spB_turns, self.interpolated_turns = _orderBigtableRows(self.df, session_number, clean, order_type)
         self.all_turns = None
-        if order_type == OrderType.GIVEN:
+        if order_type == OrderType.SPEAKER_ORDER:
             self.all_turns, self.interpolated_turns = self.interpolated_turns, None
 
     def limitDataFrameToSession(self):
@@ -84,8 +85,7 @@ class OrganizedBigTable(object):
         order_type = self.order_type
         text = _turnsToText(self.spA_turns) if order_type == OrderType.SPEAKER_A \
                else _turnsToText(self.spB_turns) if order_type == OrderType.SPEAKER_B \
-               else _turnsToText(self.interpolated_turns) if order_type == OrderType.INTERPOLATED \
-                                                          or order_type == OrderType.INTERPOLATED_OLD \
+               else _turnsToText(self.interpolated_turns) if self.interpolated_turns \
                else _turnsToText(self.all_turns)
 
         if not self.session_number:
@@ -106,6 +106,9 @@ class OrganizedBigTable(object):
         index, and the data for the new column in the following index.
         :param column_names: the names to give the new column.
         '''
+        if self.df.get(column_name):
+            print('warning: column {} already exists, overwriting in table'.format(column_name))
+
         order_type = self.order_type
         turns = self.spA_turns if order_type == OrderType.SPEAKER_A \
                else self.spB_turns if order_type == OrderType.SPEAKER_B \
@@ -142,6 +145,8 @@ class OrganizedBigTable(object):
         '''
         Adds a column directly into dataframe without any ordering.
         '''
+        if self.df.get(column_name):
+            print('warning: column {} already exists, overwriting in table'.format(column_name))
         num_rows = len(self.df)
         num_values = len(values)
         if num_values < num_rows:
@@ -197,7 +202,7 @@ def _orderBigtableRows(df, session_number, clean=True, order_type=None):
     second with Speaker B's sorted by start time, third with the interpolated turns.
     '''
 
-    if order_type==OrderType.GIVEN:
+    if order_type==OrderType.SPEAKER_ORDER:
         df = df[df[SESSION_NUMBER] == int(session_number)]
         spA_rows = df[df[CURRENT_SPEAKER]=='A'].copy()
         spB_rows = df[df[CURRENT_SPEAKER]=='B'].copy()

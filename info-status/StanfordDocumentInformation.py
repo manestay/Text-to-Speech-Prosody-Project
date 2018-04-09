@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 # for accessing the XML files
 XML_DIR = 'xml/'
-XML_EXTENSION = '_INTERPOLATED.xml'
+XML_EXTENSION = '_SPEAKER_ORDER.xml'
 # for accessing the document in the XML
 DOCUMENT = 'document'
 
@@ -29,7 +29,7 @@ WORD = 'word'
 ID = 'id'
 
 # for accessing part of speech information
-POS_SUFFIX = '_INTERPOLATEDwords.txt'
+POS_SUFFIX = '_SPEAKER_ORDERwords.txt'
 
 '''
 Represent a token in a document, with its token id in the sentence.
