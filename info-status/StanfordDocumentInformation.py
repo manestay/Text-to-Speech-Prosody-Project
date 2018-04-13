@@ -6,11 +6,13 @@ It takes the coreferences for a particular document's XML output
 the start char of the word in the document, its end char, and its coreference ID
 for the chain of coreferences.
 '''
+
+from example_config import config
 import xml.etree.ElementTree as ET
 
 # for accessing the XML files
-XML_DIR = 'xml/'
-XML_EXTENSION = '_SPEAKER_ORDER.xml'
+XML_DIR = config['xml_dir']
+XML_EXTENSION = config['file_xml_ext']
 # for accessing the document in the XML
 DOCUMENT = 'document'
 
@@ -29,7 +31,7 @@ WORD = 'word'
 ID = 'id'
 
 # for accessing part of speech information
-POS_SUFFIX = '_SPEAKER_ORDERwords.txt'
+POS_SUFFIX = '_{}words.txt'.format(config['order_type'])
 
 '''
 Represent a token in a document, with its token id in the sentence.
@@ -108,10 +110,10 @@ class StanfordDocumentInformation(object):
         # both and store the resulting mentions.
         sentence_data = TREE.find(SENTENCES).findall(SENTENCE)
         sentences = _OrganizeSentenceData(sentence_data)
-        print(sentence_data[0].attrib)
-        print(sentence_data[0][0][0][0].text)
-        print(sentence_data[0][0][1][0].text)
-        print(sentence_data[0][0][2][0] .text)
+        # print(sentence_data[0].attrib)
+        # print(sentence_data[0][0][0][0].text)
+        # print(sentence_data[0][0][1][0].text)
+        # print(sentence_data[0][0][2][0] .text)
         coreference_data = TREE.find(COREFERENCE).findall(COREFERENCE)
         self.sentences, self.coref_id_end = _AssociateCoreferentData(coreference_data,
                                                  sentences,

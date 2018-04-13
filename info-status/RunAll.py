@@ -20,14 +20,14 @@ NEW_TABLE_NAME = config['new_table_name']
 REMOVE_TEMP = config['remove_temp']
 
 if __name__ == '__main__':
-    print('Run_Stanford.generateStanfordText()')
-    Run_Stanford.generateStanfordText()
-    print('StanfordPoS')
-    StanfordPoS.parse_pos()
-    print('Run_Stanford.main()')
-    Run_Stanford.main()
-    print('combining1...')
-    combine(OLD_PREFIX, 'temp_' + NEW_TABLE_NAME)
+    # print('Run_Stanford.generateStanfordText()')
+    # Run_Stanford.generateStanfordText()
+    # print('StanfordPoS')
+    # StanfordPoS.parse_pos()
+    # print('Run_Stanford.main()')
+    # Run_Stanford.main()
+    # print('combining1...')
+    # combine(OLD_PREFIX, 'temp_' + NEW_TABLE_NAME)
 
     print('StanfordParseColumns.main()')
     StanfordParseColumns.main('temp_' + NEW_TABLE_NAME)

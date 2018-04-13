@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 import os
+from example_config import config
 
-XML_DIR = "xml-corrections/"
+XML_DIR = config['xml_dir']
 
 for file in os.listdir(XML_DIR):
     if file.endswith(".xml"):

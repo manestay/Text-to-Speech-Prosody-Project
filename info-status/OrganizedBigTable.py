@@ -106,7 +106,7 @@ class OrganizedBigTable(object):
         index, and the data for the new column in the following index.
         :param column_names: the names to give the new column.
         '''
-        if self.df.get(column_name):
+        if column_name in self.df:
             print('warning: column {} already exists, overwriting in table'.format(column_name))
 
         order_type = self.order_type
@@ -145,7 +145,7 @@ class OrganizedBigTable(object):
         '''
         Adds a column directly into dataframe without any ordering.
         '''
-        if self.df.get(column_name):
+        if column_name in self.df:
             print('warning: column {} already exists, overwriting in table'.format(column_name))
         num_rows = len(self.df)
         num_values = len(values)
