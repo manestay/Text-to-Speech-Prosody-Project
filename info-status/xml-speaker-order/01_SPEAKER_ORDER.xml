@@ -104501,66 +104501,6 @@
     <coreference>
       <coreference>
         <mention representative="true">
-          <sentence>1</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yup</text>
-        </mention>
-        <mention>
-          <sentence>90</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yup</text>
-        </mention>
-        <mention>
-          <sentence>91</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>that</text>
-        </mention>
-        <mention>
-          <sentence>91</sentence>
-          <start>4</start>
-          <end>5</end>
-          <head>4</head>
-          <text>it</text>
-        </mention>
-        <mention>
-          <sentence>139</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yup</text>
-        </mention>
-        <mention>
-          <sentence>275</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yup</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>341</sentence>
-          <start>8</start>
-          <end>9</end>
-          <head>8</head>
-          <text>we</text>
-        </mention>
-        <mention>
-          <sentence>341</sentence>
-          <start>12</start>
-          <end>13</end>
-          <head>12</head>
-          <text>that</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
           <sentence>38</sentence>
           <start>2</start>
           <end>3</end>
@@ -104636,13 +104576,6 @@
           <end>3</end>
           <head>2</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>46</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>48</sentence>
@@ -104729,25 +104662,11 @@
           <text>I</text>
         </mention>
         <mention>
-          <sentence>79</sentence>
-          <start>7</start>
-          <end>8</end>
-          <head>7</head>
-          <text>that</text>
-        </mention>
-        <mention>
           <sentence>82</sentence>
           <start>2</start>
           <end>3</end>
           <head>2</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>82</sentence>
-          <start>4</start>
-          <end>5</end>
-          <head>4</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>85</sentence>
@@ -104869,13 +104788,6 @@
           <text>I</text>
         </mention>
         <mention>
-          <sentence>124</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>that</text>
-        </mention>
-        <mention>
           <sentence>125</sentence>
           <start>1</start>
           <end>2</end>
@@ -104895,13 +104807,6 @@
           <end>3</end>
           <head>2</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>128</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>129</sentence>
@@ -104937,13 +104842,6 @@
           <end>3</end>
           <head>2</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>136</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>137</sentence>
@@ -104988,13 +104886,6 @@
           <text>I</text>
         </mention>
         <mention>
-          <sentence>144</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
-        </mention>
-        <mention>
           <sentence>146</sentence>
           <start>4</start>
           <end>5</end>
@@ -105035,13 +104926,6 @@
           <end>3</end>
           <head>2</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>152</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>153</sentence>
@@ -105105,13 +104989,6 @@
           <end>2</end>
           <head>1</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>184</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>185</sentence>
@@ -105191,13 +105068,6 @@
           <text>I</text>
         </mention>
         <mention>
-          <sentence>199</sentence>
-          <start>8</start>
-          <end>9</end>
-          <head>8</head>
-          <text>that</text>
-        </mention>
-        <mention>
           <sentence>200</sentence>
           <start>1</start>
           <end>2</end>
@@ -105217,13 +105087,6 @@
           <end>3</end>
           <head>2</head>
           <text>I</text>
-        </mention>
-        <mention>
-          <sentence>203</sentence>
-          <start>8</start>
-          <end>9</end>
-          <head>8</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>204</sentence>
@@ -105506,22 +105369,6 @@
           <end>3</end>
           <head>2</head>
           <text>'s</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>2</sentence>
-          <start>16</start>
-          <end>17</end>
-          <head>16</head>
-          <text>aw</text>
-        </mention>
-        <mention>
-          <sentence>2</sentence>
-          <start>18</start>
-          <end>19</end>
-          <head>18</head>
-          <text>it</text>
         </mention>
       </coreference>
       <coreference>
@@ -105819,13 +105666,6 @@
           <text>lion</text>
         </mention>
         <mention>
-          <sentence>5</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>okay</text>
-        </mention>
-        <mention>
           <sentence>6</sentence>
           <start>1</start>
           <end>2</end>
@@ -105855,13 +105695,6 @@
         </mention>
         <mention>
           <sentence>24</sentence>
-          <start>3</start>
-          <end>4</end>
-          <head>3</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>24</sentence>
           <start>4</start>
           <end>5</end>
           <head>4</head>
@@ -105873,90 +105706,6 @@
           <end>9</end>
           <head>8</head>
           <text>urn</text>
-        </mention>
-        <mention>
-          <sentence>51</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>okay</text>
-        </mention>
-        <mention>
-          <sentence>51</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>that</text>
-        </mention>
-        <mention>
-          <sentence>58</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>132</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>okay</text>
-        </mention>
-        <mention>
-          <sentence>132</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>that</text>
-        </mention>
-        <mention>
-          <sentence>218</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>okay</text>
-        </mention>
-        <mention>
-          <sentence>232</sentence>
-          <start>27</start>
-          <end>28</end>
-          <head>27</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>277</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>okay</text>
-        </mention>
-        <mention>
-          <sentence>285</sentence>
-          <start>11</start>
-          <end>12</end>
-          <head>11</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>287</sentence>
-          <start>14</start>
-          <end>15</end>
-          <head>14</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>288</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>332</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>okay</text>
         </mention>
         <mention>
           <sentence>334</sentence>
@@ -106200,13 +105949,6 @@
           <end>19</end>
           <head>18</head>
           <text>right</text>
-        </mention>
-        <mention>
-          <sentence>96</sentence>
-          <start>20</start>
-          <end>21</end>
-          <head>20</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>96</sentence>
@@ -106601,14 +106343,7 @@
           <head>5</head>
           <text>one</text>
         </mention>
-        <mention>
-          <sentence>216</sentence>
-          <start>7</start>
-          <end>8</end>
-          <head>7</head>
-          <text>that</text>
-        </mention>
-      </coreference>
+        </coreference>
       <coreference>
         <mention representative="true">
           <sentence>16</sentence>
@@ -106963,50 +106698,6 @@
       </coreference>
       <coreference>
         <mention representative="true">
-          <sentence>292</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>no</text>
-        </mention>
-        <mention>
-          <sentence>33</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>no</text>
-        </mention>
-        <mention>
-          <sentence>33</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>it</text>
-        </mention>
-        <mention>
-          <sentence>281</sentence>
-          <start>10</start>
-          <end>11</end>
-          <head>10</head>
-          <text>no</text>
-        </mention>
-        <mention>
-          <sentence>298</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>no</text>
-        </mention>
-        <mention>
-          <sentence>301</sentence>
-          <start>3</start>
-          <end>4</end>
-          <head>3</head>
-          <text>that</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
           <sentence>34</sentence>
           <start>10</start>
           <end>11</end>
@@ -107098,13 +106789,6 @@
         </mention>
       </coreference>
       <coreference>
-        <mention representative="true">
-          <sentence>36</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
         <mention>
           <sentence>37</sentence>
           <start>1</start>
@@ -107120,53 +106804,11 @@
           <text>it</text>
         </mention>
         <mention>
-          <sentence>71</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
-        <mention>
-          <sentence>192</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
-        <mention>
-          <sentence>239</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
-        <mention>
           <sentence>240</sentence>
           <start>1</start>
           <end>2</end>
           <head>1</head>
           <text>it</text>
-        </mention>
-        <mention>
-          <sentence>240</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
-        </mention>
-        <mention>
-          <sentence>273</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
-        <mention>
-          <sentence>282</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
         </mention>
         <mention>
           <sentence>283</sentence>
@@ -107175,14 +106817,7 @@
           <head>3</head>
           <text>it</text>
         </mention>
-        <mention>
-          <sentence>291</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
-      </coreference>
+        </coreference>
       <coreference>
         <mention representative="true">
           <sentence>52</sentence>
@@ -107440,21 +107075,7 @@
           <head>2</head>
           <text>it</text>
         </mention>
-        <mention>
-          <sentence>190</sentence>
-          <start>7</start>
-          <end>8</end>
-          <head>7</head>
-          <text>the</text>
-        </mention>
-        <mention>
-          <sentence>191</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>that</text>
-        </mention>
-      </coreference>
+        </coreference>
       <coreference>
         <mention representative="true">
           <sentence>72</sentence>
@@ -107470,14 +107091,7 @@
           <head>6</head>
           <text>shoe</text>
         </mention>
-        <mention>
-          <sentence>74</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>that</text>
-        </mention>
-      </coreference>
+        </coreference>
       <coreference>
         <mention representative="true">
           <sentence>54</sentence>
@@ -107617,39 +107231,11 @@
           <text>one</text>
         </mention>
         <mention>
-          <sentence>56</sentence>
-          <start>8</start>
-          <end>9</end>
-          <head>8</head>
-          <text>this</text>
-        </mention>
-        <mention>
-          <sentence>58</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>this</text>
-        </mention>
-        <mention>
-          <sentence>61</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>this</text>
-        </mention>
-        <mention>
           <sentence>62</sentence>
           <start>3</start>
           <end>4</end>
           <head>3</head>
           <text>it</text>
-        </mention>
-        <mention>
-          <sentence>63</sentence>
-          <start>6</start>
-          <end>7</end>
-          <head>6</head>
-          <text>that</text>
         </mention>
         <mention>
           <sentence>68</sentence>
@@ -107744,27 +107330,6 @@
           <end>6</end>
           <head>5</head>
           <text>kettle</text>
-        </mention>
-        <mention>
-          <sentence>65</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>this</text>
-        </mention>
-        <mention>
-          <sentence>66</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>this</text>
-        </mention>
-        <mention>
-          <sentence>69</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>this</text>
         </mention>
         <mention>
           <sentence>69</sentence>
@@ -107902,102 +107467,6 @@
           <end>7</end>
           <head>6</head>
           <text>bottom</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>78</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yep</text>
-        </mention>
-        <mention>
-          <sentence>162</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yep</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>80</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>this</text>
-        </mention>
-        <mention>
-          <sentence>80</sentence>
-          <start>3</start>
-          <end>4</end>
-          <head>3</head>
-          <text>a</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>82</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yeah</text>
-        </mention>
-        <mention>
-          <sentence>82</sentence>
-          <start>8</start>
-          <end>9</end>
-          <head>8</head>
-          <text>it</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>83</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>nope</text>
-        </mention>
-        <mention>
-          <sentence>83</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>it</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>84</sentence>
-          <start>7</start>
-          <end>8</end>
-          <head>7</head>
-          <text>racket</text>
-        </mention>
-        <mention>
-          <sentence>84</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>this</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>86</sentence>
-          <start>5</start>
-          <end>6</end>
-          <head>5</head>
-          <text>yep</text>
-        </mention>
-        <mention>
-          <sentence>87</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>it</text>
         </mention>
       </coreference>
       <coreference>
@@ -108852,13 +108321,6 @@
           <text>lion</text>
         </mention>
         <mention>
-          <sentence>154</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>this</text>
-        </mention>
-        <mention>
           <sentence>155</sentence>
           <start>1</start>
           <end>2</end>
@@ -108867,24 +108329,10 @@
         </mention>
         <mention>
           <sentence>157</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>this</text>
-        </mention>
-        <mention>
-          <sentence>157</sentence>
           <start>6</start>
           <end>7</end>
           <head>6</head>
           <text>lion</text>
-        </mention>
-        <mention>
-          <sentence>158</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>this</text>
         </mention>
         <mention>
           <sentence>158</sentence>
@@ -109154,22 +108602,6 @@
           <end>19</end>
           <head>18</head>
           <text>mirror</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>228</sentence>
-          <start>3</start>
-          <end>4</end>
-          <head>3</head>
-          <text>one</text>
-        </mention>
-        <mention>
-          <sentence>228</sentence>
-          <start>9</start>
-          <end>10</end>
-          <head>9</head>
-          <text>this</text>
         </mention>
       </coreference>
       <coreference>
@@ -109524,14 +108956,7 @@
           <head>5</head>
           <text>tail</text>
         </mention>
-        <mention>
-          <sentence>267</sentence>
-          <start>13</start>
-          <end>14</end>
-          <head>13</head>
-          <text>that</text>
-        </mention>
-      </coreference>
+        </coreference>
       <coreference>
         <mention representative="true">
           <sentence>259</sentence>
@@ -109620,29 +109045,6 @@
           <end>6</end>
           <head>5</head>
           <text>side</text>
-        </mention>
-      </coreference>
-      <coreference>
-        <mention representative="true">
-          <sentence>263</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yes</text>
-        </mention>
-        <mention>
-          <sentence>264</sentence>
-          <start>1</start>
-          <end>2</end>
-          <head>1</head>
-          <text>yes</text>
-        </mention>
-        <mention>
-          <sentence>265</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>it</text>
         </mention>
       </coreference>
       <coreference>
@@ -109942,13 +109344,6 @@
           <end>16</end>
           <head>15</head>
           <text>foot</text>
-        </mention>
-        <mention>
-          <sentence>304</sentence>
-          <start>2</start>
-          <end>3</end>
-          <head>2</head>
-          <text>yeah</text>
         </mention>
         <mention>
           <sentence>304</sentence>
