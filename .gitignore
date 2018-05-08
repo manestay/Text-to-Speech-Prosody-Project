@@ -1,4 +1,4 @@
-*.pkl
+*/.ipynb_checkpoints
 *.pyc
 info-status_iring/
 *__pycache__*
