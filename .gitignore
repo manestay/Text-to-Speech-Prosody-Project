@@ -8,5 +8,6 @@ info-status_iring/
 *~$*
 info-status/old/
 *words.txt*
-*session*organized.csv*
+*session*.csv
+*session*.txt
 *DS_Store*
