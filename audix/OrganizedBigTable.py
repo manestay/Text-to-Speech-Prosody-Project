@@ -127,8 +127,8 @@ class OrganizedBigTable(object):
             values = values[:num_rows]
         self.df.insert(loc=self.df.shape[1], column=column_name, value=values)
 
-    def saveToCSV(self):
-        file_name = path.splitext(self.table_name)[0]
+    def saveToCSV(self, print_msg=True):
+        file_name = path.splitext(path.basename(self.table_name))[0]
         df = self.df
 
         if self.session_number:
@@ -137,7 +137,8 @@ class OrganizedBigTable(object):
             df = df[df[SESSION_NUMBER] == int(session_number)]
 
         file_name += '.csv'
-        print('saving {}...'.format(file_name))
+        if print_msg:
+            print('saving {}...'.format(file_name))
         df.to_csv(file_name, sep=',', index=True)
 
 '''

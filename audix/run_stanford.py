@@ -60,11 +60,13 @@ def main():
         offset = stanford.coref_id_end + 1
 
         parts_of_speech = stanford.getPoSList()
-
         bigtable.addColumnToDataFrame(parts_of_speech, 'Stanford_PoS')
 
         coref_information = stanford.getCoreferenceList()
         bigtable.addColumnToDataFrame(coref_information, 'Coreference_IDs')
+
+        ner_information = stanford.getNERList()
+        bigtable.addColumnToDataFrame(ner_information, 'NER')
 
         bigtable.saveToCSV()
 

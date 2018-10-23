@@ -31,6 +31,7 @@ TOKENS = 'tokens'
 TOKEN = 'token'
 WORD = 'word'
 ID = 'id'
+NER = 'NER'
 
 # for accessing part of speech information
 OLD_PREFIX = config['old_table_prefix']
@@ -40,10 +41,11 @@ POS_SUFFIX = '_words.txt'
 Represent a token in a document, with its token id in the sentence.
 '''
 class Token(object):
-    def __init__(self, token_id, word):
+    def __init__(self, token_id, word, ner=None):
         self.id = int(token_id)
         self.coref_id = ''
         self.word = word
+        self.ner = ner
 
 '''
 Take sentence data from the XML and organizes into a dictionary,
@@ -58,8 +60,9 @@ def _OrganizeSentenceData(sentence_data):
         sentence_ID = int(sentence.get(ID))
         xml_tokens = sentence.find(TOKENS).findall(TOKEN)
         sentences_dict[sentence_ID] = [Token(xml_token.get(ID),
-                                  xml_token.find(WORD).text)
-                                  for xml_token in xml_tokens]
+                                             xml_token.find(WORD).text,
+                                             xml_token.find(NER).text)
+                                       for xml_token in xml_tokens]
 
     # change to list
     sentences = [None] * (len(sentences_dict))
@@ -119,6 +122,16 @@ class StanfordDocumentInformation(object):
         self.sentences, self.coref_id_end = _AssociateCoreferentData(coreference_data,
                                                  sentences,
                                                  mention_offset)
+        # import pdb; pdb.set_trace()
+    def getNERList(self):
+        '''
+        Gets NER tags for words in document.
+        '''
+        ner_list = [(token.word, token.ner)
+                for sentence in self.sentences
+                for token in sentence
+                if any((token.word[i] not in string.punctuation) for i in range(len(token.word)))]
+        return ner_list
 
     def getCoreferenceList(self):
         '''

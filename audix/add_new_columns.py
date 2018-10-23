@@ -22,6 +22,8 @@ import numpy as np
 import datetime
 from collections import namedtuple
 from example_config import config
+from nltk.corpus import cmudict
+import syllapy
 
 pd.options.mode.chained_assignment = None
 
@@ -219,6 +221,28 @@ class AddNewColumns(object):
         self.addColumnToDataFrame(pd.Series(phrase_ids), 'Intonational_Phrase_ID')
 
     '''
+    Gets the syllable count for each word in the table.
+    '''
+    def getSyllableCounts(self):
+        def syllable_count(word):
+            try: # look in cmudict
+                return [len(list(y for y in x if y[-1].isdigit())) for x in cmu_d[word.lower()]][0]
+            except KeyError: # look in syllapy
+                return syllapy.count(word)
+
+        cmu_d = cmudict.dict()
+        syllables = self.bigtable['word'].apply(syllable_count)
+
+        self.addColumnToDataFrame(syllables, 'word_number_of_syllables')
+
+    def add_next_cols(self):
+        """
+        Adds columns for next POS, syntactic function, and NER
+        """
+        self.bigtable[['next_Stanford_PoS', 'next_syntactic_function', 'next_NER']] = \
+            self.bigtable[['Stanford_PoS', 'syntactic_function', 'NER']].shift(-1)
+
+    '''
     Adds a column to a dataframe.
     :param series: pandas Series to be added to the table
     :param column_name: Name of column to be added to the table passed in as a
@@ -238,8 +262,10 @@ def main(table_name=''):
     if table_name:
         TABLE_NAME = table_name
     columns = AddNewColumns()
+    columns.getSyllableCounts()
     columns.getMentions()
     columns.getIntonationalPhrases()
+    columns.add_next_cols()
     columns.saveTable()
 
 if __name__ == '__main__':
