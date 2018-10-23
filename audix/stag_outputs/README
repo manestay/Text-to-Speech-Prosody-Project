@@ -1,0 +1,10 @@
+Files generated from Oct 23 versions of postags and bigtable.
+
+To regenerate, download and setup https://github.com/jungokasai/bilstm_stagging. This requires you to download and unzip
+glove vectors and the pretrained supertagger (both linked in the Github). Placing the session POS tag files in
+tag_pretrained/predicted_stag/, transcripts in tag_pretrained/sents/, and config_audix.json in tag_pretrained/, you can run:
+
+python3 scripts/run_pretrained.py tag_pretrained/config_audix.json tag_pretrained/Pretrained_Stagger/best_model --no_gold
+
+The predicted supertags will be found in tag_pretrained/predicted_stag/; place in stag_outputs/predicted_stag/.
+Also, the transcripts will be reformatted in tag_pretrained/sents; place in stag_outputs/sents/.
