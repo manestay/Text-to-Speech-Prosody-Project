@@ -38,7 +38,7 @@ def generate_xmls(session_number, overwrite=False):
     xml_filename = '{}/{}_session{}.xml'.format(ORIG_XML_DIR, OLD_PREFIX, session_number)
     if overwrite or not os.path.exists(xml_filename):
         os.system(COMMAND + text_filename)
-    sleep(5) # make sure Stanford CoreNLP Java code finishes writing to file
+    sleep(5) # make sure Stanford CoreNLP Java finishes writing to file
     return xml_filename
 
 def main():
@@ -49,8 +49,9 @@ def main():
 
         xml_name = generate_xmls(session_number, OVERWRITE_XMLS)
         if CLEAN_XMLS:
-            print('cleaning corefs')
-            CleanCorefs.clean_xml(xml_name)
+            if not os.path.exists(CLEANED_XML_DIR):
+                print('cleaning corefs')
+                CleanCorefs.clean_xml(xml_name)
             XML_DIR = CLEANED_XML_DIR
         else:
             XML_DIR = ORIG_XML_DIR
@@ -59,8 +60,9 @@ def main():
         stanford = StanfordDocumentInformation(session_number, offset, XML_DIR)
         offset = stanford.coref_id_end + 1
 
-        parts_of_speech = stanford.getPoSList()
+        parts_of_speech, punct = stanford.getPoSList(return_punct=True)
         bigtable.addColumnToDataFrame(parts_of_speech, 'Stanford_PoS')
+        bigtable.addColumnToDataFrame(punct, 'punctuation')
 
         coref_information = stanford.getCoreferenceList()
         bigtable.addColumnToDataFrame(coref_information, 'Coreference_IDs')

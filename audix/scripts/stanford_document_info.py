@@ -148,13 +148,26 @@ class StanfordDocumentInformation(object):
     NOTE: right now this is still getting data from the Java-generated file rather than
     the XML parse.
     '''
-    def getPoSList(self):
+    def getPoSList(self, return_punct=False):
         words_order = []
+        punct_order = []
         filename = '{}_session{}{}'.format(OLD_PREFIX, self.session_number, POS_SUFFIX)
+        prev_word = None
         with open(filename) as stanford:
-            for line in stanford:
+            for i, line in enumerate(stanford):
                 word_pos = tuple(str.split(line))
                 word = word_pos[0]
-                if any((word[i] not in string.punctuation) for i in range(len(word))):
+                not_punct = any((word[i] not in string.punctuation) for i in range(len(word)))
+                if not_punct:
                     words_order.append(word_pos)
+                    punct_order.append((word, ""))
+                    prev_word = word
+                elif word in set(["``", "''"]):
+                    continue
+                else:
+                    punct_order.pop()
+                    punct_order.append((prev_word, word))
+
+        if return_punct:
+            return words_order, punct_order
         return words_order

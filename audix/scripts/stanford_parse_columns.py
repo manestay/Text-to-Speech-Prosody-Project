@@ -145,7 +145,7 @@ def main(table_name='', client=None):
         parse_tree_tups = [(x, y) for x, y in zip(word_list, parse_trees)]
         syntactic_tups = [(x, y) for x, y in zip(word_list, syntactic_functions)]
 
-        bigtable.addColumnToDataFrame(parse_tree_tups, 'parse_tree')
+        bigtable.addColumnToDataFrame(parse_tree_tups, 'parse_tree', concatenate=False)
         bigtable.addColumnToDataFrame(syntactic_tups, 'syntactic_function')
         bigtable.saveToCSV()
     sleep(5)

@@ -59,7 +59,7 @@ class OrganizedBigTable(object):
         target.writelines(sentences)
         target.close()
 
-    def addColumnToDataFrame(self, column_data, column_name):
+    def addColumnToDataFrame(self, column_data, column_name, concatenate=True):
         '''
         Takes information about this table and adds it as columns to the bigtable.
         :param column_data: The data with which to populate the new column. Each
@@ -86,7 +86,7 @@ class OrganizedBigTable(object):
                 word_next, item_next = column_data[idx + 1]
                 word_next = process_word(word_next)
                 if word + word_next == row_word:
-                    if item and item_next:
+                    if concatenate and item and item_next:
                         new_col.append('{}_{}'.format(item, item_next))
                     elif item:
                         new_col.append(item)

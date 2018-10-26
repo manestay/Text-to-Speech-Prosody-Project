@@ -235,26 +235,32 @@ class AddNewColumns(object):
 
         self.addColumnToDataFrame(syllables, 'word_number_of_syllables')
 
-    def add_next_cols(self):
+    def getBreakIndices(self):
+        df = self.bigtable
+        # df['break_index'] = np.where(df['word_tobi_boundary_tone'].str.contains('%', na=False), 'B', 'NB')
+        df['break_index'] = np.where(df['word_tobi_boundary_tone'].notna(), 'B', 'NB')
+
+    def getNextColumns(self):
         """
         Adds columns for next POS, syntactic function, and NER
         """
         self.bigtable[['next_Stanford_PoS', 'next_syntactic_function', 'next_NER']] = \
             self.bigtable[['Stanford_PoS', 'syntactic_function', 'NER']].shift(-1)
 
-    '''
-    Adds a column to a dataframe.
-    :param series: pandas Series to be added to the table
-    :param column_name: Name of column to be added to the table passed in as a
-    string
-    '''
     def addColumnToDataFrame(self, series, column_name):
+        '''
+        Adds a column to a dataframe.
+        :param series: pandas Series to be added to the table
+        :param column_name: Name of column to be added to the table passed in as a
+        string
+        '''
         self.bigtable.insert(loc = self.bigtable.shape[1], column = column_name, value = series.values)
 
-    '''
-    Writes table to csv file
-    '''
+
     def saveTable(self):
+        '''
+        Writes table to csv file.
+        '''
         self.bigtable.to_csv(NEW_TABLE_PREFIX + CSV_EXTENSION, index=False)
 
 def main(table_name=''):
@@ -262,10 +268,11 @@ def main(table_name=''):
     if table_name:
         TABLE_NAME = table_name
     columns = AddNewColumns()
-    columns.getSyllableCounts()
     columns.getMentions()
     columns.getIntonationalPhrases()
-    columns.add_next_cols()
+    columns.getSyllableCounts()
+    columns.getBreakIndices()
+    columns.getNextColumns()
     columns.saveTable()
 
 if __name__ == '__main__':
