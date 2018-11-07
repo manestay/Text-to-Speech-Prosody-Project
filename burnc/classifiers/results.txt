@@ -1,0 +1,1761 @@
+#words: 12380 #referring expressions: 3190
+##### ML experiments on all words: #####
+## syntax/pos_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.898 +/- 0.009 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.900 (random=0.792) f1=0.749 precision=0.789 recall=0.713
+Feature ranking:
+1. feature 7 (0.076845) next_word_spanning_width
+2. feature 6 (0.064643) next_word_spanning_depth
+3. feature 5 (0.061290) constituent_backward_position
+4. feature 632 (0.052739) super_t3
+5. feature 2 (0.048749) tree_width
+6. feature 0 (0.048209) word_depth
+7. feature 1 (0.041465) tree_depth
+8. feature 3 (0.040573) constituent_width
+9. feature 4 (0.037218) constituent_forward_position
+10. feature 181 (0.026244) nwsl_S
+11. feature 208 (0.021699) pos_NNS
+12. feature 205 (0.020318) pos_NN
+13. feature 159 (0.018872) synfn_nsubj
+14. feature 68 (0.013198) synfn_dobj
+15. feature 13 (0.011667) const_NP
+16. feature 250 (0.010189) npos_IN
+17. feature 178 (0.009941) nwsl_NP
+18. feature 310 (0.009504) nsynfn_case
+19. feature 256 (0.008721) npos_NN
+20. feature 210 (0.007856) pos_NP
+-----------------
+
+## punctuation_position_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.871 +/- 0.007 (random=0.783)
+On training data: accuracy=0.957 (random=0.783)
+Evaluation results: accuracy=0.879 (random=0.792) f1=0.703 precision=0.722 recall=0.685
+Feature ranking:
+1. feature 2 (0.189069) words_until_end_of_sentence
+2. feature 199 (0.186721) super_t3
+3. feature 0 (0.121259) word_number_in_sentence
+4. feature 1 (0.118098) total_number_of_words_in_sentence
+5. feature 461 (0.106029) punc_,
+6. feature 463 (0.084142) punc_.
+7. feature 4 (0.014014) super_t1
+8. feature 127 (0.012698) super_t2
+9. feature 184 (0.009053) super_t28
+10. feature 248 (0.008141) super_t36
+11. feature 366 (0.007580) super_t65
+12. feature 258 (0.007341) super_t38
+13. feature 266 (0.005772) super_t4
+14. feature 292 (0.005262) super_t46
+15. feature 94 (0.005128) super_t167
+16. feature 149 (0.004988) super_t23
+17. feature 380 (0.004188) super_t69
+18. feature 108 (0.003821) super_t18
+19. feature 460 (0.002982) super_tCO
+20. feature 134 (0.002951) super_t212
+-----------------
+
+## syntax/pos_punctuation_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.905 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.907 (random=0.792) f1=0.763 precision=0.809 recall=0.722
+Feature ranking:
+1. feature 5 (0.070981) constituent_backward_position
+2. feature 7 (0.069174) next_word_spanning_width
+3. feature 8 (0.051766) word_length
+4. feature 455 (0.049576) punc_.
+5. feature 6 (0.047268) next_word_spanning_depth
+6. feature 453 (0.039712) punc_,
+7. feature 2 (0.039366) tree_width
+8. feature 0 (0.036902) word_depth
+9. feature 3 (0.034561) constituent_width
+10. feature 1 (0.033994) tree_depth
+11. feature 4 (0.033219) constituent_forward_position
+12. feature 190 (0.026045) nwsl_S
+13. feature 214 (0.022888) pos_NN
+14. feature 450 (0.018264) nner_O
+15. feature 217 (0.017116) pos_NNS
+16. feature 77 (0.011470) synfn_dobj
+17. feature 22 (0.011205) const_NP
+18. feature 187 (0.010497) nwsl_NP
+19. feature 319 (0.009543) nsynfn_case
+20. feature 259 (0.008893) npos_IN
+-----------------
+
+## punctuation_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.87 +/- 0.004 (random=0.783)
+On training data: accuracy=0.922 (random=0.783)
+Evaluation results: accuracy=0.879 (random=0.792) f1=0.694 precision=0.733 recall=0.659
+Feature ranking:
+1. feature 205 (0.185537) super_t3
+2. feature 0 (0.127961) word_length
+3. feature 477 (0.114774) punc_.
+4. feature 475 (0.112787) punc_,
+5. feature 472 (0.035576) nner_O
+6. feature 133 (0.021190) super_t2
+7. feature 254 (0.014030) super_t36
+8. feature 2 (0.013945) Most_Recent_Mention
+9. feature 8 (0.013703) Far_Back_Mention
+10. feature 10 (0.013433) super_t1
+11. feature 3 (0.013375) Recent_Explicit_Mention
+12. feature 1 (0.013078) Coreference_IDs
+13. feature 190 (0.010769) super_t28
+14. feature 468 (0.010012) ner_O
+15. feature 473 (0.009005) nner_ORGANIZATION
+16. feature 372 (0.008555) super_t65
+17. feature 474 (0.008413) nner_PERSON
+18. feature 7 (0.007859) Number_Of_Implicit_Mentions
+19. feature 4 (0.007059) Recent_Implicit_Mention
+20. feature 264 (0.006668) super_t38
+-----------------
+
+## morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.847 +/- 0.005 (random=0.783)
+On training data: accuracy=0.885 (random=0.783)
+Evaluation results: accuracy=0.864 (random=0.792) f1=0.677 precision=0.672 recall=0.682
+Feature ranking:
+1. feature 197 (0.259096) super_t3
+2. feature 0 (0.177399) word_length
+3. feature 464 (0.089136) nner_O
+4. feature 125 (0.041824) super_t2
+5. feature 246 (0.024181) super_t36
+6. feature 465 (0.023525) nner_ORGANIZATION
+7. feature 466 (0.023092) nner_PERSON
+8. feature 2 (0.020636) super_t1
+9. feature 460 (0.015107) ner_O
+10. feature 364 (0.014815) super_t65
+11. feature 256 (0.014606) super_t38
+12. feature 463 (0.013814) nner_LOCATION
+13. feature 182 (0.012669) super_t28
+14. feature 461 (0.010355) ner_ORGANIZATION
+15. feature 378 (0.009739) super_t69
+16. feature 264 (0.009640) super_t4
+17. feature 462 (0.009559) ner_PERSON
+18. feature 290 (0.009375) super_t46
+19. feature 92 (0.008724) super_t167
+20. feature 147 (0.006749) super_t23
+-----------------
+
+## syntax/pos_position_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.892 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.898 (random=0.792) f1=0.738 precision=0.794 recall=0.688
+Feature ranking:
+1. feature 446 (0.079406) words_until_end_of_sentence
+2. feature 5 (0.078265) constituent_backward_position
+3. feature 7 (0.062670) next_word_spanning_width
+4. feature 6 (0.049856) next_word_spanning_depth
+5. feature 8 (0.039671) word_number_in_sentence
+6. feature 9 (0.034309) total_number_of_words_in_sentence
+7. feature 0 (0.033943) word_depth
+8. feature 2 (0.033847) tree_width
+9. feature 3 (0.032933) constituent_width
+10. feature 4 (0.029973) constituent_forward_position
+11. feature 1 (0.029919) tree_depth
+12. feature 191 (0.028840) nwsl_S
+13. feature 215 (0.020134) pos_NN
+14. feature 218 (0.018683) pos_NNS
+15. feature 23 (0.016009) const_NP
+16. feature 78 (0.012326) synfn_dobj
+17. feature 260 (0.010372) npos_IN
+18. feature 169 (0.010280) synfn_nsubj
+19. feature 266 (0.010260) npos_NN
+20. feature 188 (0.010233) nwsl_NP
+-----------------
+
+## position_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.821 +/- 0.007 (random=0.783)
+On training data: accuracy=0.952 (random=0.783)
+Evaluation results: accuracy=0.821 (random=0.792) f1=0.495 precision=0.600 recall=0.422
+Feature ranking:
+1. feature 11 (0.277289) words_until_end_of_sentence
+2. feature 2 (0.195715) word_length
+3. feature 1 (0.160899) total_number_of_words_in_sentence
+4. feature 0 (0.155104) word_number_in_sentence
+5. feature 17 (0.033553) nner_O
+6. feature 18 (0.011926) nner_ORGANIZATION
+7. feature 13 (0.010996) ner_O
+8. feature 19 (0.010492) nner_PERSON
+9. feature 5 (0.010076) Recent_Explicit_Mention
+10. feature 4 (0.010074) Most_Recent_Mention
+11. feature 3 (0.009742) Coreference_IDs
+12. feature 10 (0.009491) Far_Back_Mention
+13. feature 14 (0.008970) ner_ORGANIZATION
+14. feature 15 (0.007509) ner_PERSON
+15. feature 9 (0.006060) Number_Of_Implicit_Mentions
+16. feature 16 (0.005982) nner_LOCATION
+17. feature 6 (0.005254) Recent_Implicit_Mention
+18. feature 7 (0.004770) Number_Of_Coref_Mentions
+19. feature 8 (0.004388) Number_Of_Explicit_Mentions
+20. feature 46 (0.003284) cepos_NN
+-----------------
+
+## punctuation_position_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.876 +/- 0.006 (random=0.783)
+On training data: accuracy=0.991 (random=0.783)
+Evaluation results: accuracy=0.879 (random=0.792) f1=0.700 precision=0.727 recall=0.674
+Feature ranking:
+1. feature 3 (0.166448) words_until_end_of_sentence
+2. feature 200 (0.137542) super_t3
+3. feature 0 (0.111575) word_number_in_sentence
+4. feature 1 (0.109899) total_number_of_words_in_sentence
+5. feature 2 (0.109744) word_length
+6. feature 470 (0.085226) punc_,
+7. feature 472 (0.064885) punc_.
+8. feature 467 (0.016019) nner_O
+9. feature 128 (0.015846) super_t2
+10. feature 249 (0.010574) super_t36
+11. feature 5 (0.008662) super_t1
+12. feature 185 (0.008175) super_t28
+13. feature 463 (0.007603) ner_O
+14. feature 367 (0.006447) super_t65
+15. feature 259 (0.005948) super_t38
+16. feature 468 (0.005155) nner_ORGANIZATION
+17. feature 469 (0.004642) nner_PERSON
+18. feature 293 (0.004484) super_t46
+19. feature 95 (0.004404) super_t167
+20. feature 465 (0.004176) ner_PERSON
+-----------------
+
+## position_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.854 +/- 0.004 (random=0.783)
+On training data: accuracy=0.948 (random=0.783)
+Evaluation results: accuracy=0.861 (random=0.792) f1=0.654 precision=0.678 recall=0.631
+Feature ranking:
+1. feature 2 (0.259119) words_until_end_of_sentence
+2. feature 199 (0.221357) super_t3
+3. feature 0 (0.135220) word_number_in_sentence
+4. feature 1 (0.131479) total_number_of_words_in_sentence
+5. feature 4 (0.018905) super_t1
+6. feature 127 (0.017185) super_t2
+7. feature 258 (0.012385) super_t38
+8. feature 248 (0.012006) super_t36
+9. feature 366 (0.010362) super_t65
+10. feature 184 (0.008281) super_t28
+11. feature 266 (0.007044) super_t4
+12. feature 292 (0.006720) super_t46
+13. feature 94 (0.006678) super_t167
+14. feature 149 (0.006628) super_t23
+15. feature 380 (0.006346) super_t69
+16. feature 108 (0.005053) super_t18
+17. feature 460 (0.004228) super_tCO
+18. feature 315 (0.004027) super_t50
+19. feature 438 (0.003890) super_t90
+20. feature 134 (0.003291) super_t212
+-----------------
+
+## punctuation_position_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.865 +/- 0.004 (random=0.783)
+On training data: accuracy=0.902 (random=0.783)
+Evaluation results: accuracy=0.874 (random=0.792) f1=0.622 precision=0.829 recall=0.498
+Feature ranking:
+1. feature 10 (0.231981) words_until_end_of_sentence
+2. feature 11 (0.219343) punc_,
+3. feature 13 (0.165463) punc_.
+4. feature 0 (0.104336) word_number_in_sentence
+5. feature 1 (0.097545) total_number_of_words_in_sentence
+6. feature 4 (0.015416) Recent_Explicit_Mention
+7. feature 3 (0.014336) Most_Recent_Mention
+8. feature 2 (0.014228) Coreference_IDs
+9. feature 9 (0.012299) Far_Back_Mention
+10. feature 8 (0.008804) Number_Of_Implicit_Mentions
+11. feature 5 (0.008623) Recent_Implicit_Mention
+12. feature 7 (0.007033) Number_Of_Explicit_Mentions
+13. feature 6 (0.006504) Number_Of_Coref_Mentions
+14. feature 43 (0.005573) cepos_NN
+15. feature 48 (0.004481) cepos_NP
+16. feature 75 (0.003579) cipos_PP/VBP
+17. feature 14 (0.003339) punc_:
+18. feature 22 (0.003179) cmpos_NN
+19. feature 46 (0.003010) cepos_NNS
+20. feature 199 (0.002674) cesynf_nsubj
+-----------------
+
+## syntax/pos_punctuation_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.902 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.909 (random=0.792) f1=0.770 precision=0.815 recall=0.730
+Feature ranking:
+1. feature 7 (0.077217) next_word_spanning_width
+2. feature 5 (0.066755) constituent_backward_position
+3. feature 632 (0.054283) super_t3
+4. feature 6 (0.049393) next_word_spanning_depth
+5. feature 2 (0.045977) tree_width
+6. feature 0 (0.045091) word_depth
+7. feature 896 (0.043249) punc_.
+8. feature 1 (0.040363) tree_depth
+9. feature 894 (0.038910) punc_,
+10. feature 3 (0.035974) constituent_width
+11. feature 4 (0.035441) constituent_forward_position
+12. feature 181 (0.021583) nwsl_S
+13. feature 205 (0.018590) pos_NN
+14. feature 208 (0.014194) pos_NNS
+15. feature 159 (0.012759) synfn_nsubj
+16. feature 13 (0.012594) const_NP
+17. feature 68 (0.010010) synfn_dobj
+18. feature 250 (0.009894) npos_IN
+19. feature 178 (0.009254) nwsl_NP
+20. feature 310 (0.008701) nsynfn_case
+-----------------
+
+## punctuation_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.869 +/- 0.004 (random=0.783)
+On training data: accuracy=0.879 (random=0.783)
+Evaluation results: accuracy=0.884 (random=0.792) f1=0.646 precision=0.882 recall=0.510
+Feature ranking:
+1. feature 196 (0.273269) super_t3
+2. feature 460 (0.254740) punc_.
+3. feature 458 (0.172195) punc_,
+4. feature 1 (0.027560) super_t1
+5. feature 124 (0.020719) super_t2
+6. feature 245 (0.013865) super_t36
+7. feature 363 (0.012798) super_t65
+8. feature 181 (0.012769) super_t28
+9. feature 255 (0.011052) super_t38
+10. feature 263 (0.010708) super_t4
+11. feature 289 (0.008734) super_t46
+12. feature 146 (0.008475) super_t23
+13. feature 91 (0.008403) super_t167
+14. feature 377 (0.006857) super_t69
+15. feature 105 (0.005583) super_t18
+16. feature 131 (0.004832) super_t212
+17. feature 312 (0.004010) super_t50
+18. feature 205 (0.003924) super_t31
+19. feature 461 (0.003784) punc_:
+20. feature 457 (0.003784) super_tCO
+-----------------
+
+## position_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.865 +/- 0.005 (random=0.783)
+On training data: accuracy=0.992 (random=0.783)
+Evaluation results: accuracy=0.863 (random=0.792) f1=0.650 precision=0.694 recall=0.611
+Feature ranking:
+1. feature 11 (0.186321) words_until_end_of_sentence
+2. feature 208 (0.147732) super_t3
+3. feature 2 (0.107394) word_length
+4. feature 1 (0.106090) total_number_of_words_in_sentence
+5. feature 0 (0.105094) word_number_in_sentence
+6. feature 475 (0.023811) nner_O
+7. feature 136 (0.018533) super_t2
+8. feature 257 (0.012413) super_t36
+9. feature 13 (0.011402) super_t1
+10. feature 5 (0.008306) Recent_Explicit_Mention
+11. feature 4 (0.007936) Most_Recent_Mention
+12. feature 471 (0.007843) ner_O
+13. feature 3 (0.007575) Coreference_IDs
+14. feature 193 (0.007496) super_t28
+15. feature 375 (0.007442) super_t65
+16. feature 10 (0.007266) Far_Back_Mention
+17. feature 472 (0.006010) ner_ORGANIZATION
+18. feature 267 (0.005901) super_t38
+19. feature 476 (0.005548) nner_ORGANIZATION
+20. feature 9 (0.005194) Number_Of_Implicit_Mentions
+-----------------
+
+## morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.857 +/- 0.005 (random=0.783)
+On training data: accuracy=0.913 (random=0.783)
+Evaluation results: accuracy=0.865 (random=0.792) f1=0.684 precision=0.666 recall=0.704
+Feature ranking:
+1. feature 205 (0.237502) super_t3
+2. feature 0 (0.147214) word_length
+3. feature 472 (0.064183) nner_O
+4. feature 133 (0.029482) super_t2
+5. feature 474 (0.018325) nner_PERSON
+6. feature 254 (0.017754) super_t36
+7. feature 10 (0.017298) super_t1
+8. feature 8 (0.016528) Far_Back_Mention
+9. feature 2 (0.015518) Most_Recent_Mention
+10. feature 3 (0.014890) Recent_Explicit_Mention
+11. feature 473 (0.014713) nner_ORGANIZATION
+12. feature 1 (0.014243) Coreference_IDs
+13. feature 468 (0.013497) ner_O
+14. feature 372 (0.012928) super_t65
+15. feature 190 (0.011086) super_t28
+16. feature 471 (0.010421) nner_LOCATION
+17. feature 264 (0.009337) super_t38
+18. feature 298 (0.008930) super_t46
+19. feature 386 (0.008753) super_t69
+20. feature 469 (0.008729) ner_ORGANIZATION
+-----------------
+
+## syntax/pos_punctuation_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.901 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.905 (random=0.792) f1=0.762 precision=0.801 recall=0.726
+Feature ranking:
+1. feature 7 (0.076349) next_word_spanning_width
+2. feature 5 (0.065863) constituent_backward_position
+3. feature 6 (0.061689) next_word_spanning_depth
+4. feature 446 (0.056836) punc_.
+5. feature 2 (0.046713) tree_width
+6. feature 444 (0.044376) punc_,
+7. feature 0 (0.043396) word_depth
+8. feature 1 (0.040050) tree_depth
+9. feature 3 (0.039347) constituent_width
+10. feature 4 (0.034884) constituent_forward_position
+11. feature 189 (0.027628) nwsl_S
+12. feature 216 (0.018600) pos_NNS
+13. feature 213 (0.017919) pos_NN
+14. feature 21 (0.013282) const_NP
+15. feature 76 (0.012427) synfn_dobj
+16. feature 258 (0.012152) npos_IN
+17. feature 186 (0.011100) nwsl_NP
+18. feature 167 (0.010018) synfn_nsubj
+19. feature 318 (0.008660) nsynfn_case
+20. feature 128 (0.008353) synfn_nmod:of
+-----------------
+
+## syntax/pos_position_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.897 +/- 0.003 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.900 (random=0.792) f1=0.740 precision=0.804 recall=0.685
+Feature ranking:
+1. feature 5 (0.077305) constituent_backward_position
+2. feature 447 (0.074151) words_until_end_of_sentence
+3. feature 7 (0.060817) next_word_spanning_width
+4. feature 6 (0.048766) next_word_spanning_depth
+5. feature 10 (0.045121) word_length
+6. feature 8 (0.036233) word_number_in_sentence
+7. feature 3 (0.031537) constituent_width
+8. feature 4 (0.031416) constituent_forward_position
+9. feature 2 (0.030419) tree_width
+10. feature 9 (0.029653) total_number_of_words_in_sentence
+11. feature 0 (0.029637) word_depth
+12. feature 1 (0.027372) tree_depth
+13. feature 192 (0.023668) nwsl_S
+14. feature 216 (0.020759) pos_NN
+15. feature 453 (0.016668) nner_O
+16. feature 219 (0.016479) pos_NNS
+17. feature 24 (0.012319) const_NP
+18. feature 79 (0.012140) synfn_dobj
+19. feature 189 (0.010378) nwsl_NP
+20. feature 261 (0.009455) npos_IN
+-----------------
+
+## syntax/pos_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.9 +/- 0.004 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.900 (random=0.792) f1=0.745 precision=0.791 recall=0.704
+Feature ranking:
+1. feature 7 (0.083910) next_word_spanning_width
+2. feature 5 (0.079291) constituent_backward_position
+3. feature 8 (0.061477) word_length
+4. feature 6 (0.058526) next_word_spanning_depth
+5. feature 2 (0.047404) tree_width
+6. feature 0 (0.046348) word_depth
+7. feature 3 (0.040875) constituent_width
+8. feature 1 (0.038982) tree_depth
+9. feature 4 (0.035788) constituent_forward_position
+10. feature 182 (0.033073) nwsl_S
+11. feature 442 (0.027179) nner_O
+12. feature 206 (0.022095) pos_NN
+13. feature 209 (0.016756) pos_NNS
+14. feature 160 (0.015107) synfn_nsubj
+15. feature 14 (0.012965) const_NP
+16. feature 69 (0.012612) synfn_dobj
+17. feature 179 (0.012181) nwsl_NP
+18. feature 251 (0.010568) npos_IN
+19. feature 338 (0.008966) nsynfn_mark
+20. feature 311 (0.008633) nsynfn_case
+-----------------
+
+## syntax/pos_position_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.9 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.904 (random=0.792) f1=0.751 precision=0.816 recall=0.696
+Feature ranking:
+1. feature 439 (0.066728) words_until_end_of_sentence
+2. feature 5 (0.064146) constituent_backward_position
+3. feature 7 (0.060741) next_word_spanning_width
+4. feature 636 (0.054674) super_t3
+5. feature 6 (0.047996) next_word_spanning_depth
+6. feature 10 (0.042727) word_length
+7. feature 8 (0.036017) word_number_in_sentence
+8. feature 4 (0.031328) constituent_forward_position
+9. feature 2 (0.031091) tree_width
+10. feature 9 (0.030984) total_number_of_words_in_sentence
+11. feature 3 (0.030249) constituent_width
+12. feature 0 (0.029900) word_depth
+13. feature 1 (0.027328) tree_depth
+14. feature 184 (0.021685) nwsl_S
+15. feature 208 (0.018571) pos_NN
+16. feature 903 (0.017704) nner_O
+17. feature 211 (0.013517) pos_NNS
+18. feature 162 (0.010252) synfn_nsubj
+19. feature 253 (0.009255) npos_IN
+20. feature 16 (0.009217) const_NP
+-----------------
+
+## syntax/pos_position_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.898 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.903 (random=0.792) f1=0.751 precision=0.811 recall=0.699
+Feature ranking:
+1. feature 5 (0.063467) constituent_backward_position
+2. feature 447 (0.059789) words_until_end_of_sentence
+3. feature 7 (0.054496) next_word_spanning_width
+4. feature 644 (0.052154) super_t3
+5. feature 6 (0.044192) next_word_spanning_depth
+6. feature 10 (0.041605) word_length
+7. feature 8 (0.034130) word_number_in_sentence
+8. feature 9 (0.028050) total_number_of_words_in_sentence
+9. feature 0 (0.027923) word_depth
+10. feature 3 (0.027570) constituent_width
+11. feature 2 (0.027549) tree_width
+12. feature 4 (0.026155) constituent_forward_position
+13. feature 1 (0.025099) tree_depth
+14. feature 192 (0.021382) nwsl_S
+15. feature 216 (0.016928) pos_NN
+16. feature 911 (0.016588) nner_O
+17. feature 79 (0.012247) synfn_dobj
+18. feature 219 (0.011729) pos_NNS
+19. feature 189 (0.009964) nwsl_NP
+20. feature 24 (0.009606) const_NP
+-----------------
+
+## syntax/pos_punctuation_position_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.902 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.907 (random=0.792) f1=0.762 precision=0.816 recall=0.715
+Feature ranking:
+1. feature 438 (0.073515) words_until_end_of_sentence
+2. feature 5 (0.059744) constituent_backward_position
+3. feature 7 (0.057624) next_word_spanning_width
+4. feature 635 (0.048525) super_t3
+5. feature 6 (0.044252) next_word_spanning_depth
+6. feature 899 (0.040939) punc_.
+7. feature 897 (0.039437) punc_,
+8. feature 8 (0.038486) word_number_in_sentence
+9. feature 9 (0.032106) total_number_of_words_in_sentence
+10. feature 2 (0.032026) tree_width
+11. feature 0 (0.030739) word_depth
+12. feature 4 (0.030375) constituent_forward_position
+13. feature 3 (0.029822) constituent_width
+14. feature 1 (0.028764) tree_depth
+15. feature 183 (0.019734) nwsl_S
+16. feature 207 (0.018022) pos_NN
+17. feature 210 (0.017876) pos_NNS
+18. feature 70 (0.010983) synfn_dobj
+19. feature 161 (0.010417) synfn_nsubj
+20. feature 252 (0.009985) npos_IN
+-----------------
+
+## syntax/pos_punctuation_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.903 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.910 (random=0.792) f1=0.773 precision=0.812 recall=0.738
+Feature ranking:
+1. feature 7 (0.060746) next_word_spanning_width
+2. feature 5 (0.055469) constituent_backward_position
+3. feature 6 (0.046465) next_word_spanning_depth
+4. feature 641 (0.046370) super_t3
+5. feature 8 (0.043630) word_length
+6. feature 911 (0.039773) punc_,
+7. feature 913 (0.038451) punc_.
+8. feature 2 (0.035877) tree_width
+9. feature 0 (0.034064) word_depth
+10. feature 3 (0.031239) constituent_width
+11. feature 1 (0.030709) tree_depth
+12. feature 4 (0.030210) constituent_forward_position
+13. feature 190 (0.027214) nwsl_S
+14. feature 908 (0.018436) nner_O
+15. feature 214 (0.016507) pos_NN
+16. feature 217 (0.014100) pos_NNS
+17. feature 168 (0.009872) synfn_nsubj
+18. feature 77 (0.009794) synfn_dobj
+19. feature 259 (0.009636) npos_IN
+20. feature 187 (0.009570) nwsl_NP
+-----------------
+
+## punctuation
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.872 +/- 0.003 (random=0.783)
+On training data: accuracy=0.872 (random=0.783)
+Evaluation results: accuracy=0.884 (random=0.792) f1=0.629 precision=0.938 recall=0.473
+Feature ranking:
+1. feature 2 (0.563048) punc_.
+2. feature 0 (0.419891) punc_,
+3. feature 3 (0.006473) punc_:
+4. feature 5 (0.006335) punc_?
+5. feature 1 (0.002918) punc_-
+6. feature 4 (0.001335) punc_;
+-----------------
+
+## position_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.83 +/- 0.004 (random=0.783)
+On training data: accuracy=0.874 (random=0.783)
+Evaluation results: accuracy=0.837 (random=0.792) f1=0.468 precision=0.726 recall=0.346
+Feature ranking:
+1. feature 10 (0.467791) words_until_end_of_sentence
+2. feature 0 (0.152101) word_number_in_sentence
+3. feature 1 (0.143330) total_number_of_words_in_sentence
+4. feature 4 (0.021312) Recent_Explicit_Mention
+5. feature 2 (0.019342) Coreference_IDs
+6. feature 3 (0.019034) Most_Recent_Mention
+7. feature 9 (0.018910) Far_Back_Mention
+8. feature 8 (0.012248) Number_Of_Implicit_Mentions
+9. feature 5 (0.011308) Recent_Implicit_Mention
+10. feature 7 (0.009061) Number_Of_Explicit_Mentions
+11. feature 6 (0.008790) Number_Of_Coref_Mentions
+12. feature 42 (0.006368) cepos_NP
+13. feature 37 (0.006291) cepos_NN
+14. feature 69 (0.006145) cipos_PP/VBP
+15. feature 21 (0.003834) cmpos_NP
+16. feature 152 (0.003270) cesynf_dobj
+17. feature 40 (0.003233) cepos_NNS
+18. feature 16 (0.003176) cmpos_NN
+19. feature 193 (0.003036) cesynf_nsubj
+20. feature 130 (0.002995) cmsynf_nsubj
+-----------------
+
+## syntax/pos_position_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.897 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.902 (random=0.792) f1=0.749 precision=0.803 recall=0.702
+Feature ranking:
+1. feature 446 (0.079020) words_until_end_of_sentence
+2. feature 7 (0.060770) next_word_spanning_width
+3. feature 5 (0.059825) constituent_backward_position
+4. feature 643 (0.048549) super_t3
+5. feature 6 (0.041848) next_word_spanning_depth
+6. feature 8 (0.036571) word_number_in_sentence
+7. feature 0 (0.031386) word_depth
+8. feature 4 (0.030671) constituent_forward_position
+9. feature 3 (0.030386) constituent_width
+10. feature 9 (0.030073) total_number_of_words_in_sentence
+11. feature 2 (0.029912) tree_width
+12. feature 1 (0.027613) tree_depth
+13. feature 191 (0.024040) nwsl_S
+14. feature 215 (0.017837) pos_NN
+15. feature 218 (0.013563) pos_NNS
+16. feature 169 (0.010135) synfn_nsubj
+17. feature 78 (0.009649) synfn_dobj
+18. feature 23 (0.009148) const_NP
+19. feature 188 (0.009124) nwsl_NP
+20. feature 260 (0.008864) npos_IN
+-----------------
+
+## position_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.86 +/- 0.007 (random=0.783)
+On training data: accuracy=0.989 (random=0.783)
+Evaluation results: accuracy=0.863 (random=0.792) f1=0.649 precision=0.694 recall=0.609
+Feature ranking:
+1. feature 3 (0.201450) words_until_end_of_sentence
+2. feature 200 (0.152650) super_t3
+3. feature 0 (0.124144) word_number_in_sentence
+4. feature 2 (0.123914) word_length
+5. feature 1 (0.120941) total_number_of_words_in_sentence
+6. feature 467 (0.030070) nner_O
+7. feature 128 (0.021540) super_t2
+8. feature 249 (0.013066) super_t36
+9. feature 5 (0.010348) super_t1
+10. feature 463 (0.008796) ner_O
+11. feature 367 (0.008232) super_t65
+12. feature 185 (0.007991) super_t28
+13. feature 259 (0.007633) super_t38
+14. feature 469 (0.007163) nner_PERSON
+15. feature 468 (0.007095) nner_ORGANIZATION
+16. feature 465 (0.006085) ner_PERSON
+17. feature 464 (0.005366) ner_ORGANIZATION
+18. feature 293 (0.005004) super_t46
+19. feature 95 (0.004836) super_t167
+20. feature 381 (0.004784) super_t69
+-----------------
+
+## syntax/pos_punctuation_position_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.905 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.910 (random=0.792) f1=0.769 precision=0.824 recall=0.721
+Feature ranking:
+1. feature 5 (0.064438) constituent_backward_position
+2. feature 439 (0.063951) words_until_end_of_sentence
+3. feature 7 (0.055983) next_word_spanning_width
+4. feature 636 (0.046809) super_t3
+5. feature 6 (0.042916) next_word_spanning_depth
+6. feature 906 (0.041681) punc_,
+7. feature 908 (0.039628) punc_.
+8. feature 10 (0.039287) word_length
+9. feature 8 (0.034640) word_number_in_sentence
+10. feature 2 (0.029760) tree_width
+11. feature 3 (0.029507) constituent_width
+12. feature 9 (0.028613) total_number_of_words_in_sentence
+13. feature 4 (0.028056) constituent_forward_position
+14. feature 0 (0.027712) word_depth
+15. feature 1 (0.024878) tree_depth
+16. feature 184 (0.020980) nwsl_S
+17. feature 208 (0.016031) pos_NN
+18. feature 211 (0.014591) pos_NNS
+19. feature 903 (0.013768) nner_O
+20. feature 71 (0.009329) synfn_dobj
+-----------------
+
+## syntax/pos_position_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.897 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.900 (random=0.792) f1=0.744 precision=0.792 recall=0.702
+Feature ranking:
+1. feature 438 (0.075367) words_until_end_of_sentence
+2. feature 5 (0.068102) constituent_backward_position
+3. feature 7 (0.066206) next_word_spanning_width
+4. feature 6 (0.046503) next_word_spanning_depth
+5. feature 635 (0.045810) super_t3
+6. feature 8 (0.041327) word_number_in_sentence
+7. feature 3 (0.034852) constituent_width
+8. feature 2 (0.034581) tree_width
+9. feature 9 (0.034287) total_number_of_words_in_sentence
+10. feature 0 (0.033272) word_depth
+11. feature 4 (0.033015) constituent_forward_position
+12. feature 1 (0.030099) tree_depth
+13. feature 183 (0.021530) nwsl_S
+14. feature 207 (0.018360) pos_NN
+15. feature 210 (0.015768) pos_NNS
+16. feature 15 (0.013122) const_NP
+17. feature 161 (0.012905) synfn_nsubj
+18. feature 180 (0.011570) nwsl_NP
+19. feature 252 (0.009703) npos_IN
+20. feature 70 (0.008925) synfn_dobj
+-----------------
+
+## punctuation_position_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.85 +/- 0.005 (random=0.783)
+On training data: accuracy=0.961 (random=0.783)
+Evaluation results: accuracy=0.856 (random=0.792) f1=0.617 precision=0.693 recall=0.557
+Feature ranking:
+1. feature 11 (0.222895) words_until_end_of_sentence
+2. feature 2 (0.155711) word_length
+3. feature 1 (0.133762) total_number_of_words_in_sentence
+4. feature 0 (0.130870) word_number_in_sentence
+5. feature 20 (0.124587) punc_,
+6. feature 22 (0.075813) punc_.
+7. feature 17 (0.016801) nner_O
+8. feature 5 (0.009481) Recent_Explicit_Mention
+9. feature 4 (0.008485) Most_Recent_Mention
+10. feature 3 (0.008332) Coreference_IDs
+11. feature 10 (0.007854) Far_Back_Mention
+12. feature 13 (0.007615) ner_O
+13. feature 9 (0.005867) Number_Of_Implicit_Mentions
+14. feature 14 (0.005309) ner_ORGANIZATION
+15. feature 19 (0.005084) nner_PERSON
+16. feature 18 (0.005042) nner_ORGANIZATION
+17. feature 6 (0.004744) Recent_Implicit_Mention
+18. feature 15 (0.004694) ner_PERSON
+19. feature 8 (0.004150) Number_Of_Explicit_Mentions
+20. feature 7 (0.004138) Number_Of_Coref_Mentions
+-----------------
+
+## supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.843 +/- 0.003 (random=0.783)
+On training data: accuracy=0.854 (random=0.783)
+Evaluation results: accuracy=0.848 (random=0.792) f1=0.690 precision=0.601 recall=0.809
+Feature ranking:
+1. feature 196 (0.460436) super_t3
+2. feature 1 (0.046163) super_t1
+3. feature 124 (0.035212) super_t2
+4. feature 363 (0.027049) super_t65
+5. feature 255 (0.026821) super_t38
+6. feature 245 (0.026177) super_t36
+7. feature 263 (0.018040) super_t4
+8. feature 377 (0.017360) super_t69
+9. feature 289 (0.017125) super_t46
+10. feature 91 (0.016428) super_t167
+11. feature 181 (0.014473) super_t28
+12. feature 146 (0.014431) super_t23
+13. feature 105 (0.011125) super_t18
+14. feature 312 (0.008075) super_t50
+15. feature 205 (0.007639) super_t31
+16. feature 131 (0.007546) super_t212
+17. feature 457 (0.007470) super_tCO
+18. feature 51 (0.006870) super_t13
+19. feature 435 (0.006209) super_t90
+20. feature 417 (0.006089) super_t81
+-----------------
+
+## syntax/pos_punctuation_position_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.904 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.912 (random=0.792) f1=0.775 precision=0.829 recall=0.727
+Feature ranking:
+1. feature 447 (0.061016) words_until_end_of_sentence
+2. feature 5 (0.053881) constituent_backward_position
+3. feature 7 (0.051082) next_word_spanning_width
+4. feature 644 (0.050529) super_t3
+5. feature 6 (0.041254) next_word_spanning_depth
+6. feature 914 (0.038500) punc_,
+7. feature 10 (0.037077) word_length
+8. feature 916 (0.035365) punc_.
+9. feature 8 (0.032378) word_number_in_sentence
+10. feature 2 (0.027245) tree_width
+11. feature 3 (0.025921) constituent_width
+12. feature 0 (0.025875) word_depth
+13. feature 9 (0.025838) total_number_of_words_in_sentence
+14. feature 1 (0.023819) tree_depth
+15. feature 4 (0.022616) constituent_forward_position
+16. feature 192 (0.016429) nwsl_S
+17. feature 216 (0.014981) pos_NN
+18. feature 911 (0.013676) nner_O
+19. feature 219 (0.011584) pos_NNS
+20. feature 24 (0.009896) const_NP
+-----------------
+
+## syntax/pos_punctuation_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.904 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.907 (random=0.792) f1=0.766 precision=0.801 recall=0.735
+Feature ranking:
+1. feature 5 (0.070655) constituent_backward_position
+2. feature 7 (0.062659) next_word_spanning_width
+3. feature 640 (0.054862) super_t3
+4. feature 6 (0.052492) next_word_spanning_depth
+5. feature 904 (0.045573) punc_.
+6. feature 2 (0.041278) tree_width
+7. feature 0 (0.038124) word_depth
+8. feature 902 (0.038029) punc_,
+9. feature 1 (0.035270) tree_depth
+10. feature 3 (0.031416) constituent_width
+11. feature 4 (0.029877) constituent_forward_position
+12. feature 189 (0.021109) nwsl_S
+13. feature 213 (0.016627) pos_NN
+14. feature 216 (0.014728) pos_NNS
+15. feature 167 (0.011296) synfn_nsubj
+16. feature 76 (0.010977) synfn_dobj
+17. feature 21 (0.010398) const_NP
+18. feature 318 (0.009053) nsynfn_case
+19. feature 258 (0.008959) npos_IN
+20. feature 186 (0.008832) nwsl_NP
+-----------------
+
+## syntax/pos_position
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.894 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.899 (random=0.792) f1=0.740 precision=0.796 recall=0.691
+Feature ranking:
+1. feature 438 (0.094330) words_until_end_of_sentence
+2. feature 5 (0.088142) constituent_backward_position
+3. feature 7 (0.072899) next_word_spanning_width
+4. feature 6 (0.056310) next_word_spanning_depth
+5. feature 8 (0.044581) word_number_in_sentence
+6. feature 2 (0.037644) tree_width
+7. feature 9 (0.036666) total_number_of_words_in_sentence
+8. feature 3 (0.036238) constituent_width
+9. feature 0 (0.036090) word_depth
+10. feature 4 (0.034683) constituent_forward_position
+11. feature 1 (0.033915) tree_depth
+12. feature 183 (0.027334) nwsl_S
+13. feature 207 (0.018855) pos_NN
+14. feature 210 (0.017257) pos_NNS
+15. feature 161 (0.013174) synfn_nsubj
+16. feature 70 (0.012072) synfn_dobj
+17. feature 15 (0.011787) const_NP
+18. feature 180 (0.009886) nwsl_NP
+19. feature 252 (0.009539) npos_IN
+20. feature 312 (0.009108) nsynfn_case
+-----------------
+
+## morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.839 +/- 0.004 (random=0.783)
+On training data: accuracy=0.869 (random=0.783)
+Evaluation results: accuracy=0.846 (random=0.792) f1=0.478 precision=0.808 recall=0.340
+Feature ranking:
+1. feature 0 (0.277800) word_length
+2. feature 14 (0.168434) nner_O
+3. feature 16 (0.069671) nner_PERSON
+4. feature 15 (0.051363) nner_ORGANIZATION
+5. feature 13 (0.039812) nner_LOCATION
+6. feature 10 (0.035657) ner_O
+7. feature 8 (0.034364) Far_Back_Mention
+8. feature 3 (0.027557) Recent_Explicit_Mention
+9. feature 2 (0.027335) Most_Recent_Mention
+10. feature 1 (0.026487) Coreference_IDs
+11. feature 11 (0.024529) ner_ORGANIZATION
+12. feature 12 (0.020452) ner_PERSON
+13. feature 7 (0.016146) Number_Of_Implicit_Mentions
+14. feature 4 (0.013896) Recent_Implicit_Mention
+15. feature 5 (0.012100) Number_Of_Coref_Mentions
+16. feature 6 (0.011882) Number_Of_Explicit_Mentions
+17. feature 9 (0.006967) ner_LOCATION
+18. feature 75 (0.006645) cipos_PP/VBP
+19. feature 43 (0.006566) cepos_NN
+20. feature 48 (0.005448) cepos_NP
+-----------------
+
+## punctuation_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.87 +/- 0.006 (random=0.783)
+On training data: accuracy=0.895 (random=0.783)
+Evaluation results: accuracy=0.879 (random=0.792) f1=0.632 precision=0.861 recall=0.499
+Feature ranking:
+1. feature 19 (0.235223) punc_.
+2. feature 17 (0.221318) punc_,
+3. feature 0 (0.178097) word_length
+4. feature 14 (0.051285) nner_O
+5. feature 8 (0.022679) Far_Back_Mention
+6. feature 3 (0.020822) Recent_Explicit_Mention
+7. feature 2 (0.020672) Most_Recent_Mention
+8. feature 1 (0.019499) Coreference_IDs
+9. feature 16 (0.019146) nner_PERSON
+10. feature 15 (0.018912) nner_ORGANIZATION
+11. feature 10 (0.016404) ner_O
+12. feature 7 (0.011065) Number_Of_Implicit_Mentions
+13. feature 4 (0.010445) Recent_Implicit_Mention
+14. feature 13 (0.010231) nner_LOCATION
+15. feature 5 (0.009192) Number_Of_Coref_Mentions
+16. feature 11 (0.008862) ner_ORGANIZATION
+17. feature 6 (0.008672) Number_Of_Explicit_Mentions
+18. feature 12 (0.008299) ner_PERSON
+19. feature 49 (0.005218) cepos_NN
+20. feature 54 (0.004103) cepos_NP
+-----------------
+
+## position_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.809 +/- 0.008 (random=0.783)
+On training data: accuracy=0.943 (random=0.783)
+Evaluation results: accuracy=0.807 (random=0.792) f1=0.459 precision=0.552 recall=0.392
+Feature ranking:
+1. feature 3 (0.326356) words_until_end_of_sentence
+2. feature 2 (0.203998) word_length
+3. feature 1 (0.186546) total_number_of_words_in_sentence
+4. feature 0 (0.184313) word_number_in_sentence
+5. feature 9 (0.033258) nner_O
+6. feature 5 (0.014449) ner_O
+7. feature 11 (0.013897) nner_PERSON
+8. feature 10 (0.011600) nner_ORGANIZATION
+9. feature 6 (0.008768) ner_ORGANIZATION
+10. feature 7 (0.008022) ner_PERSON
+11. feature 8 (0.005816) nner_LOCATION
+12. feature 4 (0.002977) ner_LOCATION
+-----------------
+
+## syntax/pos_position_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.896 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.899 (random=0.792) f1=0.736 precision=0.807 recall=0.676
+Feature ranking:
+1. feature 439 (0.080915) words_until_end_of_sentence
+2. feature 5 (0.072436) constituent_backward_position
+3. feature 7 (0.070278) next_word_spanning_width
+4. feature 6 (0.052407) next_word_spanning_depth
+5. feature 10 (0.051021) word_length
+6. feature 8 (0.040617) word_number_in_sentence
+7. feature 3 (0.034505) constituent_width
+8. feature 0 (0.033847) word_depth
+9. feature 9 (0.033273) total_number_of_words_in_sentence
+10. feature 2 (0.032452) tree_width
+11. feature 4 (0.031842) constituent_forward_position
+12. feature 1 (0.029337) tree_depth
+13. feature 184 (0.028507) nwsl_S
+14. feature 208 (0.018862) pos_NN
+15. feature 211 (0.016681) pos_NNS
+16. feature 445 (0.016453) nner_O
+17. feature 71 (0.011908) synfn_dobj
+18. feature 16 (0.011583) const_NP
+19. feature 181 (0.010579) nwsl_NP
+20. feature 162 (0.009957) synfn_nsubj
+-----------------
+
+## syntax/pos_punctuation_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.907 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.906 (random=0.792) f1=0.760 precision=0.814 recall=0.713
+Feature ranking:
+1. feature 7 (0.062679) next_word_spanning_width
+2. feature 5 (0.060979) constituent_backward_position
+3. feature 633 (0.050718) super_t3
+4. feature 6 (0.049806) next_word_spanning_depth
+5. feature 8 (0.048279) word_length
+6. feature 905 (0.046042) punc_.
+7. feature 2 (0.039868) tree_width
+8. feature 903 (0.039580) punc_,
+9. feature 0 (0.037233) word_depth
+10. feature 3 (0.034531) constituent_width
+11. feature 1 (0.034023) tree_depth
+12. feature 4 (0.031450) constituent_forward_position
+13. feature 182 (0.022935) nwsl_S
+14. feature 900 (0.019795) nner_O
+15. feature 206 (0.015770) pos_NN
+16. feature 209 (0.014015) pos_NNS
+17. feature 160 (0.010808) synfn_nsubj
+18. feature 14 (0.010623) const_NP
+19. feature 251 (0.009883) npos_IN
+20. feature 69 (0.009837) synfn_dobj
+-----------------
+
+## syntax/pos_punctuation_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.906 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.905 (random=0.792) f1=0.760 precision=0.806 recall=0.719
+Feature ranking:
+1. feature 7 (0.070903) next_word_spanning_width
+2. feature 5 (0.070035) constituent_backward_position
+3. feature 6 (0.057994) next_word_spanning_depth
+4. feature 8 (0.055446) word_length
+5. feature 445 (0.051538) punc_,
+6. feature 447 (0.047829) punc_.
+7. feature 2 (0.043759) tree_width
+8. feature 0 (0.041690) word_depth
+9. feature 1 (0.037436) tree_depth
+10. feature 4 (0.035407) constituent_forward_position
+11. feature 3 (0.035348) constituent_width
+12. feature 182 (0.025391) nwsl_S
+13. feature 206 (0.024972) pos_NN
+14. feature 442 (0.021157) nner_O
+15. feature 209 (0.017910) pos_NNS
+16. feature 14 (0.012178) const_NP
+17. feature 69 (0.011715) synfn_dobj
+18. feature 160 (0.011236) synfn_nsubj
+19. feature 251 (0.009493) npos_IN
+20. feature 179 (0.009339) nwsl_NP
+-----------------
+
+## syntax/pos_punctuation_position_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.9 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.906 (random=0.792) f1=0.759 precision=0.811 recall=0.713
+Feature ranking:
+1. feature 5 (0.083615) constituent_backward_position
+2. feature 446 (0.068896) words_until_end_of_sentence
+3. feature 7 (0.060000) next_word_spanning_width
+4. feature 6 (0.044543) next_word_spanning_depth
+5. feature 447 (0.042548) punc_,
+6. feature 449 (0.038668) punc_.
+7. feature 8 (0.037752) word_number_in_sentence
+8. feature 9 (0.031910) total_number_of_words_in_sentence
+9. feature 2 (0.031475) tree_width
+10. feature 3 (0.030430) constituent_width
+11. feature 0 (0.030251) word_depth
+12. feature 1 (0.028671) tree_depth
+13. feature 4 (0.027862) constituent_forward_position
+14. feature 191 (0.024684) nwsl_S
+15. feature 218 (0.019860) pos_NNS
+16. feature 215 (0.019655) pos_NN
+17. feature 78 (0.013212) synfn_dobj
+18. feature 23 (0.010436) const_NP
+19. feature 320 (0.009396) nsynfn_case
+20. feature 260 (0.009023) npos_IN
+-----------------
+
+## syntax/pos_punctuation_position_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.903 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.905 (random=0.792) f1=0.758 precision=0.811 recall=0.712
+Feature ranking:
+1. feature 5 (0.068316) constituent_backward_position
+2. feature 447 (0.064779) words_until_end_of_sentence
+3. feature 7 (0.059932) next_word_spanning_width
+4. feature 6 (0.051107) next_word_spanning_depth
+5. feature 10 (0.043396) word_length
+6. feature 456 (0.041729) punc_,
+7. feature 458 (0.039155) punc_.
+8. feature 8 (0.034783) word_number_in_sentence
+9. feature 3 (0.030823) constituent_width
+10. feature 9 (0.029364) total_number_of_words_in_sentence
+11. feature 2 (0.028887) tree_width
+12. feature 0 (0.027457) word_depth
+13. feature 4 (0.025691) constituent_forward_position
+14. feature 1 (0.025563) tree_depth
+15. feature 192 (0.018841) nwsl_S
+16. feature 216 (0.016035) pos_NN
+17. feature 453 (0.015608) nner_O
+18. feature 219 (0.015539) pos_NNS
+19. feature 24 (0.013171) const_NP
+20. feature 79 (0.010462) synfn_dobj
+-----------------
+
+## punctuation_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.869 +/- 0.003 (random=0.783)
+On training data: accuracy=0.874 (random=0.783)
+Evaluation results: accuracy=0.881 (random=0.792) f1=0.622 precision=0.916 recall=0.471
+Feature ranking:
+1. feature 11 (0.312164) punc_.
+2. feature 9 (0.296320) punc_,
+3. feature 0 (0.226076) word_length
+4. feature 6 (0.056275) nner_O
+5. feature 8 (0.025072) nner_PERSON
+6. feature 7 (0.020904) nner_ORGANIZATION
+7. feature 2 (0.015595) ner_O
+8. feature 5 (0.014111) nner_LOCATION
+9. feature 3 (0.010198) ner_ORGANIZATION
+10. feature 4 (0.008587) ner_PERSON
+11. feature 12 (0.004606) punc_:
+12. feature 10 (0.003426) punc_-
+13. feature 14 (0.003290) punc_?
+14. feature 1 (0.002562) ner_LOCATION
+15. feature 13 (0.000814) punc_;
+-----------------
+
+## mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.791 +/- 0.003 (random=0.783)
+On training data: accuracy=0.82 (random=0.783)
+Evaluation results: accuracy=0.796 (random=0.792) f1=0.137 precision=0.581 recall=0.078
+Feature ranking:
+1. feature 7 (0.110700) Far_Back_Mention
+2. feature 1 (0.094087) Most_Recent_Mention
+3. feature 0 (0.092562) Coreference_IDs
+4. feature 2 (0.087893) Recent_Explicit_Mention
+5. feature 6 (0.051491) Number_Of_Implicit_Mentions
+6. feature 3 (0.045857) Recent_Implicit_Mention
+7. feature 4 (0.042101) Number_Of_Coref_Mentions
+8. feature 5 (0.036830) Number_Of_Explicit_Mentions
+9. feature 66 (0.023673) cipos_PP/VBP
+10. feature 34 (0.021095) cepos_NN
+11. feature 39 (0.017788) cepos_NP
+12. feature 37 (0.013248) cepos_NNS
+13. feature 13 (0.012395) cmpos_NN
+14. feature 190 (0.012022) cesynf_nsubj
+15. feature 18 (0.011871) cmpos_NP
+16. feature 149 (0.011188) cesynf_dobj
+17. feature 127 (0.011181) cmsynf_nsubj
+18. feature 26 (0.009995) cmpos_PP/VBP
+19. feature 241 (0.009588) cisynf_nsubj,
+20. feature 128 (0.009097) cmsynf_nsubj,
+-----------------
+
+## syntax/pos_morph_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.899 +/- 0.005 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.901 (random=0.792) f1=0.750 precision=0.794 recall=0.710
+Feature ranking:
+1. feature 5 (0.085410) constituent_backward_position
+2. feature 7 (0.077739) next_word_spanning_width
+3. feature 8 (0.053671) word_length
+4. feature 6 (0.050816) next_word_spanning_depth
+5. feature 2 (0.042763) tree_width
+6. feature 0 (0.041052) word_depth
+7. feature 3 (0.036997) constituent_width
+8. feature 1 (0.036480) tree_depth
+9. feature 4 (0.033278) constituent_forward_position
+10. feature 190 (0.026377) nwsl_S
+11. feature 450 (0.024479) nner_O
+12. feature 214 (0.020511) pos_NN
+13. feature 217 (0.016847) pos_NNS
+14. feature 22 (0.013744) const_NP
+15. feature 187 (0.012533) nwsl_NP
+16. feature 77 (0.012275) synfn_dobj
+17. feature 168 (0.011808) synfn_nsubj
+18. feature 259 (0.010805) npos_IN
+19. feature 319 (0.009665) nsynfn_case
+20. feature 129 (0.008325) synfn_nmod:of
+-----------------
+
+## syntax/pos_punctuation_position_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.899 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.909 (random=0.792) f1=0.767 precision=0.816 recall=0.724
+Feature ranking:
+1. feature 446 (0.068513) words_until_end_of_sentence
+2. feature 5 (0.057033) constituent_backward_position
+3. feature 7 (0.056952) next_word_spanning_width
+4. feature 643 (0.040620) super_t3
+5. feature 6 (0.040357) next_word_spanning_depth
+6. feature 907 (0.039893) punc_.
+7. feature 905 (0.039628) punc_,
+8. feature 8 (0.033854) word_number_in_sentence
+9. feature 2 (0.029809) tree_width
+10. feature 9 (0.028429) total_number_of_words_in_sentence
+11. feature 3 (0.027904) constituent_width
+12. feature 0 (0.027599) word_depth
+13. feature 4 (0.026649) constituent_forward_position
+14. feature 1 (0.026544) tree_depth
+15. feature 191 (0.024362) nwsl_S
+16. feature 218 (0.016679) pos_NNS
+17. feature 215 (0.016353) pos_NN
+18. feature 78 (0.010075) synfn_dobj
+19. feature 23 (0.009756) const_NP
+20. feature 260 (0.009517) npos_IN
+-----------------
+
+## punctuation_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.872 +/- 0.005 (random=0.783)
+On training data: accuracy=0.893 (random=0.783)
+Evaluation results: accuracy=0.883 (random=0.792) f1=0.643 precision=0.888 recall=0.504
+Feature ranking:
+1. feature 10 (0.401511) punc_.
+2. feature 8 (0.296356) punc_,
+3. feature 7 (0.028556) Far_Back_Mention
+4. feature 1 (0.027446) Most_Recent_Mention
+5. feature 2 (0.027274) Recent_Explicit_Mention
+6. feature 0 (0.026694) Coreference_IDs
+7. feature 6 (0.014773) Number_Of_Implicit_Mentions
+8. feature 3 (0.012381) Recent_Implicit_Mention
+9. feature 4 (0.011946) Number_Of_Coref_Mentions
+10. feature 5 (0.011223) Number_Of_Explicit_Mentions
+11. feature 40 (0.007306) cepos_NN
+12. feature 72 (0.006250) cipos_PP/VBP
+13. feature 45 (0.005615) cepos_NP
+14. feature 11 (0.005047) punc_:
+15. feature 43 (0.004396) cepos_NNS
+16. feature 13 (0.004145) punc_?
+17. feature 19 (0.003891) cmpos_NN
+18. feature 155 (0.003761) cesynf_dobj
+19. feature 24 (0.003664) cmpos_NP
+20. feature 196 (0.003576) cesynf_nsubj
+-----------------
+
+## syntax/pos_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.899 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.907 (random=0.792) f1=0.762 precision=0.813 recall=0.716
+Feature ranking:
+1. feature 7 (0.069910) next_word_spanning_width
+2. feature 5 (0.062860) constituent_backward_position
+3. feature 6 (0.059683) next_word_spanning_depth
+4. feature 8 (0.052018) word_length
+5. feature 633 (0.051589) super_t3
+6. feature 0 (0.042148) word_depth
+7. feature 2 (0.041390) tree_width
+8. feature 3 (0.037464) constituent_width
+9. feature 1 (0.035475) tree_depth
+10. feature 4 (0.032210) constituent_forward_position
+11. feature 900 (0.024447) nner_O
+12. feature 182 (0.023862) nwsl_S
+13. feature 206 (0.019573) pos_NN
+14. feature 209 (0.017591) pos_NNS
+15. feature 160 (0.014541) synfn_nsubj
+16. feature 69 (0.011874) synfn_dobj
+17. feature 14 (0.010881) const_NP
+18. feature 179 (0.010243) nwsl_NP
+19. feature 251 (0.010052) npos_IN
+20. feature 311 (0.008483) nsynfn_case
+-----------------
+
+## position_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.854 +/- 0.008 (random=0.783)
+On training data: accuracy=0.961 (random=0.783)
+Evaluation results: accuracy=0.860 (random=0.792) f1=0.648 precision=0.683 recall=0.617
+Feature ranking:
+1. feature 10 (0.230196) words_until_end_of_sentence
+2. feature 207 (0.195396) super_t3
+3. feature 1 (0.117287) total_number_of_words_in_sentence
+4. feature 0 (0.114293) word_number_in_sentence
+5. feature 12 (0.017901) super_t1
+6. feature 135 (0.014987) super_t2
+7. feature 256 (0.010293) super_t36
+8. feature 4 (0.010151) Recent_Explicit_Mention
+9. feature 3 (0.009887) Most_Recent_Mention
+10. feature 374 (0.009243) super_t65
+11. feature 2 (0.009146) Coreference_IDs
+12. feature 9 (0.008871) Far_Back_Mention
+13. feature 192 (0.008223) super_t28
+14. feature 266 (0.007580) super_t38
+15. feature 274 (0.007106) super_t4
+16. feature 300 (0.006715) super_t46
+17. feature 8 (0.006359) Number_Of_Implicit_Mentions
+18. feature 157 (0.005630) super_t23
+19. feature 388 (0.005440) super_t69
+20. feature 102 (0.005346) super_t167
+-----------------
+
+## punctuation_position
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.862 +/- 0.003 (random=0.783)
+On training data: accuracy=0.882 (random=0.783)
+Evaluation results: accuracy=0.873 (random=0.792) f1=0.606 precision=0.860 recall=0.468
+Feature ranking:
+1. feature 2 (0.326381) words_until_end_of_sentence
+2. feature 3 (0.285410) punc_,
+3. feature 5 (0.158641) punc_.
+4. feature 0 (0.116143) word_number_in_sentence
+5. feature 1 (0.105781) total_number_of_words_in_sentence
+6. feature 6 (0.003723) punc_:
+7. feature 4 (0.001621) punc_-
+8. feature 8 (0.001429) punc_?
+9. feature 7 (0.000873) punc_;
+-----------------
+
+## syntax/pos_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.895 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.902 (random=0.792) f1=0.752 precision=0.792 recall=0.716
+Feature ranking:
+1. feature 7 (0.075933) next_word_spanning_width
+2. feature 5 (0.067140) constituent_backward_position
+3. feature 6 (0.050822) next_word_spanning_depth
+4. feature 640 (0.046456) super_t3
+5. feature 2 (0.042956) tree_width
+6. feature 0 (0.042237) word_depth
+7. feature 1 (0.037842) tree_depth
+8. feature 3 (0.037070) constituent_width
+9. feature 4 (0.033598) constituent_forward_position
+10. feature 189 (0.023857) nwsl_S
+11. feature 213 (0.021045) pos_NN
+12. feature 216 (0.020694) pos_NNS
+13. feature 76 (0.012857) synfn_dobj
+14. feature 167 (0.012841) synfn_nsubj
+15. feature 21 (0.012354) const_NP
+16. feature 186 (0.010961) nwsl_NP
+17. feature 258 (0.009817) npos_IN
+18. feature 318 (0.009681) nsynfn_case
+19. feature 128 (0.007662) synfn_nmod:of
+20. feature 264 (0.007231) npos_NN
+-----------------
+
+## morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.834 +/- 0.004 (random=0.783)
+On training data: accuracy=0.841 (random=0.783)
+Evaluation results: accuracy=0.844 (random=0.792) f1=0.432 precision=0.893 recall=0.285
+Feature ranking:
+1. feature 0 (0.392860) word_length
+2. feature 6 (0.199044) nner_O
+3. feature 8 (0.133421) nner_PERSON
+4. feature 7 (0.083118) nner_ORGANIZATION
+5. feature 5 (0.072141) nner_LOCATION
+6. feature 2 (0.051172) ner_O
+7. feature 3 (0.033557) ner_ORGANIZATION
+8. feature 4 (0.025365) ner_PERSON
+9. feature 1 (0.009320) ner_LOCATION
+-----------------
+
+## punctuation_position_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.87 +/- 0.005 (random=0.783)
+On training data: accuracy=0.969 (random=0.783)
+Evaluation results: accuracy=0.879 (random=0.792) f1=0.698 precision=0.725 recall=0.673
+Feature ranking:
+1. feature 10 (0.173171) words_until_end_of_sentence
+2. feature 207 (0.155813) super_t3
+3. feature 1 (0.105964) total_number_of_words_in_sentence
+4. feature 0 (0.105594) word_number_in_sentence
+5. feature 469 (0.100899) punc_,
+6. feature 471 (0.078231) punc_.
+7. feature 12 (0.013606) super_t1
+8. feature 135 (0.013022) super_t2
+9. feature 4 (0.009724) Recent_Explicit_Mention
+10. feature 2 (0.008731) Coreference_IDs
+11. feature 192 (0.008489) super_t28
+12. feature 3 (0.008226) Most_Recent_Mention
+13. feature 256 (0.007197) super_t36
+14. feature 9 (0.006984) Far_Back_Mention
+15. feature 374 (0.006569) super_t65
+16. feature 8 (0.005520) Number_Of_Implicit_Mentions
+17. feature 274 (0.005223) super_t4
+18. feature 300 (0.005211) super_t46
+19. feature 157 (0.004844) super_t23
+20. feature 6 (0.004572) Number_Of_Coref_Mentions
+-----------------
+
+## punctuation_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.87 +/- 0.005 (random=0.783)
+On training data: accuracy=0.9 (random=0.783)
+Evaluation results: accuracy=0.881 (random=0.792) f1=0.653 precision=0.837 recall=0.535
+Feature ranking:
+1. feature 204 (0.251853) super_t3
+2. feature 468 (0.188597) punc_.
+3. feature 466 (0.135246) punc_,
+4. feature 9 (0.019297) super_t1
+5. feature 132 (0.017337) super_t2
+6. feature 0 (0.016813) Coreference_IDs
+7. feature 1 (0.016737) Most_Recent_Mention
+8. feature 2 (0.016373) Recent_Explicit_Mention
+9. feature 7 (0.016056) Far_Back_Mention
+10. feature 189 (0.011194) super_t28
+11. feature 371 (0.011119) super_t65
+12. feature 253 (0.010390) super_t36
+13. feature 6 (0.010174) Number_Of_Implicit_Mentions
+14. feature 263 (0.008776) super_t38
+15. feature 3 (0.007922) Recent_Implicit_Mention
+16. feature 297 (0.007870) super_t46
+17. feature 4 (0.007862) Number_Of_Coref_Mentions
+18. feature 5 (0.007745) Number_Of_Explicit_Mentions
+19. feature 271 (0.007650) super_t4
+20. feature 99 (0.006734) super_t167
+-----------------
+
+## syntax/pos_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.893 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.897 (random=0.792) f1=0.740 precision=0.782 recall=0.702
+Feature ranking:
+1. feature 5 (0.081115) constituent_backward_position
+2. feature 7 (0.080113) next_word_spanning_width
+3. feature 6 (0.064155) next_word_spanning_depth
+4. feature 0 (0.049259) word_depth
+5. feature 2 (0.049155) tree_width
+6. feature 1 (0.042202) tree_depth
+7. feature 3 (0.040494) constituent_width
+8. feature 4 (0.037715) constituent_forward_position
+9. feature 189 (0.030723) nwsl_S
+10. feature 213 (0.023280) pos_NN
+11. feature 216 (0.021221) pos_NNS
+12. feature 21 (0.013484) const_NP
+13. feature 186 (0.013290) nwsl_NP
+14. feature 167 (0.013275) synfn_nsubj
+15. feature 76 (0.012931) synfn_dobj
+16. feature 264 (0.010906) npos_NN
+17. feature 258 (0.010200) npos_IN
+18. feature 318 (0.009442) nsynfn_case
+19. feature 128 (0.008312) synfn_nmod:of
+20. feature 345 (0.007447) nsynfn_mark
+-----------------
+
+## syntax/pos_punctuation_position
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.902 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.908 (random=0.792) f1=0.766 precision=0.818 recall=0.719
+Feature ranking:
+1. feature 5 (0.079155) constituent_backward_position
+2. feature 438 (0.077478) words_until_end_of_sentence
+3. feature 7 (0.064075) next_word_spanning_width
+4. feature 6 (0.048415) next_word_spanning_depth
+5. feature 439 (0.044379) punc_,
+6. feature 441 (0.043441) punc_.
+7. feature 8 (0.041390) word_number_in_sentence
+8. feature 3 (0.035642) constituent_width
+9. feature 4 (0.035276) constituent_forward_position
+10. feature 2 (0.035058) tree_width
+11. feature 9 (0.034424) total_number_of_words_in_sentence
+12. feature 0 (0.033443) word_depth
+13. feature 1 (0.031656) tree_depth
+14. feature 183 (0.021541) nwsl_S
+15. feature 207 (0.018153) pos_NN
+16. feature 210 (0.016669) pos_NNS
+17. feature 70 (0.012688) synfn_dobj
+18. feature 15 (0.010718) const_NP
+19. feature 252 (0.009822) npos_IN
+20. feature 161 (0.009756) synfn_nsubj
+-----------------
+
+## punctuation_morph_supertag
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.868 +/- 0.006 (random=0.783)
+On training data: accuracy=0.9 (random=0.783)
+Evaluation results: accuracy=0.881 (random=0.792) f1=0.679 precision=0.773 recall=0.606
+Feature ranking:
+1. feature 197 (0.202637) super_t3
+2. feature 469 (0.154699) punc_.
+3. feature 0 (0.144217) word_length
+4. feature 467 (0.140578) punc_,
+5. feature 464 (0.036834) nner_O
+6. feature 125 (0.026687) super_t2
+7. feature 246 (0.016908) super_t36
+8. feature 2 (0.015191) super_t1
+9. feature 182 (0.012256) super_t28
+10. feature 465 (0.011053) nner_ORGANIZATION
+11. feature 466 (0.010805) nner_PERSON
+12. feature 364 (0.010360) super_t65
+13. feature 256 (0.008778) super_t38
+14. feature 460 (0.008573) ner_O
+15. feature 290 (0.006900) super_t46
+16. feature 92 (0.006612) super_t167
+17. feature 462 (0.006588) ner_PERSON
+18. feature 463 (0.006460) nner_LOCATION
+19. feature 461 (0.005880) ner_ORGANIZATION
+20. feature 378 (0.005781) super_t69
+-----------------
+
+## syntax/pos_punctuation_position_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.903 +/- 0.006 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.906 (random=0.792) f1=0.759 precision=0.818 recall=0.709
+Feature ranking:
+1. feature 5 (0.083234) constituent_backward_position
+2. feature 439 (0.067425) words_until_end_of_sentence
+3. feature 7 (0.054164) next_word_spanning_width
+4. feature 448 (0.047171) punc_,
+5. feature 10 (0.046195) word_length
+6. feature 6 (0.045512) next_word_spanning_depth
+7. feature 450 (0.039842) punc_.
+8. feature 8 (0.037535) word_number_in_sentence
+9. feature 3 (0.032080) constituent_width
+10. feature 2 (0.031955) tree_width
+11. feature 4 (0.031749) constituent_forward_position
+12. feature 0 (0.031435) word_depth
+13. feature 9 (0.031045) total_number_of_words_in_sentence
+14. feature 1 (0.026880) tree_depth
+15. feature 184 (0.026871) nwsl_S
+16. feature 211 (0.015669) pos_NNS
+17. feature 208 (0.015444) pos_NN
+18. feature 445 (0.014320) nner_O
+19. feature 71 (0.010111) synfn_dobj
+20. feature 16 (0.009899) const_NP
+-----------------
+
+## syntax/pos
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.896 +/- 0.007 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.900 (random=0.792) f1=0.750 precision=0.782 recall=0.719
+Feature ranking:
+1. feature 5 (0.093782) constituent_backward_position
+2. feature 7 (0.089180) next_word_spanning_width
+3. feature 6 (0.065453) next_word_spanning_depth
+4. feature 2 (0.055667) tree_width
+5. feature 0 (0.053971) word_depth
+6. feature 1 (0.047302) tree_depth
+7. feature 3 (0.044795) constituent_width
+8. feature 4 (0.038120) constituent_forward_position
+9. feature 181 (0.030776) nwsl_S
+10. feature 205 (0.024191) pos_NN
+11. feature 208 (0.021155) pos_NNS
+12. feature 159 (0.018964) synfn_nsubj
+13. feature 68 (0.015071) synfn_dobj
+14. feature 13 (0.014416) const_NP
+15. feature 178 (0.013397) nwsl_NP
+16. feature 310 (0.010848) nsynfn_case
+17. feature 250 (0.010702) npos_IN
+18. feature 120 (0.009469) synfn_nmod:of
+19. feature 256 (0.008907) npos_NN
+20. feature 210 (0.008744) pos_NP
+-----------------
+
+## position
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.823 +/- 0.004 (random=0.783)
+On training data: accuracy=0.847 (random=0.783)
+Evaluation results: accuracy=0.834 (random=0.792) f1=0.415 precision=0.775 recall=0.284
+Feature ranking:
+1. feature 2 (0.639992) words_until_end_of_sentence
+2. feature 0 (0.193264) word_number_in_sentence
+3. feature 1 (0.166744) total_number_of_words_in_sentence
+-----------------
+
+## punctuation_position_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.88 +/- 0.004 (random=0.783)
+On training data: accuracy=0.993 (random=0.783)
+Evaluation results: accuracy=0.882 (random=0.792) f1=0.703 precision=0.741 recall=0.668
+Feature ranking:
+1. feature 11 (0.145528) words_until_end_of_sentence
+2. feature 208 (0.135485) super_t3
+3. feature 2 (0.099209) word_length
+4. feature 0 (0.096542) word_number_in_sentence
+5. feature 1 (0.094911) total_number_of_words_in_sentence
+6. feature 478 (0.079202) punc_,
+7. feature 480 (0.056134) punc_.
+8. feature 475 (0.017235) nner_O
+9. feature 136 (0.013777) super_t2
+10. feature 257 (0.009007) super_t36
+11. feature 13 (0.008472) super_t1
+12. feature 193 (0.008065) super_t28
+13. feature 5 (0.007538) Recent_Explicit_Mention
+14. feature 4 (0.007538) Most_Recent_Mention
+15. feature 3 (0.007477) Coreference_IDs
+16. feature 10 (0.006781) Far_Back_Mention
+17. feature 375 (0.006368) super_t65
+18. feature 471 (0.006121) ner_O
+19. feature 9 (0.004900) Number_Of_Implicit_Mentions
+20. feature 301 (0.004798) super_t46
+-----------------
+
+## punctuation_position_morph
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.845 +/- 0.007 (random=0.783)
+On training data: accuracy=0.954 (random=0.783)
+Evaluation results: accuracy=0.850 (random=0.792) f1=0.597 precision=0.679 recall=0.533
+Feature ranking:
+1. feature 3 (0.252594) words_until_end_of_sentence
+2. feature 2 (0.155389) word_length
+3. feature 1 (0.152411) total_number_of_words_in_sentence
+4. feature 0 (0.150619) word_number_in_sentence
+5. feature 12 (0.147111) punc_,
+6. feature 14 (0.089180) punc_.
+7. feature 9 (0.014428) nner_O
+8. feature 5 (0.007280) ner_O
+9. feature 10 (0.006931) nner_ORGANIZATION
+10. feature 6 (0.005433) ner_ORGANIZATION
+11. feature 7 (0.005208) ner_PERSON
+12. feature 11 (0.004359) nner_PERSON
+13. feature 8 (0.002366) nner_LOCATION
+14. feature 4 (0.002271) ner_LOCATION
+15. feature 15 (0.001920) punc_:
+16. feature 13 (0.001687) punc_-
+17. feature 17 (0.000516) punc_?
+18. feature 16 (0.000298) punc_;
+-----------------
+
+## syntax/pos_morph_supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.9 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.905 (random=0.792) f1=0.759 precision=0.802 recall=0.721
+Feature ranking:
+1. feature 5 (0.069167) constituent_backward_position
+2. feature 7 (0.063555) next_word_spanning_width
+3. feature 6 (0.050566) next_word_spanning_depth
+4. feature 641 (0.047536) super_t3
+5. feature 8 (0.045871) word_length
+6. feature 0 (0.037012) word_depth
+7. feature 2 (0.036761) tree_width
+8. feature 3 (0.033716) constituent_width
+9. feature 1 (0.032307) tree_depth
+10. feature 4 (0.027381) constituent_forward_position
+11. feature 190 (0.027068) nwsl_S
+12. feature 908 (0.023433) nner_O
+13. feature 214 (0.020453) pos_NN
+14. feature 217 (0.016170) pos_NNS
+15. feature 77 (0.010933) synfn_dobj
+16. feature 168 (0.010886) synfn_nsubj
+17. feature 187 (0.010321) nwsl_NP
+18. feature 259 (0.009732) npos_IN
+19. feature 319 (0.008230) nsynfn_case
+20. feature 22 (0.008137) const_NP
+-----------------
+
+## supertag_mentions
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.848 +/- 0.005 (random=0.783)
+On training data: accuracy=0.888 (random=0.783)
+Evaluation results: accuracy=0.852 (random=0.792) f1=0.677 precision=0.622 recall=0.743
+Feature ranking:
+1. feature 204 (0.352171) super_t3
+2. feature 9 (0.032595) super_t1
+3. feature 132 (0.029138) super_t2
+4. feature 7 (0.023320) Far_Back_Mention
+5. feature 1 (0.022210) Most_Recent_Mention
+6. feature 0 (0.021928) Coreference_IDs
+7. feature 2 (0.021313) Recent_Explicit_Mention
+8. feature 371 (0.020423) super_t65
+9. feature 253 (0.019046) super_t36
+10. feature 263 (0.015522) super_t38
+11. feature 271 (0.013913) super_t4
+12. feature 297 (0.013912) super_t46
+13. feature 385 (0.012633) super_t69
+14. feature 6 (0.012632) Number_Of_Implicit_Mentions
+15. feature 154 (0.011614) super_t23
+16. feature 4 (0.010918) Number_Of_Coref_Mentions
+17. feature 3 (0.010702) Recent_Implicit_Mention
+18. feature 189 (0.010695) super_t28
+19. feature 99 (0.010373) super_t167
+20. feature 5 (0.009632) Number_Of_Explicit_Mentions
+-----------------
+
+## syntax/pos_punctuation
+-----------------
+Classifier: <class 'sklearn.ensemble.forest.RandomForestClassifier'>
+Cross-validation results: 0.904 +/- 0.008 (random=0.783)
+On training data: accuracy=1.0 (random=0.783)
+Evaluation results: accuracy=0.906 (random=0.792) f1=0.763 precision=0.804 recall=0.726
+Feature ranking:
+1. feature 5 (0.084731) constituent_backward_position
+2. feature 7 (0.078535) next_word_spanning_width
+3. feature 438 (0.059752) punc_.
+4. feature 6 (0.057682) next_word_spanning_depth
+5. feature 2 (0.052116) tree_width
+6. feature 436 (0.051919) punc_,
+7. feature 0 (0.048755) word_depth
+8. feature 1 (0.044210) tree_depth
+9. feature 3 (0.037931) constituent_width
+10. feature 4 (0.036729) constituent_forward_position
+11. feature 181 (0.024906) nwsl_S
+12. feature 205 (0.022189) pos_NN
+13. feature 208 (0.019843) pos_NNS
+14. feature 159 (0.013311) synfn_nsubj
+15. feature 13 (0.012913) const_NP
+16. feature 68 (0.012387) synfn_dobj
+17. feature 250 (0.010532) npos_IN
+18. feature 310 (0.009962) nsynfn_case
+19. feature 178 (0.009597) nwsl_NP
+20. feature 120 (0.009105) synfn_nmod:of
+-----------------
+
