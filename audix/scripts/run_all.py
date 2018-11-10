@@ -17,6 +17,7 @@ import CleanCorefs
 import stanford_parse_columns
 import add_new_columns
 import add_supertags
+import add_parse_tree_features
 
 CORE_NLP_PATH = config['core_nlp_path']
 MEMORY = config['java_memory']
@@ -31,22 +32,30 @@ if __name__ == '__main__':
     with StanfordCoreNLP(CORE_NLP_PATH, memory=MEMORY) as client:
         print('run_stanford.generate_stanford_text()')
         run_stanford.generate_stanford_text()
+
         print('stanford_pos.parse_pos()')
         stanford_pos.parse_pos(client)
+
         print('run_stanford.main()')
         run_stanford.main()
+
         print('add_supertags.main()')
         add_supertags.main(prefix=OLD_PREFIX)
 
-        print('combine...')
+        print('combining...')
         combine(OLD_PREFIX, 'temp_' + NEW_TABLE_NAME)
 
         print('stanford_parse_columns.main()')
         stanford_parse_columns.main('temp_' + NEW_TABLE_NAME, client)
+
         print('combining2...')
         combine('temp_' + NEW_PREFIX, 'temp2_' + NEW_TABLE_NAME)
+
+        print('add_parse_tree_features.main()')
+        add_parse_tree_features.main('temp2_' + NEW_TABLE_NAME, NEW_TABLE_NAME)
+
         print('add_new_columns.main()')
-        add_new_columns.main('temp2_' + NEW_TABLE_NAME)
+        add_new_columns.main(NEW_TABLE_NAME)
 
         if REMOVE_TEMP:
             for f in glob.glob("temp*.csv"):

@@ -89,7 +89,8 @@ def standardize_df(df):
          'next_PoS': 'next_Stanford_PoS',
          'pitch_accent': 'word_tobi_pitch_accent',
          'word_number_in_utterance': 'word_number_in_sentence',
-         'total_number_of_words_in_utterance': 'total_number_of_words_in_sentence'}
+         'total_number_of_words_in_utterance': 'total_number_of_words_in_sentence',
+         'S-Tag': 'supertag'}
     df = df.rename(index=str, columns={k: v for k, v in d.items() if v not in df})
     df['Stanford_PoS'] = df['Stanford_PoS'].str.replace('/', '_')
     df['next_Stanford_PoS'] = df['next_Stanford_PoS'].str.replace('/', '_')

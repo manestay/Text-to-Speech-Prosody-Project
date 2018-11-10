@@ -11,11 +11,18 @@ Recent_Implicit_Mention_PoS
 Number_Of_Coref_Mentions
 Number_Of_Explicit_Mentions
 Number_Of_Implicit_Mentions
-syntactic_function_prev_explicit_mention
-syntactic_function_prev_implicit_mention
-syntactic_function_prev_mention
+Most_Recent_Mention_Syntactic_Function
+Recent_Explicit_Mention_Syntactic_Function
+Recent_Implicit_Mention_Syntactic_Function
+Far_Back_Mention
+next_Stanford_PoS
+next_syntactic_function
+next_NER
+break_index
+word_number_of_syllables
 '''
 
+import argparse
 import pandas as pd
 import math
 import numpy as np
@@ -28,18 +35,19 @@ import syllapy
 pd.options.mode.chained_assignment = None
 
 TABLE_NAME = config['new_table_name']
-NEW_TABLE_PREFIX = config['new_table_prefix']
-TODAY = config['date']
 
 CSV_EXTENSION = ".csv"
 MentionInfo = namedtuple('MentionInfo', ['phrase', 'start_time', 'token_id',
                                          'indices','PoS_last', 'sf_last'])
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--table', help='table to add columns to', default=TABLE_NAME)
+
 class AddNewColumns(object):
 
-    def __init__(self):
-        self.bigtable_file = TABLE_NAME
-        self.bigtable = pd.read_csv(TABLE_NAME)
+    def __init__(self, table_name):
+        self.bigtable_file = table_name
+        self.bigtable = pd.read_csv(table_name)
 
     '''
     Function iterates through table and groups phrases based on consecutive matching
@@ -128,6 +136,8 @@ class AddNewColumns(object):
         num_mentions = [None] * num_rows
         num_exp_mentions = [None] * num_rows
         num_imp_mentions = [None] * num_rows
+        far_back_mention = [None] * num_rows
+
 
         for key in phrase_tuples.keys():
             # print(phrase_tuples[key])
@@ -172,19 +182,24 @@ class AddNewColumns(object):
                     num_mentions[index - 1] = len(phrases)
                     num_exp_mentions[index - 1] = explicit_count
                     num_imp_mentions[index - 1] = implicit_count
+                    indices = phrases[i-1].indices
+                    far_back_mention[index - 1] = 0 if i == 0 or not indices \
+                                                    else index - phrases[i-1].indices[0]
 
-        column_data_pair = [    (recent_mentions, 'Most_Recent_Mention'),
-                                (explicit_mentions, 'Recent_Explicit_Mention'),
-                                (implicit_mentions, 'Recent_Implicit_Mention'),
-                                (last_pos, 'Most_Recent_Mention_PoS'),
-                                (explicit_pos, 'Recent_Explicit_Mention_PoS'),
-                                (implicit_pos, 'Recent_Implicit_Mention_PoS'),
-                                (num_mentions, 'Number_Of_Coref_Mentions'),
-                                (num_exp_mentions, 'Number_Of_Explicit_Mentions'),
-                                (num_imp_mentions, 'Number_Of_Implicit_Mentions'),
-                                (last_sf, 'Most_Recent_Mention_Syntactic_Function'),
-                                (explicit_sf, 'Recent_Explicit_Mention_Syntactic_Function'),
-                                (implicit_sf, 'Recent_Implicit_Mention_Syntactic_Function')
+
+        column_data_pair = [(recent_mentions, 'Most_Recent_Mention'),
+                            (explicit_mentions, 'Recent_Explicit_Mention'),
+                            (implicit_mentions, 'Recent_Implicit_Mention'),
+                            (last_pos, 'Most_Recent_Mention_PoS'),
+                            (explicit_pos, 'Recent_Explicit_Mention_PoS'),
+                            (implicit_pos, 'Recent_Implicit_Mention_PoS'),
+                            (num_mentions, 'Number_Of_Coref_Mentions'),
+                            (num_exp_mentions, 'Number_Of_Explicit_Mentions'),
+                            (num_imp_mentions, 'Number_Of_Implicit_Mentions'),
+                            (last_sf, 'Most_Recent_Mention_Syntactic_Function'),
+                            (explicit_sf, 'Recent_Explicit_Mention_Syntactic_Function'),
+                            (implicit_sf, 'Recent_Implicit_Mention_Syntactic_Function'),
+                            (far_back_mention, 'Far_Back_Mention')
                             ]
 
         for pair in column_data_pair:
@@ -215,7 +230,7 @@ class AddNewColumns(object):
                 phrase_ids[index] = curr_id
 
         if 'Intonational_Phrase_ID' in self.bigtable.columns:
-            print('Intonational_Phrase_ID already exists in dataframe, skipping')
+            print('skipping Intonational_Phrase_ID, already exists in dataframe')
             return
 
         self.addColumnToDataFrame(pd.Series(phrase_ids), 'Intonational_Phrase_ID')
@@ -233,6 +248,9 @@ class AddNewColumns(object):
         cmu_d = cmudict.dict()
         syllables = self.bigtable['word'].apply(syllable_count)
 
+        if 'word_number_of_syllables' in self.bigtable.columns:
+            print('skipping word_number_of_syllables, already exists in dataframe')
+            return
         self.addColumnToDataFrame(syllables, 'word_number_of_syllables')
 
     def getBreakIndices(self):
@@ -261,13 +279,12 @@ class AddNewColumns(object):
         '''
         Writes table to csv file.
         '''
-        self.bigtable.to_csv(NEW_TABLE_PREFIX + CSV_EXTENSION, index=False)
+        self.bigtable.to_csv(self.bigtable_file, index=False)
 
 def main(table_name=''):
-    global TABLE_NAME
-    if table_name:
-        TABLE_NAME = table_name
-    columns = AddNewColumns()
+    args = parser.parse_args()
+    table_name = table_name or args.table
+    columns = AddNewColumns(table_name)
     columns.getMentions()
     columns.getIntonationalPhrases()
     columns.getSyllableCounts()

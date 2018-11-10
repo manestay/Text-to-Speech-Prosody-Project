@@ -1,5 +1,5 @@
 # This script performs prediction of both prosodic break and pitch accent tasks.
-# Currently tested on BURNC and Audix datasets.
+# Currently tested on Games, BURNC, and Audix datasets.
 # @author: Bryan Li (bl2557)
 # includes code written by Agustin Gravano, Rose Sloan, Amaan Khular and Pablo Brusco
 
@@ -53,6 +53,15 @@ def process_data(df, featcats, task):
     features['syllables'] = ['word_number_of_syllables']
     features['NER'] = ['NER', 'next_NER']
     features['punctuation'] = ['punctuation']
+    features['mentions'] = ['Coreference_IDs', 'Most_Recent_Mention',
+                            'Recent_Explicit_Mention', 'Recent_Implicit_Mention',
+                            'Most_Recent_Mention_PoS', 'Recent_Explicit_Mention_PoS',
+                            'Recent_Implicit_Mention_PoS', 'Number_Of_Coref_Mentions',
+                            'Number_Of_Explicit_Mentions', 'Number_Of_Implicit_Mentions',
+                            'Most_Recent_Mention_Syntactic_Function',
+                            'Recent_Explicit_Mention_Syntactic_Function',
+                            'Recent_Implicit_Mention_Syntactic_Function',
+                            'Far_Back_Mention']
 
     def flatten(z):
         """
@@ -61,7 +70,6 @@ def process_data(df, featcats, task):
         return [x for y in z for x in y]
     data = df[flatten([features[x] for x in featcats])].copy()
     # print(flatten([features[x] for x in featcats]))
-
     # - - - - - - - - - -
     if 'dependency' in featcats:
         dummies_synfn = pd.get_dummies(data["syntactic_function"], prefix="synfn")
@@ -105,6 +113,8 @@ def process_data(df, featcats, task):
     if "position" in featcats:
         # Define new features: number of words until the end of the turn or task
         data['words_until_end_of_sentence'] = df['total_number_of_words_in_sentence'] - df['word_number_in_sentence']
+        # data['percent_until_end_of_sentence'] = df['word_number_in_sentence'] / df['total_number_of_words_in_sentence']
+
         #data['words_until_end_of_utterance'] = df['total_number_of_words_in_utterance'] - df['word_number_in_utterance']
 
     # - - - - - - - - - -
@@ -126,7 +136,19 @@ def process_data(df, featcats, task):
         data = pd.concat([data, dummies_punc], axis=1)
         data = data.drop(["punctuation"], axis=1)
 
-    # - - - - - - - - - -
+    if "mentions" in featcats:
+        dummies_cmpos = pd.get_dummies(data["Most_Recent_Mention_PoS"], prefix="cmpos")
+        dummies_cepos = pd.get_dummies(data["Recent_Explicit_Mention_PoS"], prefix="cepos")
+        dummies_cipos = pd.get_dummies(data["Recent_Implicit_Mention_PoS"], prefix="cipos")
+        dummies_cmsynf = pd.get_dummies(data["Most_Recent_Mention_Syntactic_Function"], prefix="cmsynf")
+        dummies_cesynf = pd.get_dummies(data["Recent_Explicit_Mention_Syntactic_Function"], prefix="cesynf")
+        dummies_cisynf = pd.get_dummies(data["Recent_Implicit_Mention_Syntactic_Function"], prefix="cisynf")
+        data = pd.concat([data, dummies_cmpos, dummies_cepos, dummies_cipos,
+                         dummies_cmsynf, dummies_cesynf, dummies_cisynf], axis=1)
+        data = data.drop(['Most_Recent_Mention_PoS','Recent_Explicit_Mention_PoS','Recent_Implicit_Mention_PoS',
+                          'Most_Recent_Mention_Syntactic_Function','Recent_Explicit_Mention_Syntactic_Function',
+                          'Recent_Implicit_Mention_Syntactic_Function'], axis=1)
+        # - - - - - - - - - -
 
     X = data
     columns = X.columns
@@ -167,7 +189,6 @@ if __name__ == '__main__':
     # Data frame with just referring expressions.
     df_ref = df_train.loc[df_train['Stanford_PoS'].isin(REFERRING_EXP_POS)].copy()
     print("# words:", len(df_train), " # referring expressions:", len(df_ref))
-
     if args.test:
         df_test = pd.read_csv(args.test)
         df_test = standardize_df(df_test)
@@ -184,9 +205,10 @@ if __name__ == '__main__':
     # df_train = df_train.join(num_tokens_intonational_phrase_prev_mention(df_train, use_percentage=True))
 
     if 'games' in args.train or 'games' in args.test: # games missing some columns
-        feat_names = ["syntax/pos", "position", "syllables"]
+        feat_names = ["syntax/pos", "position", "syllables", "supertag"]
     else:
-        feat_names = ["syntax/pos", "position", "syllables", "punctuation", "NER", "supertag"]
+        feat_names = ["syntax/pos", "position", "syllables", "punctuation", "NER", "supertag", "mentions"]
+        # feat_names = ["syntax/pos", "position", "syllables", "punctuation", "NER", "supertag"]
     start, end = args.range
     start = len(feat_names) if start == -1 else start
     end = len(feat_names) if end == -1 else end
@@ -217,10 +239,9 @@ if __name__ == '__main__':
 
             # Add columns to X_train and X_test so they have identical columns.
             cols = set(cols_train) | set(cols_test)
+            cols = sorted(list(cols))
             X_train = X_train.reindex(columns=cols, fill_value=0)
             X_test = X_test.reindex(columns=cols, fill_value=0)
-            # import pdb; pdb.set_trace()
-
             imputer = sklearn.impute.SimpleImputer(strategy="most_frequent")
             X_train = imputer.fit_transform(X_train)
             X_test = imputer.fit_transform(X_test)
