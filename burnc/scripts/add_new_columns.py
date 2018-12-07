@@ -16,8 +16,8 @@ Recent_Implicit_Mention_Syntactic_Function
 Far_Back_Mention
 '''
 
-import os 
-import glob 
+import os
+import glob
 import math
 import datetime
 import numpy as np
@@ -35,7 +35,7 @@ CSV_MENTION_DIR = config['csv_mention_dir']
 NEW_TABLE_PREFIX = config['new_table_prefix']
 
 '''
-'Missing' files 
+'Missing' files
 '''
 # files with no data
 EMPTY_FILES = [('speakerf2','session15'),('speakerf2','session22'),('speakerf3','session6')]
@@ -47,8 +47,8 @@ MentionInfo = namedtuple('MentionInfo', ['phrase', 'indices','PoS_last', 'sf_las
 
 class AddNewColumns(object):
 
-  def __init__(self):
-    self.bigtable = pd.read_csv(TABLE_NAME)
+  def __init__(self, table_name=None):
+    self.bigtable = pd.read_csv(table_name or TABLE_NAME)
     self.no_corefs_in_table = False
     self.no_corefs_num_rows = 0
 
@@ -113,7 +113,7 @@ class AddNewColumns(object):
     far_back_mention = [None] * num_rows
 
     if self.no_corefs_in_table:
-      column_data_pair = [    
+      column_data_pair = [
                           (['']*self.no_corefs_num_rows, 'Most_Recent_Mention'),
                           (['']*self.no_corefs_num_rows, 'Recent_Explicit_Mention'),
                           (['']*self.no_corefs_num_rows, 'Recent_Implicit_Mention'),
@@ -134,7 +134,7 @@ class AddNewColumns(object):
         phrases = sorted(phrase_tuples[key], key=lambda x: x.indices[0])
         explicit_count, implicit_count = (1, 0)
 
-        # Set first phrase as first explicit mention 
+        # Set first phrase as first explicit mention
         for index in phrases[0].indices:
           (recent_mentions[index-1], explicit_mentions[index-1]) = (index,index)
           (last_pos[index-1], explicit_pos[index-1]) = (phrases[0].PoS_last, phrases[0].PoS_last)
@@ -165,7 +165,7 @@ class AddNewColumns(object):
             recent_mentions[index - 1] = phrases[i - 1].indices[0]
             last_pos[index - 1] = phrases[i - 1].PoS_last
             last_sf[index - 1] = phrases[i - 1].sf_last
-            
+
             explicit_mentions[index - 1] = last_explicit_mention
             explicit_pos[index - 1] = last_explicit_pos
             explicit_sf[index - 1] = last_explicit_sf
@@ -182,7 +182,7 @@ class AddNewColumns(object):
 
             far_back_mention[index - 1] = 0 if i == 0 else index - phrases[i-1].indices[0]
 
-      column_data_pair = [    
+      column_data_pair = [
                             (recent_mentions, 'Most_Recent_Mention'),
                             (explicit_mentions, 'Recent_Explicit_Mention'),
                             (implicit_mentions, 'Recent_Implicit_Mention'),
@@ -219,24 +219,42 @@ class AddNewColumns(object):
   def saveTable(self,new_file_id):
     self.bigtable.to_csv(CSV_MENTION_DIR + NEW_TABLE_PREFIX + '_' + new_file_id + CSV_EXTENSION, index=False)
 
+
+  def getMetadataColumns(self):
+    """
+    Adds metadata columns, including speaker_id, story_id
+    """
+    df = self.bigtable
+    df['speaker_id'] = df['file_id'].str.slice(0, 3)
+    df['story_id'] = df['file_id'].str.slice(0, 6)
+
+  def getSessionColumns(self):
+    df = self.bigtable
+    df['total_number_of_words_in_story'] = df.groupby('story_id')['story_id'].transform('count')
+    df['word_number_in_story'] =  df.groupby('story_id').cumcount() + 1
+    df['total_number_of_words_in_paragraph'] = df.groupby('file_id')['file_id'].transform('count')
+    df['word_number_in_paragraph'] =  df.groupby('file_id').cumcount() + 1
+
 def main(prefix, suffix):
   global TABLE_NAME
   os.makedirs(CSV_MENTION_DIR,exist_ok=True)
   csvs = glob.glob(CSV_DIR + '{}_speaker*_session*{}'.format(prefix, suffix))
   empty_files = list(map(lambda x: CSV_DIR + '{}_{}_{}{}'.format(prefix,x[0],x[1],suffix),EMPTY_FILES))
   for filename in sorted(csvs,key=lambda x: (x.split('_')[1],int(x.split('_')[2][len(SESSION):]))):
-    
+
     if filename in empty_files:
       continue
-    
+
     TABLE_NAME = filename
     new_file_id = '_'.join(filename.split('_')[1:3])
 
     columns = AddNewColumns()
     columns.getPhraseInformation()
     columns.getMentions()
+    columns.getMetadataColumns()
+    columns.getSessionColumns()
     columns.saveTable(new_file_id)
+
 
 if __name__ == '__main__':
   main(PREFIX,SUFFIX)
-
