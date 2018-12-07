@@ -265,6 +265,15 @@ class AddNewColumns(object):
         self.bigtable[['next_Stanford_PoS', 'next_syntactic_function', 'next_NER']] = \
             self.bigtable[['Stanford_PoS', 'syntactic_function', 'NER']].shift(-1)
 
+
+    def getSessionColumns(self):
+        """
+        Adds columns for next POS, syntactic function, and NER
+        """
+        df = self.bigtable
+        df['total_number_of_words_in_session'] = df.groupby('session_number')['session_number'].transform('count')
+        df['word_number_in_session'] =  df.groupby('session_number').cumcount() + 1
+
     def addColumnToDataFrame(self, series, column_name):
         '''
         Adds a column to a dataframe.
@@ -290,6 +299,7 @@ def main(table_name=''):
     columns.getSyllableCounts()
     columns.getBreakIndices()
     columns.getNextColumns()
+    columns.getSessionColumns()
     columns.saveTable()
 
 if __name__ == '__main__':

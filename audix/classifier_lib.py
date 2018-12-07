@@ -2,6 +2,8 @@ from collections import OrderedDict
 import itertools
 import numpy as np
 
+import pandas as pd
+
 import sklearn
 import sklearn.metrics
 from sklearn import ensemble
@@ -18,9 +20,9 @@ from sklearn.dummy import DummyClassifier
 # (Adapted from Pablo Brusco's code.)
 
 def cross_val(clf, X_train, y_train, X_test, y_test):
-    res_cv = cross_val_score(clf, X_train, y_train, cv=5, scoring="accuracy")
+    res_cv = cross_val_score(clf, X_train, y_train, cv=4, scoring="accuracy")
     dummy_clf = DummyClassifier(strategy="most_frequent")
-    random_cv = cross_val_score(dummy_clf, X_train, y_train, cv=5, scoring="accuracy")
+    random_cv = cross_val_score(dummy_clf, X_train, y_train, cv=4, scoring="accuracy")
 
     # print("Classifier: {}".format(type(clf)))
     print("Cross-validation results: {} +/- {} (random={})".format(round(res_cv.mean(), 3), round(res_cv.std(), 3), round(random_cv.mean(), 3)))
@@ -69,6 +71,7 @@ def run_experiments_eval(X_train, X_test, y_train, y_test, columns, pos_label, p
     Runs the ML evaluation tests on given train and test sets using a RF classifier.
     """
     clf = sklearn.ensemble.RandomForestClassifier(n_estimators=200, n_jobs=-1, random_state=1)
+    # cross_val(clf, X_train, y_train, X_test, y_test)
     test(clf, X_train, y_train, X_test, y_test, columns, pos_label, print_rank)
 
 def generate_featsets(l, start=1, end=5, featsets=OrderedDict()):
@@ -83,15 +86,24 @@ def generate_featsets(l, start=1, end=5, featsets=OrderedDict()):
 
 def standardize_df(df):
     """
-    Renames columns of dataframe to be consistent.
+    Renames columns of dataframe, and changes values within them, to be consistent.
     """
     d = {'word_pos_tag': 'Stanford_PoS',
          'next_PoS': 'next_Stanford_PoS',
+         'S-Tag': 'supertag',
          'pitch_accent': 'word_tobi_pitch_accent',
          'word_number_in_utterance': 'word_number_in_sentence',
          'total_number_of_words_in_utterance': 'total_number_of_words_in_sentence',
-         'S-Tag': 'supertag'}
+         'word_number_in_turn': 'word_number_in_segment',
+         'total_number_of_words_in_turn': 'total_number_of_words_in_segment',
+         'word_number_in_task': 'word_number_in_session',
+         'total_number_of_words_in_task': 'total_number_of_words_in_session',
+         'Words_Back_Mentioned': 'Far_Back_Mention',}
     df = df.rename(index=str, columns={k: v for k, v in d.items() if v not in df})
-    df['Stanford_PoS'] = df['Stanford_PoS'].str.replace('/', '_')
-    df['next_Stanford_PoS'] = df['next_Stanford_PoS'].str.replace('/', '_')
+
+    pos_cols = ['Stanford_PoS', 'next_Stanford_PoS', 'Most_Recent_Mention_PoS',
+                'Recent_Explicit_Mention_PoS', 'Recent_Implicit_Mention_PoS']
+    for col in pos_cols:
+        df[col] = df[col].str.replace('/', '_')
+        df[col] = df[col].replace({'NP': 'NNP', 'NPS': 'NNPS', 'PP': 'PRP', 'PP$': 'PRP$'})
     return df
