@@ -254,10 +254,10 @@ if __name__ == '__main__':
     else:
         feat_names = ["syntax/pos", "morph", "supertag", "mentions", "punctuation", "NER"]
 
-    if 'burnc' in args.train or 'burnc' in args.test:
-        feat_names.append('position')
-    else:
-        feat_names.append('turn/task')
+    # if 'burnc' in args.train or 'burnc' in args.test:
+    #     feat_names.append('position')
+    # else:
+    feat_names.append('turn/task')
     start, end = args.range
     start = len(feat_names) if start == -1 else start
     end = len(feat_names) if end == -1 else end

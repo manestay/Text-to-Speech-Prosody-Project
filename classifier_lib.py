@@ -88,17 +88,28 @@ def standardize_df(df):
     """
     Renames columns of dataframe, and changes values within them, to be consistent.
     """
-    d = {'word_pos_tag': 'Stanford_PoS',
-         'next_PoS': 'next_Stanford_PoS',
-         'S-Tag': 'supertag',
-         'pitch_accent': 'word_tobi_pitch_accent',
-         'word_number_in_utterance': 'word_number_in_sentence',
-         'total_number_of_words_in_utterance': 'total_number_of_words_in_sentence',
-         'word_number_in_turn': 'word_number_in_segment',
-         'total_number_of_words_in_turn': 'total_number_of_words_in_segment',
-         'word_number_in_task': 'word_number_in_session',
-         'total_number_of_words_in_task': 'total_number_of_words_in_session',
-         'Words_Back_Mentioned': 'Far_Back_Mention',}
+    d = {
+        'word_pos_tag': 'Stanford_PoS',
+        'next_PoS': 'next_Stanford_PoS',
+        'S-Tag': 'supertag',
+        'pitch_accent': 'word_tobi_pitch_accent',
+        'word_number_in_utterance': 'word_number_in_sentence',
+        'total_number_of_words_in_utterance': 'total_number_of_words_in_sentence',
+
+        # for games
+        'word_number_in_turn': 'word_number_in_segment',
+        'total_number_of_words_in_turn': 'total_number_of_words_in_segment',
+        'word_number_in_task': 'word_number_in_session',
+        'total_number_of_words_in_task': 'total_number_of_words_in_session',
+        # for burnc
+        'word_number_in_paragraph': 'word_number_in_segment',
+        'total_number_of_words_in_paragraph': 'total_number_of_words_in_segment',
+        'word_number_in_story': 'word_number_in_session',
+        'total_number_of_words_in_story': 'total_number_of_words_in_session',
+
+
+        'Words_Back_Mentioned': 'Far_Back_Mention'
+    }
     df = df.rename(index=str, columns={k: v for k, v in d.items() if v not in df})
 
     pos_cols = ['Stanford_PoS', 'next_Stanford_PoS', 'Most_Recent_Mention_PoS',

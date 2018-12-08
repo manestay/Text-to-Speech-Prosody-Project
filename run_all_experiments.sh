@@ -2,9 +2,9 @@
 
 echo_and_run() { echo "\$ $@" ; "$@" ; }
 
-audix=audix-data-2018-12-07.csv
-burnc=burnc-20181106.csv
-games=games-data-20181128.csv
+audix=audix/audix-data-2018-12-07.csv
+burnc=burnc/tables/burnc-20181207.csv
+games=games/games-data-20181128.csv
 
 echo_and_run python3 configurable_classifier.py break --range -1 -1 --train $audix > runs/break_audix_audix.txt & \
 echo_and_run python3 configurable_classifier.py break --range -1 -1 --train $burnc > runs/break_burnc_burnc.txt &  wait
