@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# this script contains functions for running AuToBI
+# this script contains functions for training and running AuToBI
 
 echo_and_run() { echo "\$ $@" ; "$@" ; }
 
