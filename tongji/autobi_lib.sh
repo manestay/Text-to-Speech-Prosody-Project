@@ -11,6 +11,7 @@ train_autobi() {
     mkdir -p $MODEL_DIR
 
     java -cp AuToBI.jar edu.cuny.qc.speech.AuToBI.AuToBITrainer \
+    -log4j_config_file=log4j.properties \
     -training_filenames=$TRAIN_FILES \
     -pitch_accent_detector=${MODEL_DIR}/${MODEL_NAME}.pitch_acc_det.model \
     -pitch_accent_classifier=${MODEL_DIR}/${MODEL_NAME}.pitch_acc_class.model \
@@ -21,21 +22,24 @@ train_autobi() {
 }
 
 run_autobi() {
-    INPUT_FILES=$1
+    INPUT_FILES=$1 #location of input files (no extension, with wildcards)
     MODEL_DIR=$2
     MODEL_NAME=$3
     OUT_DIR=$4
+    EXT=$5
     mkdir -p $MODEL_DIR
     mkdir -p $OUT_DIR
 
-    for input_file in $INPUT_FILES
+    FILES="$INPUT_FILES"/*$EXT
+    for input_file in $FILES
     do
         WAV="${input_file%.*}".wav
-        OUT_FILE=$OUT_DIR/$(basename $input_file .in)_pred.TextGrid
+        OUT_FILE=$OUT_DIR/$(basename "$input_file" $EXT)_pred.TextGrid
         OUT_LOG="${OUT_FILE%.*}".log
 
-        java -jar AuToBI.jar -input_file=$input_file \
-        -wav_file=$WAV \
+        # echo_and_run \
+        java -jar AuToBI.jar -input_file="$input_file" \
+        -wav_file="$WAV" \
         -log4j_config_file=log4j.properties \
         -pitch_accent_detector=${MODEL_DIR}/${MODEL_NAME}.pitch_acc_det.model \
         -pitch_accent_classifier=${MODEL_DIR}/${MODEL_NAME}.pitch_acc_class.model \
