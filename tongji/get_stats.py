@@ -15,7 +15,8 @@ TASKS = set(['phrase_accent_classification', 'pitch_accent_detection', 'intermed
              'phrase_accent_boundary_tone_classification'])
 
 parser = argparse.ArgumentParser(description='Process AuToBI log files.')
-parser.add_argument('--model', required=True, help='model to process: dur, burnc, dur_old, bdc_burnc')
+parser.add_argument('--model', required=True, help='model to process: dur, burnc, dur_old, bdc_burnc, tongji')
+parser.add_argument('--affix', default='', help='affix to TextGrids folder')
 
 Task = SimpleNamespace
 
@@ -23,9 +24,10 @@ def main():
     logs = []
     args = parser.parse_args()
     model_name = args.model
-    log_names = glob.glob('{}/TextGrids/*.log'.format(model_name))
+    affix = '_' + args.affix if args.affix else ''
+    log_names = glob.glob('{}/TextGrids{}/*.log'.format(model_name, affix))
     print('processing {} logs'.format(len(log_names)))
-    for log_name in log_names:
+    for log_name in sorted(log_names):
         with open(log_name, 'r') as f:
             lines = f.readlines()
         log = [log_name]
@@ -60,15 +62,20 @@ def main():
         logs.append(log)
     dd = defaultdict(lambda: defaultdict(list))
     # dd['names'] = []
-    for log in logs:
+    for i, log in enumerate(logs):
         # dd['names'].append(log[0])
+        print(i, log[0])
         for task in log[1:]: # accumulate values for each task
             task_name = task.name
             fields = task.__dict__
-            del fields['name']
+            # del fields['name']
+            dd[task_name]['logname'].append(log[0])
             for k, v in fields.items():
+                if isinstance(v, str):
+                    continue
                 dd[task_name][k].append(v)
     task_avgs = defaultdict(dict)
+    import pdb; pdb.set_trace()
     for task_name, values in sorted(dd.items()):
         print(task_name)
         for k, v in sorted(values.items()):

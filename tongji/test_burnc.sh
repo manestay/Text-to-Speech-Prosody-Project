@@ -5,7 +5,7 @@
 INPUT_FILES=/proj/speech/corpora/boston_radio/**/labnews/**/** # files not used for training
 MODEL_DIR=burnc/
 MODEL_NAME=burnc
-OUT_DIR=burnc/TextGrids
+OUT_DIR=burnc1/TextGrids
 EXT=.ala
 
 MODE=${1:-test}
