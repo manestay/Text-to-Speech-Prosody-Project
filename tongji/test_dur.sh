@@ -16,7 +16,7 @@ then
 elif [ $MODE = "tongji" ]
 then
     # INPUT_FILES="tongji_files/3-1_无控制_王静_陈姗姗_giver.TextGrid"
-    mapfile -t INPUT_FILES < <(find /proj/afosr/corpora/Tongji_Games_Corpus/data_annotation/ -name "*.TextGrid")
+    readarray -t INPUT_FILES < tongji/test.txt
     OUT_DIR=$MODEL_NAME/TextGrids_tongji
     EXT=.TextGrid
 fi

@@ -11,3 +11,7 @@ info-status/old/
 *session*.csv
 *session*.txt
 *DS_Store*
+*.vscode*
+audix*.csv
+burnc*.csv
+games*.csv

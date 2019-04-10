@@ -30,6 +30,7 @@ def main():
     for log_name in sorted(log_names):
         with open(log_name, 'r') as f:
             lines = f.readlines()
+            # print(log_name, len(lines))
         log = [log_name]
         i = 0
         j = 0
@@ -43,17 +44,19 @@ def main():
         for task, index in task_index: # get values for each task
             task = Task()
             task.name = lines[index].split()[-1]
-            task.mean = float(lines[index+1].split()[-1])
+            task.accuracy = float(lines[index+1].split()[-1])
             task.stdev = float(lines[index+2].split()[-1])
             task.sterr = float(lines[index+3].split()[-1])
             task.conf = float(lines[index+4].split()[-1])
             task.N = int(lines[index+5].split()[-1])
             j = 11
+            task.f_measures = {}
             while True:
                 if lines[index+j].strip():
                     words2 = lines[index+j].split()
                     if words2[0] == 'Mutual':
                         break
+                    task.f_measures[words2[0]] = float(words2[-1])
                 j += 1
             task.mut_info = float(words2[-1])
             task.avg_recall = float(lines[index+j+1].split()[-1])
@@ -61,21 +64,19 @@ def main():
             log.append(task)
         logs.append(log)
     dd = defaultdict(lambda: defaultdict(list))
-    # dd['names'] = []
     for i, log in enumerate(logs):
-        # dd['names'].append(log[0])
-        print(i, log[0])
         for task in log[1:]: # accumulate values for each task
             task_name = task.name
             fields = task.__dict__
-            # del fields['name']
-            dd[task_name]['logname'].append(log[0])
             for k, v in fields.items():
                 if isinstance(v, str):
-                    continue
-                dd[task_name][k].append(v)
+                    pass
+                elif isinstance(v, dict):
+                    for key, val in v.items():
+                        dd[task_name]['F-Measure {}'.format(key)].append(val)
+                else:
+                    dd[task_name][k].append(v)
     task_avgs = defaultdict(dict)
-    import pdb; pdb.set_trace()
     for task_name, values in sorted(dd.items()):
         print(task_name)
         for k, v in sorted(values.items()):

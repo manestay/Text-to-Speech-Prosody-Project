@@ -11,16 +11,15 @@ OUT_DIR=bdc_burnc/TextGrids
 EXT=.ala
 
 MODE=${1:-test}
-if [ $MODE = "train" ]
-then
+if [ $MODE = "train" ]; then
     INPUT_FILES=/proj/speech/corpora/boston_radio/**/radio/**
     OUT_DIR=burnc/TextGrids_train
-elif [ $MODE = "tongji" ]
-then
-    # INPUT_FILES="tongji_files/3-1_无控制_王静_陈姗姗_giver.TextGrid"
-    mapfile -t INPUT_FILES < <(find /proj/afosr/corpora/Tongji_Games_Corpus/data_annotation/ -name "*.TextGrid")
+elif [ $MODE = "tongji" ]; then
+    readarray -t INPUT_FILES < tongji/test_list.txt
     OUT_DIR=$MODEL_NAME/TextGrids_tongji
     EXT=.TextGrid
+    run_autobi_limited "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE
+    exit 1
 fi
 
 run_autobi "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE
