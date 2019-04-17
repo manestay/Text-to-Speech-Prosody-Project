@@ -17,6 +17,7 @@ TASKS = set(['phrase_accent_classification', 'pitch_accent_detection', 'intermed
 parser = argparse.ArgumentParser(description='Process AuToBI log files.')
 parser.add_argument('--model', required=True, help='model to process: dur, burnc, dur_old, bdc_burnc, tongji')
 parser.add_argument('--affix', default='', help='affix to TextGrids folder')
+parser.add_argument('--f-only', default=False, action='store_true', help='affix to TextGrids folder')
 
 Task = SimpleNamespace
 
@@ -49,14 +50,15 @@ def main():
             task.sterr = float(lines[index+3].split()[-1])
             task.conf = float(lines[index+4].split()[-1])
             task.N = int(lines[index+5].split()[-1])
-            j = 11
+            j = 6
             task.f_measures = {}
             while True:
                 if lines[index+j].strip():
                     words2 = lines[index+j].split()
                     if words2[0] == 'Mutual':
                         break
-                    task.f_measures[words2[0]] = float(words2[-1])
+                    if len(words2) > 2 and words2[2] == 'FMeasure:':
+                        task.f_measures[words2[0]] = float(words2[-1])
                 j += 1
             task.mut_info = float(words2[-1])
             task.avg_recall = float(lines[index+j+1].split()[-1])
@@ -81,7 +83,8 @@ def main():
         print(task_name)
         for k, v in sorted(values.items()):
             avg = sum(v) / len(v)
-            print('avg {}: {}'.format(k, avg))
+            if not args.f_only or k.startswith('F-Measure'):
+                print('avg {}: {}'.format(k, avg))
             task_avgs[task_name][k] = avg
         print()
     return task_avgs

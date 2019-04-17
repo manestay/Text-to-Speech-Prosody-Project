@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./autobi_lib.sh
+. scripts/autobi_lib.sh
 
 INPUT_FILES=/proj/speech/corpora/DUR/test
 MODEL_DIR=dur/
@@ -19,6 +19,8 @@ then
     readarray -t INPUT_FILES < tongji/test.txt
     OUT_DIR=$MODEL_NAME/TextGrids_tongji
     EXT=.TextGrid
+    run_autobi_limited "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE
+    exit 0
 fi
 
-run_autobi_limited "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE
+run_autobi "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE

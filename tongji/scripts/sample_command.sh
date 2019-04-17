@@ -1,0 +1,3 @@
+#! /bin/bash
+
+java -jar AuToBI.jar -text_grid_file=/proj/speech/corpora/boston_radio/f1a/radio/s01/f1as01p1.ala -wav_file=/proj/speech/corpora/boston_radio/f1a/radio/s01/f1as01p1.wav -pitch_accent_detector=bdc_burnc.models.v15/bdc_burnc.acc.detection.model -pitch_accent_classifier=bdc_burnc.models.v15/bdc_burnc.acc.classification.model -IP_detector=bdc_burnc.models.v15/bdc_burnc.intonp.detection.model -ip_detector=bdc_burnc.models.v15/bdc_burnc.interp.detection.model -phrase_accent_classifier=bdc_burnc.models.v15/bdc_burnc.phacc.classification.model -boundary_tone_classifier=bdc_burnc.models.v15/bdc_burnc.pabt.classification.model -out_file=brn_autobi_test
