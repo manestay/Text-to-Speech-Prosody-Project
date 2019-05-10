@@ -43,13 +43,19 @@ def main():
                 task_index.append((words[-1], i))
             i += 1
         for task, index in task_index: # get values for each task
+            offset = 0
+            while True:
+                if lines[index + offset + 1].split()[2] == 'WARN':
+                    offset += 1
+                else:
+                    break
             task = Task()
             task.name = lines[index].split()[-1]
-            task.accuracy = float(lines[index+1].split()[-1])
-            task.stdev = float(lines[index+2].split()[-1])
-            task.sterr = float(lines[index+3].split()[-1])
-            task.conf = float(lines[index+4].split()[-1])
-            task.N = int(lines[index+5].split()[-1])
+            task.accuracy = float(lines[index + offset + 1].split()[-1])
+            task.stdev = float(lines[index + offset + 2].split()[-1])
+            task.sterr = float(lines[index + offset + 3].split()[-1])
+            task.conf = float(lines[index + offset + 4].split()[-1])
+            task.N = int(lines[index + offset + 5].split()[-1])
             j = 6
             task.f_measures = {}
             while True:
@@ -58,7 +64,8 @@ def main():
                     if words2[0] == 'Mutual':
                         break
                     if len(words2) > 2 and words2[2] == 'FMeasure:':
-                        task.f_measures[words2[0]] = float(words2[-1])
+                        f_val = float(words2[-1]) if float(words2[-1]) == float(words2[-1]) else 0.0
+                        task.f_measures[words2[0]] = f_val
                 j += 1
             task.mut_info = float(words2[-1])
             task.avg_recall = float(lines[index+j+1].split()[-1])

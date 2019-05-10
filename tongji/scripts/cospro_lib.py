@@ -38,7 +38,7 @@ def get_folders(out_name=ALL_LIST):
             f.write(folder +'\n')
     return folders
 
-def get_textgrids():
+def get_textgrids(out_name=None):
     """
     Returns a list of Cospro TextGrid files.
     """
@@ -47,6 +47,12 @@ def get_textgrids():
     grids = []
     for folder in folders:
         grids.extend(glob.glob('{}/TextGrids/*'.format(folder)))
+    if out_name:
+        print('writing to {}...'.format(out_name))
+        with open(out_name, 'w') as f:
+            for grid in grids:
+                f.write(grid + '\n')
+
     return grids
 
 def make_symlinks():
@@ -61,13 +67,21 @@ def make_symlinks():
         wavs = glob.glob("{}/wav/*.wav".format(folder))
         grid_folder = "{}/TextGrids/".format(folder)
         for wav in wavs:
-            if not os.path.exists(grid_folder + os.path.basename(wav)):
-                os.symlink(wav, grid_folder + os.path.basename(wav))
+            if 'TOSPRO' in wav:
+                basename = 'C' + os.path.basename(wav)[1:]
+            else:
+                basename = os.path.basename(wav)
+            symlink_name = grid_folder + basename
+            if not os.path.exists(symlink_name):
+                os.symlink(wav, grid_folder + basename)
 
 def generate_cospro_list(all_list=ALL_LIST, train_list=TRAIN_LIST, test_list=TEST_LIST):
     with open(train_list, "w") as f_train, open(test_list, "w") as f_test, open(all_list, "r") as f_all:
         for line in f_all:
-            if "COSPRO_03/F001" in line or "COSPRO_03/M003" in line:
+            if "COSPRO_02/Female/F01" in line or "COSPRO_02/Male/M00" in line:
                 f_test.write(line)
             else:
                 f_train.write(line)
+
+if __name__ == "__main__":
+    generate_cospro_list()

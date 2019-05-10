@@ -19,14 +19,13 @@ train_common() {
     MODE=${5:-training}
     mkdir -p $MODEL_DIR
 
-    if [[ "$(declare -p INPUT_FILES)" =~ "declare -a" ]]; then
-        FILES=$(join_by , "${INPUT_FILES[@]}") # array to comma-delimited string
-    elif [ -f "$INPUT_FILES" ]; then
+    if [ -f "$INPUT_FILES" ]; then
         IFS=""
         FILES="$INPUT_FILES"
     elif [ -d "$INPUT_FILES" ]; then
         FILES="$INPUT_FILES"/*$EXT
     else
+        IFS="," # array with commas
         FILES=$INPUT_FILES
     fi
 
@@ -39,7 +38,7 @@ train_autobi() {
 
     java -cp AuToBI.jar edu.cuny.qc.speech.AuToBI.AuToBITrainer \
     -log4j_config_file=log4j.properties \
-    $input_flag=$FILES \
+    $input_flag="$FILES" \
     -pitch_accent_detector=${MODEL_DIR}/${MODEL_NAME}.pitch_acc_det.model \
     -pitch_accent_classifier=${MODEL_DIR}/${MODEL_NAME}.pitch_acc_class.model \
     -intonational_phrase_boundary_detector=${MODEL_DIR}/${MODEL_NAME}.inton_pb_det.model \
@@ -51,9 +50,9 @@ train_autobi() {
 train_autobi_limited() {
     train_common "$@"
 
-    java -cp AuToBI.jar edu.cuny.qc.speech.AuToBI.AuToBITrainer \
+    java -Xmx10g -cp AuToBI.jar edu.cuny.qc.speech.AuToBI.AuToBITrainer \
     -log4j_config_file=log4j.properties \
-    $input_flag=${FILES[@]} \
+    $input_flag="$FILES" \
     -intonational_phrase_boundary_detector=${MODEL_DIR}/${MODEL_NAME}.inton_pb_det.model
 }
 
@@ -66,15 +65,13 @@ run_common() {
     MODE=${6:-input}
     mkdir -p $MODEL_DIR
     mkdir -p $OUT_DIR
-
-    if [[ "$(declare -p INPUT_FILES)" =~ "declare -a" ]]; then
-        FILES="${INPUT_FILES[@]}"
-    elif [ -f "$INPUT_FILES" ]; then
+    if [ -f "$INPUT_FILES" ]; then
         IFS=""
         FILES="$INPUT_FILES"
     elif [ -d "$INPUT_FILES" ]; then
         FILES="$INPUT_FILES"/*$EXT
     else
+        IFS="," # array with commas
         FILES=$INPUT_FILES
     fi
 

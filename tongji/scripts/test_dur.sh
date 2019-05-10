@@ -8,7 +8,7 @@ MODEL_NAME=dur
 OUT_DIR=dur/TextGrids
 EXT=.in
 
-MODE=${1:-test} # default mode is test
+MODE=${1:-input}
 if [ $MODE = "train" ]
 then
     INPUT_FILES=/proj/speech/corpora/DUR/train
@@ -21,6 +21,13 @@ then
     EXT=.TextGrid
     run_autobi_limited "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE
     exit 0
+elif [ $MODE = "cospro" ]
+then
+    readarray -t INPUT_FILES < /proj/tts/data/COSPRO/test.txt
+    INPUT_FILES=( "${INPUT_FILES[@]/%/\/TextGrids\/*.TextGrid}" ) # append *.TextGrid to array
+    INPUT_FILES=$(join_by , "${INPUT_FILES[@]}")
+    OUT_DIR=dur/TextGrids_cospro
+    EXT=.TextGrid
 fi
 
 run_autobi "$INPUT_FILES" $MODEL_DIR $MODEL_NAME $OUT_DIR $EXT $MODE
