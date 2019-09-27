@@ -1,0 +1,2 @@
+place these files in the same parent directory as data_annotation
+You will also need to copy/symlink the CTM output of forced alignment in that directory
